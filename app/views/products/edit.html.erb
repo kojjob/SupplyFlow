@@ -1,0 +1,46 @@
+<div class="container mx-auto px-4 py-6">
+  <!-- Breadcrumbs -->
+  <nav class="mb-4 flex text-sm text-gray-500 dark:text-gray-400" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <%= link_to root_path, class: "inline-flex items-center hover:text-gray-900 dark:hover:text-white" do %>
+          <i class="fas fa-home mr-2"></i>
+          Home
+        <% end %>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+          <%= link_to "Products", products_path, class: "hover:text-gray-900 dark:hover:text-white" %>
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+          <%= link_to @product.name, product_path(@product), class: "hover:text-gray-900 dark:hover:text-white" %>
+        </div>
+      </li>
+      <li aria-current="page">
+        <div class="flex items-center">
+          <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+          <span class="text-gray-600 dark:text-gray-300">Edit</span>
+        </div>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+        Edit Product
+      </span>
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400 mt-1">
+      Update details for <%= @product.name %>
+    </p>
+  </div>
+
+  <!-- Form -->
+  <%= render 'form', product: @product %>
+</div>

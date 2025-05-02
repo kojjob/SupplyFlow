@@ -1,0 +1,260 @@
+<%= form_with(model: product, local: true, class: "space-y-6") do |form| %>
+  <% if product.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <i class="fas fa-exclamation-circle text-red-600 dark:text-red-400 text-lg"></i>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-300">
+            <%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+            <ul class="list-disc pl-5 space-y-1">
+              <% product.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Basic Information -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-info-circle mr-2"></i> Basic Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="col-span-1 md:col-span-2">
+          <div class="form-group">
+            <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100", required: true %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :sku, "SKU", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :sku, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100", required: true %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :barcode, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :barcode, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :category, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :category, list: "categories", class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+            <datalist id="categories">
+              <% Product.categories.each do |category| %>
+                <option value="<%= category %>">
+              <% end %>
+            </datalist>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :brand, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :brand, list: "brands", class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+            <datalist id="brands">
+              <% Product.brands.each do |brand| %>
+                <option value="<%= brand %>">
+              <% end %>
+            </datalist>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :model, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :model, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :unit_of_measure, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.select :unit_of_measure, 
+                options_for_select([
+                  ["Unit", "unit"],
+                  ["Piece", "piece"],
+                  ["Kilogram", "kg"],
+                  ["Gram", "g"],
+                  ["Liter", "l"],
+                  ["Milliliter", "ml"],
+                  ["Meter", "m"],
+                  ["Centimeter", "cm"],
+                  ["Box", "box"],
+                  ["Dozen", "dozen"],
+                  ["Pair", "pair"]
+                ], product.unit_of_measure || "unit"), 
+                {}, 
+                { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" } %>
+          </div>
+        </div>
+
+        <div class="col-span-1 md:col-span-2">
+          <div class="form-group">
+            <%= form.label :description, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_area :description, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :active, class: "flex items-center space-x-2 cursor-pointer" do %>
+            <%= form.check_box :active, class: "rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900" %>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Active</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing Information -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-green-600 to-green-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-tag mr-2"></i> Pricing
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div class="form-group">
+            <%= form.label :cost_price, "Cost Price (₵)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :cost_price, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :selling_price, "Selling Price (₵)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :selling_price, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory Settings -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-warehouse mr-2"></i> Inventory Settings
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div class="form-group">
+            <%= form.label :minimum_stock_level, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :minimum_stock_level, min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :reorder_point, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :reorder_point, min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :perishable, class: "flex items-center space-x-2 cursor-pointer" do %>
+            <%= form.check_box :perishable, class: "rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900" %>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Perishable Product</span>
+          <% end %>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :expiry_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.date_field :expiry_date, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+      </div>
+
+      <% if product.new_record? %>
+        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Initial Inventory</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Add initial stock quantities for each location. Leave empty if no initial stock.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <% Location.order(name: :asc).each do |location| %>
+              <div class="form-group">
+                <label for="initial_inventory_<%= location.id %>" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <%= location.name %> (<%= location.location_type.capitalize %>)
+                </label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                  <input type="number" name="initial_inventory[<%= location.id %>]" id="initial_inventory_<%= location.id %>" min="0" 
+                    class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                    placeholder="0">
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Physical Properties -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-amber-600 to-amber-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-ruler-combined mr-2"></i> Physical Properties
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <div class="form-group">
+            <%= form.label :weight, "Weight (kg)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :weight, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :length, "Length (cm)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :length, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :width, "Width (cm)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :width, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :height, "Height (cm)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.number_field :height, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="flex justify-between">
+    <%= link_to "Cancel", product.persisted? ? product_path(product) : products_path, class: "inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    
+    <%= form.submit class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>

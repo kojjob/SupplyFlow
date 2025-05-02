@@ -1,0 +1,240 @@
+<div class="container mx-auto px-4 py-6">
+  <!-- Page Header -->
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Products</span>
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1">Manage your product catalog and inventory</p>
+    </div>
+
+    <div class="mt-4 md:mt-0 flex space-x-3">
+      <% if policy(Product).create? %>
+        <%= link_to new_product_path, class: "flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors duration-200" do %>
+          <i class="fas fa-plus mr-2"></i>
+          <span class="text-sm font-medium">New Product</span>
+        <% end %>
+      <% end %>
+      
+      <%= link_to inventory_report_path, class: "flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
+        <i class="fas fa-chart-bar text-gray-500 dark:text-gray-400 mr-2"></i>
+        <span class="text-gray-700 dark:text-gray-300 text-sm font-medium">Inventory Report</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+    <div class="p-5">
+      <%= form_with url: products_path, method: :get, class: "space-y-4" do |form| %>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label for="query" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Search</label>
+            <%= form.text_field :query, value: params[:query], placeholder: "Name, SKU or barcode", class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" %>
+          </div>
+          
+          <div>
+            <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+            <%= form.select :category, 
+                options_for_select([["All Categories", ""]] + Product.categories.map { |c| [c, c] }, params[:category]), 
+                {}, 
+                { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" } %>
+          </div>
+          
+          <div>
+            <label for="stock_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stock Status</label>
+            <%= form.select :stock_status, 
+                options_for_select([
+                  ["All", ""], 
+                  ["Low Stock", "low_stock"], 
+                  ["Out of Stock", "out_of_stock"]
+                ], params[:stock_status]), 
+                {}, 
+                { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" } %>
+          </div>
+          
+          <div class="flex items-end">
+            <%= form.submit "Apply Filters", class: "block w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Products List -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-boxes mr-2"></i> Product Catalog
+      </h2>
+    </div>
+
+    <% if @products.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">SKU / Barcode</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Category</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Price (₵)</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Stock</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <% @products.each do |product| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-10 w-10 flex-shrink-0">
+                      <div class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-box"></i>
+                      </div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        <%= link_to product.name, product_path(product), class: "hover:text-blue-600 dark:hover:text-blue-400" %>
+                      </div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">
+                        <%= product.brand %>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900 dark:text-white"><%= product.sku %></div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400"><%= product.barcode.present? ? product.barcode : "—" %></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if product.category.present? %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300">
+                      <%= product.category %>
+                    </span>
+                  <% else %>
+                    <span class="text-gray-400 dark:text-gray-600">—</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900 dark:text-white">₵<%= number_with_precision(product.selling_price, precision: 2) || "—" %></div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    Cost: ₵<%= number_with_precision(product.cost_price, precision: 2) || "—" %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% total_quantity = product.total_quantity %>
+                  <% if product.low_stock? && total_quantity > 0 %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-300">
+                      Low Stock: <%= total_quantity %>
+                    </span>
+                  <% elsif product.out_of_stock? %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300">
+                      Out of Stock
+                    </span>
+                  <% else %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300">
+                      In Stock: <%= total_quantity %>
+                    </span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div class="flex items-center justify-end space-x-2">
+                    <%= link_to product_path(product), class: "text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300" do %>
+                      <i class="fas fa-eye"></i>
+                    <% end %>
+                    
+                    <% if policy(product).update? %>
+                      <%= link_to edit_product_path(product), class: "text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300" do %>
+                        <i class="fas fa-edit"></i>
+                      <% end %>
+                    <% end %>
+                    
+                    <% if policy(product).destroy? %>
+                      <%= button_to product_path(product), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete this product?" } }, class: "text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 bg-transparent border-0 p-0" do %>
+                        <i class="fas fa-trash"></i>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+        <%# Pagination goes here if you have a pagination gem installed %>
+      </div>
+    <% else %>
+      <div class="p-6 text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4">
+          <i class="fas fa-boxes text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Products Found</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">Get started by adding your first product.</p>
+        <% if policy(Product).create? %>
+          <%= link_to new_product_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors duration-200" do %>
+            <i class="fas fa-plus mr-2"></i> Add First Product
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Product Guide -->
+  <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-info-circle mr-2"></i> Products Guide
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 border border-indigo-100 dark:border-indigo-800">
+          <div class="flex items-center mb-3">
+            <div class="h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3">
+              <i class="fas fa-plus"></i>
+            </div>
+            <h3 class="text-md font-medium text-gray-900 dark:text-white">Create Products</h3>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Add your products with details like name, SKU, price, and reorder points to manage your inventory effectively.
+          </p>
+        </div>
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800">
+          <div class="flex items-center mb-3">
+            <div class="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 mr-3">
+              <i class="fas fa-boxes"></i>
+            </div>
+            <h3 class="text-md font-medium text-gray-900 dark:text-white">Track Inventory</h3>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Monitor stock levels across all locations. Get alerts for low stock and manage inventory transactions.
+          </p>
+        </div>
+        <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-100 dark:border-purple-800">
+          <div class="flex items-center mb-3">
+            <div class="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400 mr-3">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h3 class="text-md font-medium text-gray-900 dark:text-white">Transfer Stock</h3>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Move inventory between locations. Keep track of all transfers with detailed transaction history.
+          </p>
+        </div>
+      </div>
+      <div class="mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800 flex items-center">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-800/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-700 dark:text-gray-300">
+            <span class="font-medium text-blue-700 dark:text-blue-300">Pro Tip:</span>
+            Set reorder points to ensure you never run out of critical inventory. When stock falls below these levels, you'll be notified.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

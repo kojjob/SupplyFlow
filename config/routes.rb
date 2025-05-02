@@ -13,6 +13,16 @@ Rails.application.routes.draw do
   resources :organizations, only: [:create]
   resources :locations
   
+  # Products and Inventory
+  resources :products
+  
+  # Inventory Management
+  get "inventory" => "inventory#index", as: :inventory
+  get "inventory/transactions" => "inventory#transactions", as: :inventory_transactions
+  get "inventory/report" => "inventory#report", as: :inventory_report
+  post "inventory/:id/adjust" => "inventory#adjust", as: :adjust_inventory
+  post "inventory/:id/transfer" => "inventory#transfer", as: :transfer_inventory
+  
   # Dashboard
   get "dashboard" => "dashboard#index", as: :dashboard
 
