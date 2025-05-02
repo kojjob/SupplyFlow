@@ -1,0 +1,182 @@
+<%# Mobile Bottom Navigation Bar %>
+<div data-controller="swipe-gesture" class="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+  <div class="bg-indigo-600 dark:bg-gray-900 shadow-lg border-t border-indigo-700 dark:border-gray-800 backdrop-blur-lg bg-opacity-95 dark:bg-opacity-95">
+    <div class="grid grid-cols-5 h-16">
+      <%# Home %>
+      <a href="/" class="flex flex-col items-center justify-center text-center px-2 py-1 <%= active_link?('/', exact: true) ? 'text-white font-medium' : 'text-white/80 dark:text-gray-300' %>">
+        <div class="<%= active_link?('/', exact: true) ? 'bg-white/20 dark:bg-indigo-800/20' : 'bg-white/10 dark:bg-gray-800' %> w-10 h-10 rounded-full flex items-center justify-center">
+          <i class="fas fa-home text-lg text-white"></i>
+        </div>
+        <span class="text-xs mt-1 font-medium">Home</span>
+      </a>
+
+      <%# Search %>
+      <button
+        data-action="click->search#toggle"
+        class="flex flex-col items-center justify-center text-center px-2 py-1 text-white/80 hover:text-white dark:text-gray-300"
+      >
+        <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 dark:bg-gray-800">
+          <i class="fas fa-search text-lg text-white"></i>
+        </div>
+        <span class="text-xs mt-1 font-medium">Search</span>
+      </button>
+
+      <%# Main Action %>
+      <a href="#" class="flex flex-col items-center justify-center text-center px-2 py-1">
+        <div class="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg -mt-5 text-primary">
+          <i class="fas fa-plus text-lg"></i>
+        </div>
+        <span class="text-xs mt-1 font-medium text-white dark:text-gray-300">New</span>
+      </a>
+
+      <%# Notifications %>
+      <div data-controller="notification" class="relative">
+        <button
+          data-action="click->notification#toggle"
+          class="flex flex-col items-center justify-center text-center px-2 py-1 text-white/80 hover:text-white dark:text-gray-300 relative"
+        >
+          <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 dark:bg-gray-800">
+            <i class="fas fa-bell text-lg text-white"></i>
+            <span class="absolute top-1 right-1 bg-orange-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full shadow-md animate-pulse-slow">3</span>
+          </div>
+          <span class="text-xs mt-1 font-medium">Alerts</span>
+        </button>
+
+        <!-- Mobile Notification Dropdown -->
+        <div
+          data-notification-target="dropdown"
+          class="absolute bottom-24 right-0 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-3d z-50 scale-0 opacity-0 origin-bottom-right transition-all duration-300 ease-in-out transform border-2 border-indigo-600 dark:border-gray-700"
+          style="transform: scale(0);"
+        >
+          <!-- Notification Header -->
+          <div class="relative">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-90"></div>
+            <div class="absolute inset-0 bg-pattern opacity-10"></div>
+
+            <!-- Header Content -->
+            <div class="relative p-4">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white mr-3">
+                    <i class="fas fa-bell text-xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white">Notifications</h3>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white text-indigo-700 shadow-sm">
+                    3 new
+                  </span>
+                  <button
+                    class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-200"
+                    data-action="click->notification#close"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notification Tabs -->
+          <div class="flex border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <button class="flex-1 py-3 px-4 text-center text-sm font-medium text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400">
+              All
+            </button>
+            <button class="flex-1 py-3 px-4 text-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+              Unread
+            </button>
+            <button class="flex-1 py-3 px-4 text-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+              Important
+            </button>
+          </div>
+
+          <!-- Notification List -->
+          <div class="max-h-96 overflow-y-auto">
+            <!-- Today Section -->
+            <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700/30 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Today
+            </div>
+
+            <!-- Notification Item 1 -->
+            <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors duration-200">
+              <div class="flex">
+                <div class="flex-shrink-0 mr-4">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-md">
+                    <i class="fas fa-box text-lg"></i>
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-start">
+                    <p class="font-medium text-gray-800 dark:text-gray-200">New shipment created</p>
+                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                      New
+                    </span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Your order #12345 has been shipped and is on its way to you.</p>
+                  <div class="mt-2 flex justify-between items-center">
+                    <p class="text-xs text-gray-500 dark:text-gray-500">5 minutes ago</p>
+                    <button class="text-xs text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notification Item 2 -->
+            <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900/10 transition-colors duration-200">
+              <div class="flex">
+                <div class="flex-shrink-0 mr-4">
+                  <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white shadow-md">
+                    <i class="fas fa-check text-lg"></i>
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-start">
+                    <p class="font-medium text-gray-800 dark:text-gray-200">Inventory updated</p>
+                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">
+                      Success
+                    </span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Inventory levels have been updated successfully across all warehouses.</p>
+                  <div class="mt-2 flex justify-between items-center">
+                    <p class="text-xs text-gray-500 dark:text-gray-500">1 hour ago</p>
+                    <button class="text-xs text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="p-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <a href="#" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium">
+              View all notifications
+            </a>
+            <button class="px-3 py-1 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/40 text-indigo-600 dark:text-indigo-400 text-xs font-medium rounded-lg transition-colors duration-200">
+              Mark all as read
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <%# Account - Shows image if available, otherwise shows initials %>
+      <a href="#" class="flex flex-col items-center justify-center text-center px-2 py-1 text-white/80 hover:text-white dark:text-gray-300 group">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border-2 border-white/30 dark:border-gray-700 group-hover:border-white/60 dark:group-hover:border-gray-500 transition-colors duration-200 bg-gradient-to-br from-indigo-600 to-purple-600">
+          <% if false # Replace with actual condition to check if user has image %>
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover">
+          <% else %>
+            <span class="text-white font-bold text-sm">JD</span>
+          <% end %>
+        </div>
+        <span class="text-xs mt-1 font-medium">Account</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<%# Spacer to prevent content from being hidden under fixed bottom navbar %>
+<div class="h-16 lg:h-0"></div>

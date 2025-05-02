@@ -1,0 +1,449 @@
+<%# Support Page - Main Container %>
+<div class="container mx-auto px-4 py-12 max-w-7xl">
+
+  <%# Hero Section %>
+  <section class="relative mb-24 overflow-hidden rounded-3xl">
+    <%# Background with gradient overlay %>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0055A4]/90 to-[#00A86B]/90 z-10"></div>
+    <div class="absolute inset-0 bg-pattern opacity-10 z-10"></div>
+
+    <%# Background image - Ghanaian business context %>
+    <%= image_tag "bizz_support.png", alt:"Ghanaian business support",
+         class:"absolute inset-0 w-full h-full object-cover"%>
+
+    <%# Content %>
+    <div class="relative z-20 py-24 px-6 md:px-12 text-center text-white">
+      <span class="inline-block px-4 py-2 rounded-full bg-[#FFD700] text-[#0055A4] text-sm font-semibold mb-6">Local Support Team</span>
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">How Can We Help You?</h1>
+      <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-white/90">
+        Our Ghana-based support team is ready to assist you in English and local languages.
+      </p>
+
+      <%# Search Bar %>
+      <div class="max-w-2xl mx-auto">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search for help articles, FAQs, or topics..."
+            class="w-full px-6 py-4 pr-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+          >
+          <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-[#FFD700] transition-colors duration-200">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Support Options Section %>
+  <section class="mb-24">
+    <div class="text-center mb-16">
+      <span class="text-[#00A86B] font-semibold text-sm uppercase tracking-wider">Support Options</span>
+      <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6 text-gray-800 dark:text-white">How Would You Like to Get Help?</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        Choose the support option that works best for your business. Our local team is ready to assist you.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <%# WhatsApp Support Card %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="h-3 bg-[#25D366]"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-[#25D366]/10 rounded-lg flex items-center justify-center text-[#25D366] mb-6 group-hover:bg-[#25D366]/20 transition-colors duration-300">
+            <i class="fab fa-whatsapp text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">WhatsApp Support</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">
+            Chat with our support team via WhatsApp for quick assistance. Available in English, Twi, Ga, and other local languages. Our most popular support channel!
+          </p>
+          <a href="https://wa.me/233551234567" class="inline-flex items-center text-[#25D366] hover:text-[#128C7E] dark:text-[#25D366] dark:hover:text-[#25D366]/80 font-medium">
+            Message on WhatsApp
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+
+      <%# Phone Support Card %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="h-3 bg-[#0055A4]"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-[#0055A4]/10 rounded-lg flex items-center justify-center text-[#0055A4] mb-6 group-hover:bg-[#0055A4]/20 transition-colors duration-300">
+            <i class="fas fa-phone-alt text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Phone Support</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">
+            Call our Ghana-based support team directly for immediate assistance with your questions or technical issues. Available Monday-Friday, 8AM-5PM.
+          </p>
+          <a href="tel:+233302734567" class="inline-flex items-center text-[#0055A4] hover:text-[#0055A4]/80 dark:text-[#0055A4] dark:hover:text-[#0055A4]/80 font-medium">
+            Call +233 30 273 4567
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+
+      <%# In-Person Support Card %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="h-3 bg-[#FFD700]"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-[#FFD700]/10 rounded-lg flex items-center justify-center text-[#FFD700] mb-6 group-hover:bg-[#FFD700]/20 transition-colors duration-300">
+            <i class="fas fa-store text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">In-Person Training</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">
+            Schedule an in-person training session at your business location in Accra, Kumasi, or Takoradi. Our team will help you and your staff get the most out of SupplyFlow.
+          </p>
+          <a href="#" class="inline-flex items-center text-[#FFD700] hover:text-[#FFD700]/80 dark:text-[#FFD700] dark:hover:text-[#FFD700]/80 font-medium">
+            Schedule Training
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+      <%# Email Support Card %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="h-3 bg-[#00A86B]"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-[#00A86B]/10 rounded-lg flex items-center justify-center text-[#00A86B] mb-6 group-hover:bg-[#00A86B]/20 transition-colors duration-300">
+            <i class="fas fa-envelope text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Email Support</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">
+            Send us an email with your questions or issues, and our support team will get back to you within 24 hours with a solution or next steps. Good for non-urgent inquiries.
+          </p>
+          <a href="mailto:support@supplyflow.com" class="inline-flex items-center text-[#00A86B] hover:text-[#00A86B]/80 dark:text-[#00A86B] dark:hover:text-[#00A86B]/80 font-medium">
+            Email Our Team
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+
+      <%# Knowledge Base Card %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="h-3 bg-[#0055A4]"></div>
+        <div class="p-8">
+          <div class="w-16 h-16 bg-[#0055A4]/10 rounded-lg flex items-center justify-center text-[#0055A4] mb-6 group-hover:bg-[#0055A4]/20 transition-colors duration-300">
+            <i class="fas fa-book text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Knowledge Base</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">
+            Browse our comprehensive documentation, video tutorials, and FAQs to find answers to common questions. Available in English and being translated to local languages.
+          </p>
+          <a href="#" class="inline-flex items-center text-[#0055A4] hover:text-[#0055A4]/80 dark:text-[#0055A4] dark:hover:text-[#0055A4]/80 font-medium">
+            Browse Knowledge Base
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Support Tiers Section %>
+  <section class="mb-24">
+    <div class="text-center mb-16">
+      <span class="text-[#0055A4] font-semibold text-sm uppercase tracking-wider">Support Plans</span>
+      <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6 text-gray-800 dark:text-white">Choose the Right Support Plan</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        We offer affordable support plans designed specifically for Ghanaian businesses of all sizes.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <%# Basic Support Plan %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+        <div class="h-2 bg-[#0055A4]"></div>
+        <div class="p-8">
+          <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">Basic Support</h3>
+          <p class="text-[#00A86B] text-sm mb-6">Included with all subscriptions</p>
+
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-gray-800 dark:text-white">Free</span>
+          </div>
+
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Email support (48-hour response)</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">WhatsApp support (business hours)</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Knowledge base access</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Community forum access</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Online video tutorials</span>
+            </li>
+          </ul>
+
+          <div class="block w-full py-3 px-6 text-center bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white font-medium rounded-lg">
+            Included with Subscription
+          </div>
+        </div>
+      </div>
+
+      <%# Standard Support Plan - Highlighted %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border-2 border-[#00A86B] transform md:-translate-y-4 scale-105">
+        <div class="bg-[#00A86B] py-4 px-8 text-white text-center">
+          <span class="text-sm font-semibold uppercase tracking-wider">Most Popular</span>
+        </div>
+        <div class="p-8">
+          <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">Standard Support</h3>
+          <p class="text-[#00A86B] text-sm mb-6">For growing businesses</p>
+
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-gray-800 dark:text-white">50</span>
+            <span class="text-gray-600 dark:text-gray-400"> GHS/month</span>
+          </div>
+
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Everything in Basic</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Priority WhatsApp support</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">24-hour response time</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Monthly remote training session</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Support in local languages</span>
+            </li>
+          </ul>
+
+          <a href="#" class="block w-full py-3 px-6 text-center bg-[#00A86B] hover:bg-[#00965F] text-white font-medium rounded-lg transition-colors duration-300 shadow-lg">
+            Upgrade Now
+          </a>
+        </div>
+      </div>
+
+      <%# Premium Support Plan %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+        <div class="h-2 bg-[#FFD700]"></div>
+        <div class="p-8">
+          <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">Premium Support</h3>
+          <p class="text-[#00A86B] text-sm mb-6">For established businesses</p>
+
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-gray-800 dark:text-white">100</span>
+            <span class="text-gray-600 dark:text-gray-400"> GHS/month</span>
+          </div>
+
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Everything in Standard</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Direct phone support</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Quarterly in-person training</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Dedicated account manager</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#00A86B] mr-2 mt-0.5"></i>
+              <span class="text-gray-600 dark:text-gray-300">Business hours emergency support</span>
+            </li>
+          </ul>
+
+          <a href="#" class="block w-full py-3 px-6 text-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium rounded-lg transition-colors duration-300">
+            Contact Sales
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <p class="text-gray-600 dark:text-gray-400">All plans can be paid via MTN Mobile Money, Vodafone Cash, AirtelTigo Money, or bank transfer.</p>
+      <p class="text-gray-600 dark:text-gray-400 mt-2">Need a custom support plan for your business? <a href="/contact" class="text-[#0055A4] hover:underline">Contact us</a> to discuss your requirements.</p>
+    </div>
+  </section>
+
+  <%# FAQ Section %>
+  <section class="mb-24">
+    <div class="text-center mb-16">
+      <span class="text-[#FFD700] font-semibold text-sm uppercase tracking-wider">Common Questions</span>
+      <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6 text-gray-800 dark:text-white">Frequently Asked Questions</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        Find answers to common questions about our support services for Ghanaian businesses.
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      <div class="space-y-6">
+        <%# FAQ Item 1 %>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+          <button
+            class="flex justify-between items-center w-full px-6 py-5 text-left"
+            data-action="click->accordion#toggle"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">What are your support hours in Ghana?</h3>
+            <i class="fas fa-chevron-down text-[#00A86B] transition-transform duration-300" data-accordion-target="arrow"></i>
+          </button>
+          <div
+            class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+            style="max-height: 0px;"
+            data-accordion-target="content"
+          >
+            <p class="text-gray-600 dark:text-gray-300">
+              Our Ghana-based support team is available Monday through Friday, 8:00 AM to 5:00 PM Ghana time, and Saturday from 9:00 AM to 1:00 PM. WhatsApp support is available during these hours, with email support available 24/7 (responses may take longer outside business hours).
+            </p>
+          </div>
+        </div>
+
+        <%# FAQ Item 2 %>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+          <button
+            class="flex justify-between items-center w-full px-6 py-5 text-left"
+            data-action="click->accordion#toggle"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">What languages does your support team speak?</h3>
+            <i class="fas fa-chevron-down text-[#00A86B] transition-transform duration-300" data-accordion-target="arrow"></i>
+          </button>
+          <div
+            class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+            style="max-height: 0px;"
+            data-accordion-target="content"
+          >
+            <p class="text-gray-600 dark:text-gray-300">
+              Our support team is fluent in English, Twi, Ga, Ewe, and Hausa. When contacting support, you can request your preferred language, and we'll connect you with a team member who speaks it. This ensures clear communication and effective problem-solving.
+            </p>
+          </div>
+        </div>
+
+        <%# FAQ Item 3 %>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+          <button
+            class="flex justify-between items-center w-full px-6 py-5 text-left"
+            data-action="click->accordion#toggle"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">How do I pay for a support plan?</h3>
+            <i class="fas fa-chevron-down text-[#00A86B] transition-transform duration-300" data-accordion-target="arrow"></i>
+          </button>
+          <div
+            class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+            style="max-height: 0px;"
+            data-accordion-target="content"
+          >
+            <p class="text-gray-600 dark:text-gray-300">
+              We accept payments through MTN Mobile Money, Vodafone Cash, AirtelTigo Money, and bank transfers. You can set up automatic monthly payments or pay manually each month. For annual payments, we offer a 10% discount on all support plans.
+            </p>
+          </div>
+        </div>
+
+        <%# FAQ Item 4 %>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+          <button
+            class="flex justify-between items-center w-full px-6 py-5 text-left"
+            data-action="click->accordion#toggle"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Do you offer in-person training for my staff?</h3>
+            <i class="fas fa-chevron-down text-[#00A86B] transition-transform duration-300" data-accordion-target="arrow"></i>
+          </button>
+          <div
+            class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+            style="max-height: 0px;"
+            data-accordion-target="content"
+          >
+            <p class="text-gray-600 dark:text-gray-300">
+              Yes, we offer in-person training sessions at your business location in Accra, Kumasi, Takoradi, and other major cities in Ghana. Standard Support includes one initial training session, while Premium Support includes quarterly training sessions. Additional training sessions can be purchased separately.
+            </p>
+          </div>
+        </div>
+
+        <%# FAQ Item 5 %>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+          <button
+            class="flex justify-between items-center w-full px-6 py-5 text-left"
+            data-action="click->accordion#toggle"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">What if I have internet connectivity issues?</h3>
+            <i class="fas fa-chevron-down text-[#00A86B] transition-transform duration-300" data-accordion-target="arrow"></i>
+          </button>
+          <div
+            class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+            style="max-height: 0px;"
+            data-accordion-target="content"
+          >
+            <p class="text-gray-600 dark:text-gray-300">
+              We understand that internet connectivity can be unstable in some areas of Ghana. That's why our support team is trained to provide assistance via phone calls when internet is unavailable. Additionally, our knowledge base can be downloaded for offline access, and our app works offline so you can continue using SupplyFlow during internet outages.
+            </p>
+          </div>
+        </div>
+
+        <%# FAQ Item 6 %>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+          <button
+            class="flex justify-between items-center w-full px-6 py-5 text-left"
+            data-action="click->accordion#toggle"
+          >
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Can I upgrade or downgrade my support plan?</h3>
+            <i class="fas fa-chevron-down text-[#00A86B] transition-transform duration-300" data-accordion-target="arrow"></i>
+          </button>
+          <div
+            class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+            style="max-height: 0px;"
+            data-accordion-target="content"
+          >
+            <p class="text-gray-600 dark:text-gray-300">
+              Yes, you can upgrade your support plan at any time, and the new benefits will be available immediately. You can downgrade your plan at the end of your current billing cycle. We'll send you a reminder before processing any changes to your plan. There are no penalties for changing your support plan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# CTA Section %>
+  <section class="mb-12">
+    <div class="bg-gradient-to-r from-[#0055A4] to-[#00A86B] rounded-3xl py-16 px-8 text-white text-center relative overflow-hidden">
+      <%# Decorative elements %>
+      <div class="absolute inset-0 opacity-10 bg-pattern"></div>
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full opacity-10 blur-xl transform translate-x-1/3 -translate-y-1/3"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#FFD700] rounded-full opacity-10 blur-xl transform -translate-x-1/3 translate-y-1/3"></div>
+
+      <div class="relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Still Have Questions?</h2>
+        <p class="text-xl text-white/90 max-w-3xl mx-auto mb-8">
+          Our local support team is ready to help you in English or your preferred Ghanaian language.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="https://wa.me/233551234567" class="bg-[#25D366] hover:bg-[#128C7E] text-white font-bold px-8 py-4 rounded-lg text-lg shadow-lg transition-all duration-300 flex items-center justify-center">
+            <i class="fab fa-whatsapp text-2xl mr-2"></i>
+            WhatsApp Support
+          </a>
+          <a href="/contact" class="bg-white text-[#0055A4] hover:bg-gray-100 transition-colors duration-300 font-bold px-8 py-4 rounded-lg text-lg shadow-lg">
+            Contact Support
+          </a>
+          <a href="#" class="bg-transparent border-2 border-white hover:bg-white/10 transition-colors duration-300 text-white font-bold px-8 py-4 rounded-lg text-lg">
+            Schedule a Call
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

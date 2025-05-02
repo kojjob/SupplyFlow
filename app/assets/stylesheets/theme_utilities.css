@@ -1,0 +1,229 @@
+/* Theme Utility Classes for SupplyFlow */
+
+/* Text Colors */
+.text-theme-primary {
+  color: var(--text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.text-theme-tertiary {
+  color: var(--text-tertiary);
+}
+
+.text-theme-disabled {
+  color: var(--text-disabled);
+}
+
+/* Background Colors */
+.bg-theme-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-theme-tertiary {
+  background-color: var(--bg-tertiary);
+}
+
+.bg-theme-quaternary {
+  background-color: var(--bg-quaternary);
+}
+
+/* Border Colors */
+.border-theme-light {
+  border-color: var(--border-light);
+}
+
+.border-theme-medium {
+  border-color: var(--border-medium);
+}
+
+.border-theme-strong {
+  border-color: var(--border-strong);
+}
+
+/* Shadow Utilities */
+.shadow-theme {
+  box-shadow: 0 4px 6px -1px var(--shadow-color), 
+              0 2px 4px -2px var(--shadow-color);
+}
+
+.shadow-theme-md {
+  box-shadow: 0 10px 15px -3px var(--shadow-color), 
+              0 4px 6px -4px var(--shadow-color);
+}
+
+.shadow-theme-lg {
+  box-shadow: 0 20px 25px -5px var(--shadow-color), 
+              0 8px 10px -6px var(--shadow-color);
+}
+
+.shadow-theme-inner {
+  box-shadow: inset 0 2px 4px 0 var(--shadow-color);
+}
+
+/* Glass Effect Utilities */
+.glass-theme {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-theme-primary {
+  background-color: var(--glass-primary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--primary);
+}
+
+.glass-theme-secondary {
+  background-color: var(--glass-secondary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--secondary);
+}
+
+/* Card Styles */
+.card-theme {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px var(--shadow-color), 
+              0 2px 4px -2px var(--shadow-color);
+}
+
+.card-theme-hover:hover {
+  box-shadow: 0 10px 15px -3px var(--shadow-color), 
+              0 4px 6px -4px var(--shadow-color);
+  transform: translateY(-2px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Button Styles */
+.btn-theme-primary {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-theme-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-theme-secondary {
+  background-color: var(--secondary);
+  color: white;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-theme-secondary:hover {
+  background-color: var(--secondary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-theme-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-theme-outline:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-theme-ghost {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-theme-ghost:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-1px);
+}
+
+/* Form Elements */
+.input-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-theme:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--glass-primary);
+}
+
+.input-theme::placeholder {
+  color: var(--text-disabled);
+}
+
+.select-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+  border-radius: 0.375rem;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.select-theme:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--glass-primary);
+}
+
+/* Dividers */
+.divider-theme {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.divider-theme-vertical {
+  border-right: 1px solid var(--border-light);
+}
+
+/* Focus Ring */
+.focus-ring-theme:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--glass-primary);
+}
+
+/* Theme-aware transitions */
+.transition-theme {
+  transition: color 0.3s ease, 
+              background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease,
+              transform 0.3s ease;
+}

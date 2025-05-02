@@ -1,0 +1,326 @@
+<%# Comprehensive Footer - Designed for Ghanaian SMEs %>
+<footer class="bg-gradient-to-b from-[#0055A4] to-[#003366] text-white pt-16 pb-8 relative overflow-hidden">
+  <%# Decorative Elements %>
+  <div class="absolute top-0 left-0 w-full overflow-hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-16 text-[#002244] fill-current">
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+    </svg>
+  </div>
+
+  <%# Decorative Circles %>
+  <div class="absolute top-0 right-0 w-96 h-96 bg-[#00A86B] rounded-full filter blur-3xl opacity-10 transform translate-x-1/3 -translate-y-1/3"></div>
+  <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#FFD700] rounded-full filter blur-3xl opacity-10 transform -translate-x-1/3 translate-y-1/3"></div>
+
+  <%# Ghana-inspired pattern %>
+  <div class="absolute inset-0 opacity-5 bg-pattern"></div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+      <%# Company Info %>
+      <div class="lg:col-span-4">
+        <div class="flex items-center mb-6">
+          <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white mr-3">
+            <i class="fas fa-box-open"></i>
+          </div>
+          <span class="text-2xl font-bold text-white">SupplyFlow</span>
+        </div>
+
+        <p class="text-white/80 mb-6 max-w-md">
+          Affordable inventory management designed specifically for small and medium businesses in Ghana.
+          Works online and offline to help your business grow.
+        </p>
+
+        <%# Decorative Separator %>
+        <div class="h-1 w-24 bg-gradient-to-r from-[#0055A4] to-[#00A86B] rounded mb-6"></div>
+
+        <div class="flex space-x-3 mb-8">
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#00A86B] flex items-center justify-center text-white transition-colors duration-200">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#00A86B] flex items-center justify-center text-white transition-colors duration-200">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#00A86B] flex items-center justify-center text-white transition-colors duration-200">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#00A86B] flex items-center justify-center text-white transition-colors duration-200">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#00A86B] flex items-center justify-center text-white transition-colors duration-200">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+          <a href="<%= contact_path %>" class="bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center">
+            <i class="fas fa-headset mr-2"></i>
+            Contact Support
+          </a>
+          <a href="#" class="bg-[#00A86B] hover:bg-[#00965F] text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center shadow-lg">
+            <i class="fas fa-rocket mr-2"></i>
+            Get Started
+          </a>
+        </div>
+      </div>
+
+      <%# Quick Links %>
+      <div class="lg:col-span-2">
+        <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href="/" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Home
+            </a>
+          </li>
+          <li>
+            <%= link_to about_path, class:"text-white/80 hover:text-white transition-colors duration-200 flex items-center" do %>
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              About Us
+            <% end %>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Features
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Pricing
+            </a>
+          </li>
+          <li>
+            <%= link_to contact_path, class:"text-white/80 hover:text-white transition-colors duration-200 flex items-center" do %>
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Contact
+            <% end %>
+          </li>
+        </ul>
+      </div>
+
+      <%# Features %>
+      <div class="lg:col-span-2">
+        <h3 class="text-lg font-semibold mb-4 text-white">Features</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Inventory Tracking
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Offline Mode
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Mobile Money
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Sales Reports
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Low Stock Alerts
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <%# Resources %>
+      <div class="lg:col-span-2">
+        <h3 class="text-lg font-semibold mb-4 text-white">Resources</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Help Center
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Video Tutorials
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Blog
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              FAQ
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-white/80 hover:text-white transition-colors duration-200 flex items-center">
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#00A86B]"></i>
+              Community
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <%# Newsletter and Contact %>
+      <div class="lg:col-span-2">
+        <h3 class="text-lg font-semibold mb-4 text-white">Stay Updated</h3>
+        <p class="text-white/80 mb-4">
+          Subscribe to our newsletter for tips and updates.
+        </p>
+
+        <form class="mb-4" data-controller="newsletter">
+          <div class="flex flex-col space-y-3">
+            <div class="relative">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="w-full px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#00A86B] focus:border-transparent"
+                required
+                data-newsletter-target="email"
+              >
+              <div class="hidden text-[#FFD700] text-sm mt-1" data-newsletter-target="success">
+                Thanks for subscribing!
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="bg-[#00A86B] hover:bg-[#00965F] text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center"
+              data-action="newsletter#subscribe"
+            >
+              <i class="fas fa-paper-plane mr-2"></i>
+              Subscribe
+            </button>
+          </div>
+        </form>
+
+        <h3 class="text-lg font-semibold mb-2 mt-6 text-white">Contact Us</h3>
+        <ul class="space-y-2">
+          <li class="flex items-center text-white/80">
+            <i class="fas fa-phone-alt text-[#00A86B] mr-2"></i>
+            +233 30 273 4567
+          </li>
+          <li class="flex items-center text-white/80">
+            <i class="fab fa-whatsapp text-[#00A86B] mr-2"></i>
+            +233 55 123 4567
+          </li>
+          <li class="flex items-center text-white/80">
+            <i class="fas fa-envelope text-[#00A86B] mr-2"></i>
+            info@supplyflow.com
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <%# App Download Section %>
+    <div class="mt-12 pt-8 border-t border-white/10 mb-8">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="mb-6 md:mb-0">
+          <h3 class="text-lg font-semibold mb-2 text-white">Download Our Mobile App</h3>
+          <p class="text-white/80 max-w-md">
+            Access your inventory on the go, even without internet connection.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+          <a href="#" class="flex items-center bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+            <i class="fab fa-google-play text-2xl mr-3"></i>
+            <div>
+              <div class="text-xs">GET IT ON</div>
+              <div class="text-sm font-bold">Google Play</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+            <i class="fab fa-apple text-2xl mr-3"></i>
+            <div>
+              <div class="text-xs">Download on the</div>
+              <div class="text-sm font-bold">App Store</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <%# Payment Methods %>
+    <div class="mb-8 flex flex-col items-center">
+      <h3 class="text-sm font-semibold mb-4 text-white/80 uppercase tracking-wider">Accepted Payment Methods</h3>
+      <div class="flex flex-wrap justify-center gap-4">
+        <div class="bg-white/10 backdrop-blur-sm p-2 rounded-lg flex items-center justify-center h-10 w-20">
+          <span class="font-bold text-sm text-white">MTN MoMo</span>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-2 rounded-lg flex items-center justify-center h-10 w-20">
+          <span class="font-bold text-sm text-white">Vodafone</span>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-2 rounded-lg flex items-center justify-center h-10 w-20">
+          <span class="font-bold text-sm text-white">AirtelTigo</span>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-2 rounded-lg flex items-center justify-center h-10 w-20">
+          <span class="font-bold text-sm text-white">Hubtel</span>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-2 rounded-lg flex items-center justify-center h-10 w-20">
+          <i class="fab fa-cc-visa text-white text-lg"></i>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-2 rounded-lg flex items-center justify-center h-10 w-20">
+          <i class="fab fa-cc-mastercard text-white text-lg"></i>
+        </div>
+      </div>
+    </div>
+
+    <%# Bottom Footer %>
+    <div class="pt-8 border-t border-white/10">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="text-white/60 text-sm mb-4 md:mb-0">
+          &copy; <%= Date.today.year %> SupplyFlow. All rights reserved.
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 text-sm text-white/60">
+          <a href="#" class="hover:text-white transition-colors duration-200">Terms of Service</a>
+          <a href="#" class="hover:text-white transition-colors duration-200">Privacy Policy</a>
+          <a href="#" class="hover:text-white transition-colors duration-200">Cookie Policy</a>
+          <a href="#" class="hover:text-white transition-colors duration-200">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<%# Newsletter Subscription JavaScript %>
+<script type="text/javascript">
+  // Using Stimulus controller for newsletter subscription
+  (() => {
+    window.Stimulus = window.Stimulus || {};
+    window.Stimulus.register = window.Stimulus.register || {};
+    window.Stimulus.register.controllers = window.Stimulus.register.controllers || {};
+
+    window.Stimulus.register.controllers.newsletter = class extends window.Stimulus.Controller {
+      static targets = ["email", "success"];
+
+      subscribe(event) {
+        event.preventDefault();
+
+        // In a real implementation, this would send the data to a server
+        // For now, we'll just show the success message
+        if (this.emailTarget.value) {
+          this.successTarget.classList.remove("hidden");
+          this.emailTarget.value = "";
+
+          // Hide the success message after 3 seconds
+          setTimeout(() => {
+            this.successTarget.classList.add("hidden");
+          }, 3000);
+        }
+      }
+    };
+  })();
+</script>

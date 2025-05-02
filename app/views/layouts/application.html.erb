@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "SupplyFlow - Streamline Your Supply Chain" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="SupplyFlow helps businesses optimize their supply chain operations with powerful inventory management and logistics solutions.">
+    <meta name="theme-color" content="#0055A4" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <%# Register Service Worker for offline support %>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+    </script>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <!-- Font Awesome for additional icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Flag Icons for language selector -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <script>
+      // Enhanced theme initialization to prevent flash of wrong theme
+      (function() {
+        // Function to set the theme
+        function setTheme(theme) {
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+          }
+        }
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme) {
+          // Use saved preference if available
+          setTheme(savedTheme);
+        } else {
+          // Check system preference
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const initialTheme = prefersDark ? 'dark' : 'light';
+
+          // Save and apply the theme
+          localStorage.setItem('theme', initialTheme);
+          setTheme(initialTheme);
+        }
+
+        // Add theme transition class after a short delay to prevent transition on page load
+        setTimeout(function() {
+          document.documentElement.classList.add('theme-transition');
+        }, 100);
+      })();
+    </script>
+  </head>
+
+  <body class="antialiased text-theme-primary bg-theme-primary transition-colors duration-300" style="font-family: 'Poppins', sans-serif;" data-controller="page-transition">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:p-4 focus:bg-white focus:text-primary focus:z-[10000] focus:rounded-lg focus:shadow-lg focus:outline-none">
+      Skip to main content
+    </a>
+
+    <!-- Page Transition Loader -->
+    <div data-page-transition-target="loader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm transition-opacity duration-500 opacity-0 invisible" aria-hidden="true" role="status" aria-label="Page loading">
+      <div class="relative">
+        <div class="h-24 w-24 rounded-full border-t-4 border-b-4 border-primary animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="h-16 w-16 rounded-full bg-gradient-animated"></div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <svg class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- Progress Bar -->
+    <div data-controller="progress-bar" class="fixed top-0 left-0 right-0 z-[9999]">
+      <div
+        data-progress-bar-target="bar"
+        class="h-1 bg-gradient-animated transition-all duration-300 ease-out opacity-0"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+
+    <!-- Navigation -->
+    <%= render 'shared/navbar' %>
+
+    <!-- Search Overlay -->
+    <div data-controller="search">
+      <!-- Search Trigger Button -->
+      <button data-action="click->search#toggle" class="fixed right-6 top-20 z-40 btn-glass flex items-center px-3 py-2 rounded-lg shadow-lg">
+        <i class="fas fa-search mr-2"></i>
+        <span>Search</span>
+        <span class="ml-2 text-xs opacity-70 border border-white/30 rounded px-1">Ctrl+K</span>
+      </button>
+
+      <!-- Search Overlay -->
+      <div data-search-target="overlay" class="fixed inset-0 bg-black/80 backdrop-blur-xl z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300 hidden">
+        <div class="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-xl shadow-3d overflow-hidden">
+          <!-- Search Header -->
+          <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+            <i class="fas fa-search text-gray-400 dark:text-gray-500 mr-3 text-xl"></i>
+            <input
+              data-search-target="input"
+              type="text"
+              placeholder="Search for anything..."
+              class="w-full bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 text-lg"
+              autofocus
+            >
+            <button data-action="click->search#close" class="ml-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Search Results -->
+          <div class="max-h-96 overflow-y-auto p-2">
+            <!-- Categories -->
+            <div class="mb-4">
+              <div class="flex space-x-2 mb-3">
+                <button class="px-3 py-1 rounded-full bg-primary text-white text-sm">All</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">Products</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">Orders</button>
+                <button class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">Suppliers</button>
+              </div>
+            </div>
+
+            <!-- Sample Results -->
+            <div class="space-y-2">
+              <div class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-150 cursor-pointer">
+                <div class="flex items-center">
+                  <div class="icon-container-gradient icon-sm mr-3">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800 dark:text-gray-200">Premium Widgets</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Product • SKU-12345</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-150 cursor-pointer">
+                <div class="flex items-center">
+                  <div class="icon-container-gradient icon-sm mr-3">
+                    <i class="fas fa-truck"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800 dark:text-gray-200">Order #98765</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Shipping • In Transit</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-150 cursor-pointer">
+                <div class="flex items-center">
+                  <div class="icon-container-gradient icon-sm mr-3">
+                    <i class="fas fa-building"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800 dark:text-gray-200">Acme Suppliers Inc.</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Supplier • Active</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Searches -->
+            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Recent Searches</h3>
+              <div class="flex flex-wrap gap-2">
+                <div class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200 flex items-center">
+                  <span>inventory status</span>
+                  <button class="ml-1 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+                    <i class="fas fa-times-circle text-xs"></i>
+                  </button>
+                </div>
+                <div class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200 flex items-center">
+                  <span>shipping delays</span>
+                  <button class="ml-1 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+                    <i class="fas fa-times-circle text-xs"></i>
+                  </button>
+                </div>
+                <div class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200 flex items-center">
+                  <span>new suppliers</span>
+                  <button class="ml-1 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+                    <i class="fas fa-times-circle text-xs"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Footer -->
+          <div class="p-3 bg-gray-50 dark:bg-gray-900 text-xs text-gray-500 dark:text-gray-400 flex justify-between items-center">
+            <div>
+              <span class="mr-4"><span class="font-medium">↑↓</span> to navigate</span>
+              <span class="mr-4"><span class="font-medium">↵</span> to select</span>
+              <span><span class="font-medium">Esc</span> to close</span>
+            </div>
+            <div>
+              <span>Powered by SupplyFlow Search</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="w-full" tabindex="-1" data-controller="swipe-gesture">
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <%= render 'shared/footer' %>
+
+    <!-- Mobile Bottom Navigation -->
+    <%= render 'shared/mobile_nav' %>
+
+    <!-- Cookie Consent Banner -->
+    <div data-controller="cookie-consent" class="fixed bottom-0 left-0 right-0 z-50">
+      <div
+        data-cookie-consent-target="banner"
+        class="bg-gray-900 text-white p-4 transform transition-transform duration-500 ease-in-out translate-y-full"
+        role="alert"
+        aria-live="polite"
+      >
+        <div class="container mx-auto">
+          <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-4 md:mb-0 md:mr-8">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-cookie-bite text-xl mr-2 text-accent-yellow"></i>
+                <h3 class="font-bold text-lg">Cookie Consent</h3>
+              </div>
+              <p class="text-gray-300 text-sm md:text-base">
+                We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+              <button
+                data-action="cookie-consent#decline"
+                class="btn-glass px-4 py-2 text-sm"
+              >
+                Decline
+              </button>
+              <button
+                data-action="cookie-consent#openSettings"
+                class="btn-glass px-4 py-2 text-sm"
+              >
+                Cookie Settings
+              </button>
+              <button
+                data-action="cookie-consent#accept"
+                class="btn-gradient px-4 py-2 text-sm"
+              >
+                Accept All
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div data-controller="fab" class="fixed right-6 bottom-6 z-50">
+      <!-- FAB Menu -->
+      <div data-fab-target="menu" class="absolute bottom-16 right-0 flex flex-col items-end space-y-2 scale-0 opacity-0 transition-all duration-300 ease-in-out origin-bottom-right">
+        <div class="flex items-center space-x-2">
+          <span class="bg-white text-primary px-3 py-1 rounded-lg shadow-lg text-sm">Chat with us</span>
+          <button class="btn-gradient w-12 h-12 rounded-full flex items-center justify-center shadow-neon">
+            <i class="fas fa-comment-dots"></i>
+          </button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="bg-white text-primary px-3 py-1 rounded-lg shadow-lg text-sm">Search</span>
+          <button class="btn-gradient w-12 h-12 rounded-full flex items-center justify-center shadow-neon">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="bg-white text-primary px-3 py-1 rounded-lg shadow-lg text-sm">Contact us</span>
+          <button class="btn-gradient w-12 h-12 rounded-full flex items-center justify-center shadow-neon">
+            <i class="fas fa-envelope"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main FAB Button -->
+      <button data-fab-target="button" data-action="click->fab#toggle" class="btn-gradient w-16 h-16 rounded-full flex items-center justify-center shadow-neon transition-transform duration-300 ease-in-out">
+        <i class="fas fa-plus text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Toast Notifications (temporarily hidden) -->
+    <div data-controller="toast" data-action="toast:show->toast#show">
+      <div data-toast-target="container" class="fixed top-24 right-4 z-40 w-80 space-y-2 hidden"></div>
+    </div>
+
+    <!-- Demo Toast Trigger Buttons (temporarily hidden) -->
+    <div class="fixed left-4 top-20 z-40 flex flex-col space-y-2 hidden">
+      <button
+        class="btn-glass px-3 py-2 text-sm"
+        data-action="click->toast#success"
+        data-toast-message-param="Operation completed successfully!"
+      >
+        <i class="fas fa-check-circle mr-2"></i>Success Toast
+      </button>
+      <button
+        class="btn-glass px-3 py-2 text-sm"
+        data-action="click->toast#error"
+        data-toast-message-param="Something went wrong. Please try again."
+      >
+        <i class="fas fa-exclamation-circle mr-2"></i>Error Toast
+      </button>
+      <button
+        class="btn-glass px-3 py-2 text-sm"
+        data-action="click->toast#warning"
+        data-toast-message-param="Warning: Low inventory detected."
+      >
+        <i class="fas fa-exclamation-triangle mr-2"></i>Warning Toast
+      </button>
+      <button
+        class="btn-glass px-3 py-2 text-sm"
+        data-action="click->toast#info"
+        data-toast-message-param="New shipment has been scheduled."
+      >
+        <i class="fas fa-info-circle mr-2"></i>Info Toast
+      </button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div data-controller="back-to-top" class="fixed bottom-6 right-24 z-40">
+      <button
+        data-back-to-top-target="button"
+        data-action="click->back-to-top#scrollToTop"
+        class="btn-glass p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 ease-in-out"
+        aria-label="Back to top"
+      >
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="fixed top-0 right-0 w-96 h-96 bg-gradient-animated rounded-full filter blur-3xl opacity-10 -z-10 transform translate-x-1/3 -translate-y-1/3 animate-spin-slow"></div>
+    <div class="fixed bottom-0 left-0 w-96 h-96 bg-gradient-sunset rounded-full filter blur-3xl opacity-10 -z-10 transform -translate-x-1/3 translate-y-1/3 animate-pulse-ring"></div>
+    <div class="fixed top-1/2 left-1/2 w-full h-full -z-20">
+      <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-light/5 to-secondary-light/5 mesh-gradient-1 opacity-30"></div>
+    </div>
+  </body>
+</html>

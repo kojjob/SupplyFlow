@@ -1,0 +1,509 @@
+<%# Contact Page - Main Container %>
+<div class="container mx-auto px-4 py-12 max-w-7xl">
+
+  <%# Hero Section %>
+  <section class="relative mb-24 overflow-hidden rounded-3xl">
+    <%# Background with gradient overlay %>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0055A4]/90 to-[#00A86B]/90 z-10"></div>
+    <div class="absolute inset-0 bg-pattern opacity-10 z-10"></div>
+
+    <%# Background image - Ghana marketplace or business %>
+    <img src="https://images.unsplash.com/photo-1604719312566-8912e9c8a213?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+         alt="Ghanaian marketplace"
+         class="absolute inset-0 w-full h-full object-cover">
+
+    <%# Content %>
+    <div class="relative z-20 py-24 px-6 md:px-12 text-center text-white">
+      <span class="inline-block px-4 py-2 rounded-full bg-[#FFD700] text-[#0055A4] text-sm font-semibold mb-6">We're Here For You</span>
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">Get in Touch</h1>
+      <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-white/90">
+        Have questions or need assistance? Our local support team is ready to help your business succeed.
+      </p>
+    </div>
+  </section>
+
+  <%# Contact Information and Form Section %>
+  <section class="mb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <%# Contact Information %>
+      <div class="lg:col-span-2">
+        <span class="text-[#0055A4] font-semibold text-sm uppercase tracking-wider">Reach Out To Us</span>
+        <h2 class="text-3xl font-bold mt-2 mb-8 text-gray-800 dark:text-white">Contact Information</h2>
+
+        <div class="space-y-8">
+          <%# Office Location %>
+          <div class="flex">
+            <div class="mr-4">
+              <div class="w-12 h-12 bg-[#0055A4]/10 rounded-lg flex items-center justify-center text-[#0055A4]">
+                <i class="fas fa-map-marker-alt text-xl"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Our Office</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-1">14 Independence Avenue</p>
+              <p class="text-gray-600 dark:text-gray-300 mb-1">Osu</p>
+              <p class="text-gray-600 dark:text-gray-300">Accra, Ghana</p>
+            </div>
+          </div>
+
+          <%# Phone %>
+          <div class="flex">
+            <div class="mr-4">
+              <div class="w-12 h-12 bg-[#00A86B]/10 rounded-lg flex items-center justify-center text-[#00A86B]">
+                <i class="fas fa-phone-alt text-xl"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Phone</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-1">Main: +233 30 273 4567</p>
+              <p class="text-gray-600 dark:text-gray-300">Support: +233 24 456 7890</p>
+            </div>
+          </div>
+
+          <%# WhatsApp %>
+          <div class="flex">
+            <div class="mr-4">
+              <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600">
+                <i class="fab fa-whatsapp text-xl"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">WhatsApp Support</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-1">+233 55 123 4567</p>
+              <p class="text-gray-600 dark:text-gray-300 text-sm italic">Fastest way to reach our support team</p>
+            </div>
+          </div>
+
+          <%# Email %>
+          <div class="flex">
+            <div class="mr-4">
+              <div class="w-12 h-12 bg-[#FFD700]/10 rounded-lg flex items-center justify-center text-[#FFD700]">
+                <i class="fas fa-envelope text-xl"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Email</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-1">info@supplyflow.com</p>
+              <p class="text-gray-600 dark:text-gray-300">support@supplyflow.com</p>
+            </div>
+          </div>
+
+          <%# Hours %>
+          <div class="flex">
+            <div class="mr-4">
+              <div class="w-12 h-12 bg-[#0055A4]/10 rounded-lg flex items-center justify-center text-[#0055A4]">
+                <i class="fas fa-clock text-xl"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Business Hours</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-1">Monday - Friday: 8:00 AM - 5:00 PM</p>
+              <p class="text-gray-600 dark:text-gray-300">Saturday: 9:00 AM - 1:00 PM</p>
+              <p class="text-gray-600 dark:text-gray-300">Sunday: Closed</p>
+            </div>
+          </div>
+
+          <%# Social Media %>
+          <div>
+            <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Connect With Us</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 rounded-full bg-[#0055A4] flex items-center justify-center text-white hover:bg-[#0055A4]/80 transition-colors duration-300">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-full bg-[#00A86B] flex items-center justify-center text-white hover:bg-[#00A86B]/80 transition-colors duration-300">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-full bg-[#FFD700] flex items-center justify-center text-[#0055A4] hover:bg-[#FFD700]/80 transition-colors duration-300">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-full bg-[#0055A4] flex items-center justify-center text-white hover:bg-[#0055A4]/80 transition-colors duration-300">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Contact Form %>
+      <div class="lg:col-span-3 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-[#00A86B]">
+        <span class="text-[#00A86B] font-semibold text-sm uppercase tracking-wider">Get In Touch</span>
+        <h2 class="text-3xl font-bold mt-2 mb-6 text-gray-800 dark:text-white">Send Us a Message</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-8">
+          Fill out the form below and our local support team will get back to you within 24 hours.
+        </p>
+
+        <form>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="first_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name</label>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+                placeholder="Kofi"
+                required
+              >
+            </div>
+            <div>
+              <label for="last_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
+              <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+                placeholder="Mensah"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+              placeholder="kofi.mensah@example.com"
+              required
+            >
+          </div>
+
+          <div class="mb-6">
+            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+              placeholder="+233 24 123 4567"
+            >
+          </div>
+
+          <div class="mb-6">
+            <label for="business_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Business Type</label>
+            <select
+              id="business_type"
+              name="business_type"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+            >
+              <option value="" disabled selected>Select your business type</option>
+              <option value="retail">Retail Shop</option>
+              <option value="wholesale">Wholesale Business</option>
+              <option value="distribution">Distribution Company</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="mb-6">
+            <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+              placeholder="How can we help your business?"
+              required
+            >
+          </div>
+
+          <div class="mb-6">
+            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+              placeholder="Please provide details about your inquiry..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preferred Contact Method</label>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input type="radio" name="contact_method" value="email" class="w-4 h-4 text-[#00A86B] border-gray-300 focus:ring-[#00A86B]">
+                <span class="ml-2 text-gray-600 dark:text-gray-300">Email</span>
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="contact_method" value="phone" class="w-4 h-4 text-[#00A86B] border-gray-300 focus:ring-[#00A86B]">
+                <span class="ml-2 text-gray-600 dark:text-gray-300">Phone</span>
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="contact_method" value="whatsapp" class="w-4 h-4 text-[#00A86B] border-gray-300 focus:ring-[#00A86B]" checked>
+                <span class="ml-2 text-gray-600 dark:text-gray-300">WhatsApp</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label class="flex items-center">
+              <input type="checkbox" class="w-4 h-4 text-[#00A86B] border-gray-300 rounded focus:ring-[#00A86B]">
+              <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">
+                I agree to the <a href="#" class="text-[#0055A4] hover:text-[#0055A4]/80 dark:text-[#0055A4] dark:hover:text-[#0055A4]/80">Privacy Policy</a> and <a href="#" class="text-[#0055A4] hover:text-[#0055A4]/80 dark:text-[#0055A4] dark:hover:text-[#0055A4]/80">Terms of Service</a>.
+              </span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-[#00A86B] hover:bg-[#00965F] text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <%# Map Section %>
+  <section class="mb-24">
+    <span class="text-[#0055A4] font-semibold text-sm uppercase tracking-wider">Visit Us</span>
+    <h2 class="text-3xl font-bold mt-2 mb-8 text-gray-800 dark:text-white">Our Location</h2>
+    <div class="rounded-xl overflow-hidden shadow-xl h-96 bg-gray-200 dark:bg-gray-700 relative">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.9285053357897!2d-0.18858492414805913!3d5.5765927339724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9a53a68a6d49%3A0xb1f5582ad04f7716!2sIndependence%20Ave%2C%20Accra!5e0!3m2!1sen!2sgh!4v1691532643799!5m2!1sen!2sgh"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+
+      <!-- Map Overlay -->
+      <div class="absolute top-4 left-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-xs">
+        <div class="flex items-center mb-2">
+          <div class="w-8 h-8 bg-[#0055A4]/10 rounded-full flex items-center justify-center text-[#0055A4] mr-2">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <h3 class="font-bold text-gray-800 dark:text-white">SupplyFlow HQ</h3>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          14 Independence Avenue<br>
+          Osu, Accra<br>
+          Ghana
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <%# FAQ Section %>
+  <section class="mb-24">
+    <div class="text-center mb-12">
+      <span class="text-[#00A86B] font-semibold text-sm uppercase tracking-wider">Common Questions</span>
+      <h2 class="text-3xl font-bold mt-2 mb-4 text-gray-800 dark:text-white">Frequently Asked Questions</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        Find answers to common questions about our services and support for Ghanaian businesses.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <%# FAQ Item 1 %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+        <button
+          class="flex justify-between items-center w-full px-6 py-5 text-left"
+          data-action="click->accordion#toggle"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Does SupplyFlow work without internet?</h3>
+          <svg
+            class="w-5 h-5 text-[#00A86B] dark:text-[#00A86B] transition-transform duration-300"
+            data-accordion-target="arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div
+          class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+          style="max-height: 0px;"
+          data-accordion-target="content"
+        >
+          <p class="text-gray-600 dark:text-gray-300">
+            Yes! SupplyFlow is designed to work offline. You can continue managing inventory, processing sales, and recording transactions even without an internet connection. When your connection returns, all data will automatically sync to the cloud.
+          </p>
+        </div>
+      </div>
+
+      <%# FAQ Item 2 %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+        <button
+          class="flex justify-between items-center w-full px-6 py-5 text-left"
+          data-action="click->accordion#toggle"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">What payment methods do you accept?</h3>
+          <svg
+            class="w-5 h-5 text-[#00A86B] dark:text-[#00A86B] transition-transform duration-300"
+            data-accordion-target="arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div
+          class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+          style="max-height: 0px;"
+          data-accordion-target="content"
+        >
+          <p class="text-gray-600 dark:text-gray-300">
+            We accept all major Ghanaian payment methods including MTN Mobile Money, Vodafone Cash, AirtelTigo Money, bank transfers, and credit/debit cards. Our subscription fees can be paid monthly or annually, with a discount for annual payments.
+          </p>
+        </div>
+      </div>
+
+      <%# FAQ Item 3 %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+        <button
+          class="flex justify-between items-center w-full px-6 py-5 text-left"
+          data-action="click->accordion#toggle"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Do you offer training for my staff?</h3>
+          <svg
+            class="w-5 h-5 text-[#00A86B] dark:text-[#00A86B] transition-transform duration-300"
+            data-accordion-target="arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div
+          class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+          style="max-height: 0px;"
+          data-accordion-target="content"
+        >
+          <p class="text-gray-600 dark:text-gray-300">
+            Yes, we provide comprehensive training for all users. Our Standard and Premium plans include in-person training sessions at your business location in Accra, Kumasi, Takoradi, and other major cities. We also offer remote training via video call and have tutorial videos in English and local languages.
+          </p>
+        </div>
+      </div>
+
+      <%# FAQ Item 4 %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+        <button
+          class="flex justify-between items-center w-full px-6 py-5 text-left"
+          data-action="click->accordion#toggle"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Can I use SupplyFlow on my phone?</h3>
+          <svg
+            class="w-5 h-5 text-[#00A86B] dark:text-[#00A86B] transition-transform duration-300"
+            data-accordion-target="arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div
+          class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+          style="max-height: 0px;"
+          data-accordion-target="content"
+        >
+          <p class="text-gray-600 dark:text-gray-300">
+            Absolutely! SupplyFlow is designed to work on smartphones, tablets, and computers. Our mobile app is available for both Android and iOS devices and includes all the essential features you need to manage your inventory on the go, including barcode scanning using your phone's camera.
+          </p>
+        </div>
+      </div>
+
+      <%# FAQ Item 5 %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+        <button
+          class="flex justify-between items-center w-full px-6 py-5 text-left"
+          data-action="click->accordion#toggle"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">What languages does your support team speak?</h3>
+          <svg
+            class="w-5 h-5 text-[#00A86B] dark:text-[#00A86B] transition-transform duration-300"
+            data-accordion-target="arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div
+          class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+          style="max-height: 0px;"
+          data-accordion-target="content"
+        >
+          <p class="text-gray-600 dark:text-gray-300">
+            Our support team is fluent in English, Twi, Ga, Ewe, and Hausa. When you contact support, you can request your preferred language, and we'll connect you with a team member who speaks it. This ensures clear communication and effective problem-solving.
+          </p>
+        </div>
+      </div>
+
+      <%# FAQ Item 6 %>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-controller="accordion">
+        <button
+          class="flex justify-between items-center w-full px-6 py-5 text-left"
+          data-action="click->accordion#toggle"
+        >
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">How do I get started with SupplyFlow?</h3>
+          <svg
+            class="w-5 h-5 text-[#00A86B] dark:text-[#00A86B] transition-transform duration-300"
+            data-accordion-target="arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div
+          class="px-6 pb-5 overflow-hidden transition-all duration-300 hidden"
+          style="max-height: 0px;"
+          data-accordion-target="content"
+        >
+          <p class="text-gray-600 dark:text-gray-300">
+            Getting started is easy! Sign up for a free 14-day trial on our website or contact us to schedule a demo. Our team will help you set up your account, import your existing inventory data, and provide training for you and your staff. No credit card is required for the trial, and you can cancel anytime.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# CTA Section %>
+  <section class="mb-12">
+    <div class="bg-[#00A86B] text-white rounded-3xl py-16 px-8 text-center relative overflow-hidden">
+      <!-- Decorative elements -->
+      <div class="absolute inset-0 opacity-10 bg-pattern"></div>
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full opacity-10 blur-xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#FFD700] rounded-full opacity-10 blur-xl"></div>
+
+      <div class="relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Grow Your Business?</h2>
+        <p class="text-xl text-white/90 max-w-3xl mx-auto mb-8">
+          Join hundreds of Ghanaian businesses that use SupplyFlow to manage their inventory and increase profits.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#" class="bg-white text-[#00A86B] hover:bg-gray-100 font-bold px-8 py-4 rounded-lg inline-block transition-all duration-300 shadow-lg text-lg">
+            Start Free 14-Day Trial
+          </a>
+          <a href="#" class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-bold px-8 py-4 rounded-lg inline-block transition-all duration-300 text-lg">
+            Schedule a Demo
+          </a>
+        </div>
+        <div class="mt-6 text-white/80 text-sm">
+          No credit card required. Cancel anytime.
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
