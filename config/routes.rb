@@ -1,5 +1,20 @@
 Rails.application.routes.draw do
+  # Devise routes for authentication
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    passwords: 'users/passwords',
+    confirmations: 'users/confirmations'
+  }
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # Organizations and Locations
+  resources :organizations, only: [:create]
+  resources :locations
+  
+  # Dashboard
+  get "dashboard" => "dashboard#index", as: :dashboard
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
