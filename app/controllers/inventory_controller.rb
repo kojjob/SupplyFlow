@@ -7,8 +7,6 @@ class InventoryController < ApplicationController
     @inventory_items = policy_scope(InventoryItem)
                        .includes(:product, :location)
                        .order('locations.name ASC, products.name ASC')
-                       .page(params[:page])
-                       .per(50)
     
     if params[:location_id].present?
       @inventory_items = @inventory_items.where(location_id: params[:location_id])
@@ -25,11 +23,17 @@ class InventoryController < ApplicationController
     end
     
     if params[:query].present?
+      query = "%#{params[:query]}%"
+      # Use LOWER() for case-insensitive search (works with PostgreSQL and SQLite)
       @inventory_items = @inventory_items.joins(:product)
-                         .where('products.name ILIKE ? OR products.sku ILIKE ?', 
-                               "%#{params[:query]}%", 
-                               "%#{params[:query]}%")
+                         .where('LOWER(products.name) LIKE LOWER(?) OR LOWER(products.sku) LIKE LOWER(?)', 
+                               query, 
+                               query)
     end
+    
+    # For pagination - limit to 50 records without using Kaminari
+    @total_count = @inventory_items.count
+    @inventory_items = @inventory_items.limit(50).offset((params[:page].to_i || 0) * 50)
     
     respond_to do |format|
       format.html
@@ -43,8 +47,6 @@ class InventoryController < ApplicationController
     @transactions = policy_scope(InventoryTransaction)
                     .includes(:product, :source_location, :destination_location, :user)
                     .order(created_at: :desc)
-                    .page(params[:page])
-                    .per(50)
     
     if params[:location_id].present?
       @transactions = @transactions.by_location(params[:location_id])
@@ -68,6 +70,10 @@ class InventoryController < ApplicationController
         @transactions = @transactions.by_date_range(start_date, end_date)
       end
     end
+    
+    # For pagination - limit to 50 records without using Kaminari
+    @total_count = @transactions.count
+    @transactions = @transactions.limit(50).offset((params[:page].to_i || 0) * 50)
     
     respond_to do |format|
       format.html

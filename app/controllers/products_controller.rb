@@ -5,18 +5,18 @@ class ProductsController < ApplicationController
     @products = policy_scope(Product)
                 .includes(:inventory_items)
                 .order(created_at: :desc)
-                .page(params[:page])
-                .per(25)
     
     if params[:category].present?
       @products = @products.by_category(params[:category])
     end
     
     if params[:query].present?
-      @products = @products.where('name ILIKE ? OR sku ILIKE ? OR barcode ILIKE ?', 
-                                 "%#{params[:query]}%", 
-                                 "%#{params[:query]}%", 
-                                 "%#{params[:query]}%")
+      query = "%#{params[:query]}%"
+      # Use LOWER() for case-insensitive search (works with PostgreSQL and SQLite)
+      @products = @products.where('LOWER(name) LIKE LOWER(?) OR LOWER(sku) LIKE LOWER(?) OR LOWER(barcode) LIKE LOWER(?)', 
+                                 query, 
+                                 query, 
+                                 query)
     end
     
     if params[:stock_status] == 'low_stock'
@@ -24,6 +24,10 @@ class ProductsController < ApplicationController
     elsif params[:stock_status] == 'out_of_stock'
       @products = @products.out_of_stock
     end
+    
+    # For pagination - limit to 25 records without using Kaminari
+    @total_count = @products.count
+    @products = @products.limit(25).offset((params[:page].to_i || 0) * 25)
     
     respond_to do |format|
       format.html
