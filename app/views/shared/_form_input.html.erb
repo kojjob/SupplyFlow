@@ -1,0 +1,53 @@
+<%
+  # Set defaults
+  label ||= field.to_s.humanize
+  type ||= "text"
+  required ||= false
+  autofocus ||= false
+  autocomplete ||= nil # Default autocomplete to nil if not provided
+  placeholder ||= nil
+  min ||= nil
+  max ||= nil
+  step ||= nil
+  pattern ||= nil
+  hint ||= nil
+  wrapper_class ||= "mb-6"
+  input_class ||= ""
+  data ||= {}
+  
+  # Generate a unique ID for the input
+  input_id = "#{form.object_name}_#{field}_#{SecureRandom.hex(4)}"
+  
+  # Base input classes that match the contact page style
+  base_input_classes = "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+%>
+
+<div class="<%= wrapper_class %>">
+  <%= form.label field, label, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+  
+  <%= form.send(
+    "#{type}_field", 
+    field, 
+    id: input_id,
+    class: "#{base_input_classes} #{input_class}",
+    placeholder: placeholder,
+    required: required,
+    autofocus: autofocus,
+    autocomplete: autocomplete,
+    min: min,
+    max: max,
+    step: step,
+    pattern: pattern,
+    data: data
+  ) %>
+  
+  <% if hint.present? %>
+    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400"><%= hint %></p>
+  <% end %>
+  
+  <% if form.object.errors[field].any? %>
+    <p class="mt-1 text-xs text-red-600 dark:text-red-400">
+      <%= form.object.errors[field].join(", ") %>
+    </p>
+  <% end %>
+</div>

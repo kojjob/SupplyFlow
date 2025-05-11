@@ -17,7 +17,7 @@ class CreateInventoryItems < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :inventory_items, [:product_id, :location_id], unique: true
+    add_index :inventory_items, [ :product_id, :location_id ], unique: true
     add_index :inventory_items, :status
     add_index :inventory_items, :lot_number
     add_index :inventory_items, :serial_number

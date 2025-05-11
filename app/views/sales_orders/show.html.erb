@@ -1,0 +1,381 @@
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+  <!-- Page Header -->
+  <div class="mb-8 animate-fade-in-up">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white flex items-center">
+          <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white mr-4 shadow-lg">
+            <i class="fas fa-file-invoice text-xl"></i>
+          </span>
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+            Order <%= @sales_order.order_number %>
+          </span>
+        </h1>
+        <div class="flex items-center gap-4 mt-3">
+          <span class="badge-theme-<%= @sales_order.status == 'delivered' ? 'primary' : @sales_order.status == 'shipped' ? 'secondary' : 'warning' %> flex items-center gap-2">
+            <i class="fas fa-circle text-xs"></i>
+            <%= @sales_order.status.titleize %>
+          </span>
+          <span class="badge-theme-<%= @sales_order.payment_status == 'paid' ? 'primary' : @sales_order.payment_status == 'partial' ? 'warning' : 'danger' %> flex items-center gap-2">
+            <i class="fas fa-dollar-sign text-xs"></i>
+            <%= @sales_order.payment_status.titleize %>
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 mt-4 lg:mt-0">
+        <%= link_to edit_sales_order_path(@sales_order), class: "btn-theme-primary" do %>
+          <i class="fas fa-edit mr-2"></i> Edit Order
+        <% end %>
+        <%= link_to sales_orders_path, class: "btn-theme-glass" do %>
+          <i class="fas fa-arrow-left mr-2"></i> Back to Orders
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Total Amount</p>
+          <p class="text-2xl font-bold text-primary">
+            <%= number_to_currency(@sales_order.total_amount, unit: "GHS ") %>
+          </p>
+        </div>
+        <div class="icon-container-glass">
+          <i class="fas fa-receipt text-xl"></i>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Amount Paid</p>
+          <p class="text-2xl font-bold text-success">
+            <%= number_to_currency(@sales_order.total_paid_amount, unit: "GHS ") %>
+          </p>
+        </div>
+        <div class="icon-container-glass">
+          <i class="fas fa-money-check-alt text-xl"></i>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Balance Due</p>
+          <p class="text-2xl font-bold <%= @sales_order.balance_due > 0 ? 'text-danger' : 'text-success' %>">
+            <%= number_to_currency(@sales_order.balance_due, unit: "GHS ") %>
+          </p>
+        </div>
+        <div class="icon-container-glass">
+          <i class="fas fa-balance-scale text-xl"></i>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Total Items</p>
+          <p class="text-2xl font-bold text-secondary">
+            <%= @sales_order.sales_order_items.count %>
+          </p>
+        </div>
+        <div class="icon-container-glass">
+          <i class="fas fa-boxes text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer & Order Information -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Customer Information -->
+    <div class="card-theme rounded-2xl shadow-xl overflow-hidden animate-fade-in-up animate-delay-100">
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+        <h2 class="text-xl font-semibold text-white flex items-center">
+          <i class="fas fa-user mr-3"></i>Customer Information
+        </h2>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Customer Name</p>
+            <p class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= @sales_order.customer.name %>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Email</p>
+            <p class="text-gray-900 dark:text-white">
+              <%= mail_to @sales_order.customer.email, @sales_order.customer.email, class: "text-blue-600 hover:text-blue-700 dark:text-blue-400" %>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Phone</p>
+            <p class="text-gray-900 dark:text-white">
+              <%= @sales_order.customer.phone || "Not provided" %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Information -->
+    <div class="card-theme rounded-2xl shadow-xl overflow-hidden animate-fade-in-up animate-delay-200">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
+        <h2 class="text-xl font-semibold text-white flex items-center">
+          <i class="fas fa-info-circle mr-3"></i>Order Details
+        </h2>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Order Date</p>
+            <p class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= @sales_order.order_date.strftime("%B %d, %Y") %>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Created By</p>
+            <p class="text-gray-900 dark:text-white">
+              <%= @sales_order.user.name %>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Last Updated</p>
+            <p class="text-gray-900 dark:text-white">
+              <%= @sales_order.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shipping & Delivery -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Shipping Address -->
+    <div class="card-theme rounded-2xl shadow-xl overflow-hidden animate-fade-in-up animate-delay-300">
+      <div class="bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-4">
+        <h2 class="text-xl font-semibold text-white flex items-center">
+          <i class="fas fa-shipping-fast mr-3"></i>Shipping Address
+        </h2>
+      </div>
+      <div class="p-6">
+        <% if @sales_order.shipping_address.present? %>
+          <p class="text-gray-900 dark:text-white whitespace-pre-line">
+            <%= @sales_order.shipping_address %>
+          </p>
+        <% else %>
+          <p class="text-gray-500 dark:text-gray-400 italic">
+            No shipping address provided
+          </p>
+        <% end %>
+        
+        <% if @sales_order.shipping_date.present? %>
+          <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-400">Shipping Date</p>
+            <p class="text-gray-900 dark:text-white">
+              <%= @sales_order.shipping_date.strftime("%B %d, %Y") %>
+            </p>
+          </div>
+        <% end %>
+        
+        <% if @sales_order.delivery_date.present? %>
+          <div class="mt-4">
+            <p class="text-sm text-gray-600 dark:text-gray-400">Expected Delivery</p>
+            <p class="text-gray-900 dark:text-white">
+              <%= @sales_order.delivery_date.strftime("%B %d, %Y") %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Billing Address -->
+    <div class="card-theme rounded-2xl shadow-xl overflow-hidden animate-fade-in-up animate-delay-400">
+      <div class="bg-gradient-to-r from-green-500 to-teal-500 px-6 py-4">
+        <h2 class="text-xl font-semibold text-white flex items-center">
+          <i class="fas fa-file-invoice mr-3"></i>Billing Address
+        </h2>
+      </div>
+      <div class="p-6">
+        <% if @sales_order.billing_address.present? %>
+          <p class="text-gray-900 dark:text-white whitespace-pre-line">
+            <%= @sales_order.billing_address %>
+          </p>
+        <% else %>
+          <p class="text-gray-500 dark:text-gray-400 italic">
+            Same as shipping address
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Items -->
+  <div class="card-theme rounded-2xl shadow-xl overflow-hidden animate-fade-in-up animate-delay-500">
+    <div class="bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-4">
+      <h2 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-list-ul mr-3"></i>Order Items
+      </h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gray-50 dark:bg-gray-800">
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+              Product
+            </th>
+            <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+              Quantity
+            </th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+              Unit Price
+            </th>
+            <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+              Tax %
+            </th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+              Subtotal
+            </th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+          <% @sales_order.sales_order_items.each do |item| %>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+              <td class="px-6 py-4">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <i class="fas fa-box text-gray-600 dark:text-gray-400"></i>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                      <%= item.product.name %>
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                      SKU: <%= item.product.sku %>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-center">
+                <span class="text-sm text-gray-900 dark:text-white">
+                  <%= item.quantity %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <span class="text-sm text-gray-900 dark:text-white">
+                  <%= number_to_currency(item.unit_price, unit: "GHS ") %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-center">
+                <span class="text-sm text-gray-900 dark:text-white">
+                  <%= item.tax_rate %>%
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <span class="text-sm text-gray-900 dark:text-white">
+                  <%= number_to_currency(item.quantity * item.unit_price, unit: "GHS ") %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <span class="text-sm font-semibold text-gray-900 dark:text-white">
+                  <%= number_to_currency(item.total_amount, unit: "GHS ") %>
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr class="bg-gray-50 dark:bg-gray-800">
+            <td colspan="5" class="px-6 py-3 text-right font-medium text-gray-600 dark:text-gray-400">
+              Subtotal:
+            </td>
+            <td class="px-6 py-3 text-right font-semibold text-gray-900 dark:text-white">
+              <%= number_to_currency(@sales_order.subtotal, unit: "GHS ") %>
+            </td>
+          </tr>
+          <tr class="bg-gray-50 dark:bg-gray-800">
+            <td colspan="5" class="px-6 py-3 text-right font-medium text-gray-600 dark:text-gray-400">
+              Tax:
+            </td>
+            <td class="px-6 py-3 text-right font-semibold text-gray-900 dark:text-white">
+              <%= number_to_currency(@sales_order.tax_amount, unit: "GHS ") %>
+            </td>
+          </tr>
+          <tr class="bg-gray-50 dark:bg-gray-800">
+            <td colspan="5" class="px-6 py-3 text-right font-medium text-gray-600 dark:text-gray-400">
+              Shipping:
+            </td>
+            <td class="px-6 py-3 text-right font-semibold text-gray-900 dark:text-white">
+              <%= number_to_currency(@sales_order.shipping_amount, unit: "GHS ") %>
+            </td>
+          </tr>
+          <tr class="bg-gray-50 dark:bg-gray-800">
+            <td colspan="5" class="px-6 py-3 text-right font-medium text-gray-600 dark:text-gray-400">
+              Discount:
+            </td>
+            <td class="px-6 py-3 text-right font-semibold text-gray-900 dark:text-white">
+              -<%= number_to_currency(@sales_order.discount_amount, unit: "GHS ") %>
+            </td>
+          </tr>
+          <tr class="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
+            <td colspan="5" class="px-6 py-4 text-right font-bold text-gray-900 dark:text-white">
+              Total:
+            </td>
+            <td class="px-6 py-4 text-right font-bold text-xl text-primary">
+              <%= number_to_currency(@sales_order.total_amount, unit: "GHS ") %>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- Notes Section -->
+  <% if @sales_order.notes.present? %>
+    <div class="card-theme rounded-2xl shadow-xl overflow-hidden animate-fade-in-up animate-delay-600">
+      <div class="bg-gradient-to-r from-gray-600 to-gray-700 px-6 py-4">
+        <h2 class="text-xl font-semibold text-white flex items-center">
+          <i class="fas fa-sticky-note mr-3"></i>Internal Notes
+        </h2>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-900 dark:text-white whitespace-pre-line">
+          <%= @sales_order.notes %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Action Buttons -->
+  <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 animate-fade-in-up animate-delay-700">
+    <div class="flex gap-3">
+      <%= link_to '#', class: "btn-theme-primary flex items-center gap-2" do %>
+        <i class="fas fa-print"></i> Print Order
+      <% end %>
+      <%= link_to '#', class: "btn-theme-secondary flex items-center gap-2" do %>
+        <i class="fas fa-envelope"></i> Email Order
+      <% end %>
+    </div>
+    <div class="flex gap-3">
+      <%= link_to edit_sales_order_path(@sales_order), class: "btn-theme-outline" do %>
+        <i class="fas fa-edit mr-2"></i> Edit Order
+      <% end %>
+      <%= link_to @sales_order, method: :delete, 
+          data: { confirm: "Are you sure you want to delete this order?" },
+          class: "btn-danger" do %>
+        <i class="fas fa-trash mr-2"></i> Delete Order
+      <% end %>
+    </div>
+  </div>
+</div>

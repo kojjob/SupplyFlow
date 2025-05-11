@@ -14,7 +14,7 @@ class InventoryItemPolicy < ApplicationPolicy
   def transfer?
     same_organization? && user.can_transfer_stock?
   end
-  
+
   class Scope < Scope
     def resolve
       scope.where(organization_id: organization.id)

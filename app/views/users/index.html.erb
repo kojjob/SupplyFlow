@@ -1,0 +1,238 @@
+<% content_for :title, "Team Members" %>
+
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-users mr-2"></i> Team Members
+      </h1>
+      
+      <% if policy(User).create? %>
+        <%= link_to new_user_path, class: "inline-flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors duration-200" do %>
+          <i class="fas fa-user-plus mr-2"></i> Add Team Member
+        <% end %>
+      <% end %>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300">
+        Manage your team members, assign roles, and control access to your organization's data.
+      </p>
+    </div>
+  </div>
+  
+  <!-- Users List -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">Team Members</h2>
+        
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-search text-gray-400"></i>
+          </div>
+          <input type="text" id="user-search" placeholder="Search team members..." class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+      </div>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">User</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Role</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Last Active</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="users-table-body">
+          <% @users.each do |user| %>
+            <tr class="user-row" data-name="<%= user.name.downcase %>" data-email="<%= user.email.downcase %>" data-role="<%= user.role.downcase %>">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 overflow-hidden">
+                    <% if user.has_avatar? %>
+                      <%= image_tag user.avatar_url, class: "h-10 w-10 rounded-full" %>
+                    <% else %>
+                      <span class="text-lg"><%= user.name.first.upcase %></span>
+                    <% end %>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                      <%= link_to user.name, user_path(user), class: "hover:text-indigo-600 dark:hover:text-indigo-400" %>
+                    </div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      <%= user.email %>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="<%= role_badge_class(user.role) %>">
+                  <%= user.role.titleize %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if user.active? %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    Active
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                    Inactive
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <%= user.last_sign_in_at.present? ? time_ago_in_words(user.last_sign_in_at) + " ago" : "Never" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center justify-end space-x-2">
+                  <% if policy(user).update? %>
+                    <%= link_to edit_user_path(user), class: "text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300" do %>
+                      <i class="fas fa-edit"></i>
+                    <% end %>
+                  <% end %>
+                  
+                  <% if policy(user).reset_password? %>
+                    <%= button_to reset_password_user_path(user), method: :post, data: { confirm: "Are you sure you want to reset the password for #{user.name}?" }, class: "text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300" do %>
+                      <i class="fas fa-key"></i>
+                    <% end %>
+                  <% end %>
+                  
+                  <% if policy(user).activate? && !user.active? %>
+                    <%= button_to activate_user_path(user), method: :patch, class: "text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300" do %>
+                      <i class="fas fa-user-check"></i>
+                    <% end %>
+                  <% end %>
+                  
+                  <% if policy(user).deactivate? && user.active? %>
+                    <%= button_to deactivate_user_path(user), method: :patch, data: { confirm: "Are you sure you want to deactivate #{user.name}?" }, class: "text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" do %>
+                      <i class="fas fa-user-slash"></i>
+                    <% end %>
+                  <% end %>
+                  
+                  <% if policy(user).destroy? %>
+                    <%= button_to user_path(user), method: :delete, data: { confirm: "Are you sure you want to delete #{user.name}? This action cannot be undone." }, class: "text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" do %>
+                      <i class="fas fa-trash-alt"></i>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Roles & Permissions -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Roles & Permissions</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Each role has different permissions in the system. Here's an overview of what each role can do.
+      </p>
+      
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Permission</th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Owner</th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Admin</th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Manager</th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Staff</th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Viewer</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Manage Users</td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-times text-red-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-times text-red-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-times text-red-500"></i>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Manage Products</td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-times text-red-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-times text-red-500"></i>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">View Reports</td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-check text-green-500"></i>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
+                <i class="fas fa-times text-red-500"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('user-search');
+    const userRows = document.querySelectorAll('.user-row');
+    
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      
+      userRows.forEach(row => {
+        const name = row.dataset.name;
+        const email = row.dataset.email;
+        const role = row.dataset.role;
+        
+        if (name.includes(searchTerm) || email.includes(searchTerm) || role.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

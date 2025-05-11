@@ -1,0 +1,55 @@
+<%# 
+  Reusable Form Container Partial that matches the Contact Page style
+  
+  Usage:
+  
+  <%= render partial: "shared/form_container", locals: {
+    title: "Contact Us",          # The form title
+    subtitle: "We'll get back to you within 24 hours", # The form subtitle (optional)
+    container_class: "",          # Additional classes for the container (optional)
+    accent_color: "#00A86B",      # Accent color for the top border (optional, defaults to "#00A86B")
+    form_id: "contact-form",      # ID for the form (optional)
+    form_class: "",               # Additional classes for the form (optional)
+    form_data: {},                # Data attributes for the form (optional)
+    form_method: :post,           # Form method (optional, defaults to :post)
+    form_action: "/contact"       # Form action URL (optional)
+  } do %>
+    <!-- Form fields go here -->
+  <% end %>
+%>
+
+<%
+  # Set defaults
+  container_class ||= ""
+  accent_color ||= "#00A86B"
+  form_class ||= ""
+  form_data ||= {}
+  form_method ||= :post
+%>
+
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 <%= container_class %>" style="border-color: <%= accent_color %>;">
+  <% if title.present? %>
+    <span class="text-sm font-semibold uppercase tracking-wider" style="color: <%= accent_color %>;">
+      <%= title %>
+    </span>
+  <% end %>
+  
+  <% if defined?(subtitle) && subtitle.present? %>
+    <h2 class="text-3xl font-bold mt-2 mb-6 text-gray-800 dark:text-white"><%= subtitle %></h2>
+  <% end %>
+  
+  <% if form_id.present? && form_action.present? %>
+    <%= form_with(
+      url: form_action,
+      method: form_method,
+      id: form_id,
+      class: form_class,
+      data: form_data,
+      local: true
+    ) do |form| %>
+      <%= yield(form) %>
+    <% end %>
+  <% else %>
+    <%= yield %>
+  <% end %>
+</div>

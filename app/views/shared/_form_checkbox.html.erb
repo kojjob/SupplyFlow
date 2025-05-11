@@ -1,0 +1,51 @@
+<%# 
+  Reusable Form Checkbox Partial that matches the Contact Page style
+  
+  Usage:
+  
+  <%= render partial: "shared/form_checkbox", locals: {
+    form: form,                   # The form builder object
+    field: :remember_me,          # The field name
+    label: "Remember me",         # The label text (optional, defaults to humanized field name)
+    hint: "Stay logged in for 30 days", # Hint text (optional)
+    wrapper_class: "mb-6",        # Additional classes for the wrapper div (optional, defaults to "mb-6")
+    checkbox_class: "",           # Additional classes for the checkbox (optional)
+    data: {}                      # Additional data attributes (optional)
+  } %>
+%>
+
+<%
+  # Set defaults
+  label ||= field.to_s.humanize
+  wrapper_class ||= "mb-6"
+  checkbox_class ||= ""
+  data ||= {}
+  
+  # Generate a unique ID for the checkbox
+  checkbox_id = "#{form.object_name}_#{field}_#{SecureRandom.hex(4)}"
+  
+  # Base checkbox classes that match the contact page style
+  base_checkbox_classes = "h-5 w-5 text-[#00A86B] focus:ring-[#00A86B] border-gray-300 dark:border-gray-700 rounded"
+%>
+
+<div class="<%= wrapper_class %>">
+  <div class="flex items-center">
+    <%= form.check_box(
+      field, 
+      id: checkbox_id,
+      class: "#{base_checkbox_classes} #{checkbox_class}",
+      data: data
+    ) %>
+    <%= form.label field, label, class: "ml-2 block text-sm text-gray-700 dark:text-gray-300" %>
+  </div>
+  
+  <% if hint.present? %>
+    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 ml-7"><%= hint %></p>
+  <% end %>
+  
+  <% if form.object.errors[field].any? %>
+    <p class="mt-1 text-xs text-red-600 dark:text-red-400 ml-7">
+      <%= form.object.errors[field].join(", ") %>
+    </p>
+  <% end %>
+</div>

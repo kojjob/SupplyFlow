@@ -1,0 +1,297 @@
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+  <!-- Page Header with Animated Gradient -->
+  <div class="mb-8 animate-fade-in-up">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white flex items-center">
+          <span class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white mr-4 shadow-lg animate-pulse-slow">
+            <i class="fas fa-bell text-2xl"></i>
+          </span>
+          <span class="bg-clip-text text-transparent bg-gradient-animated">
+            Notifications Center
+          </span>
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">
+          Stay updated with your latest activities and alerts
+        </p>
+      </div>
+      <div class="flex items-center gap-3 mt-4 lg:mt-0">
+        <% if current_user.notifications.unread.any? %>
+          <%= link_to mark_all_as_read_notifications_path, method: :post, 
+              class: "btn-gradient flex items-center gap-2 hover:scale-105 transition-all duration-300" do %>
+            <i class="fas fa-check-double"></i> Mark All as Read
+          <% end %>
+        <% end %>
+        <button class="btn-theme-glass relative group">
+          <i class="fas fa-cog"></i>
+          <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            Notification Settings
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Unread</p>
+            <p class="text-2xl font-bold text-primary">
+              <%= current_user.notifications.unread.count %>
+            </p>
+          </div>
+          <div class="icon-container-gradient">
+            <i class="fas fa-envelope text-xl"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Today</p>
+            <p class="text-2xl font-bold text-success">
+              <%= current_user.notifications.where("created_at >= ?", Date.today).count %>
+            </p>
+          </div>
+          <div class="icon-container-gradient">
+            <i class="fas fa-calendar-day text-xl"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">This Week</p>
+            <p class="text-2xl font-bold text-warning">
+              <%= current_user.notifications.where("created_at >= ?", 1.week.ago).count %>
+            </p>
+          </div>
+          <div class="icon-container-gradient">
+            <i class="fas fa-calendar-week text-xl"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-theme-glass p-4 hover:transform hover:scale-105 transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">All Time</p>
+            <p class="text-2xl font-bold text-secondary">
+              <%= current_user.notifications.count %>
+            </p>
+          </div>
+          <div class="icon-container-gradient">
+            <i class="fas fa-history text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-1 mb-6 inline-flex">
+      <button data-filter="all" class="filter-tab active">
+        <i class="fas fa-list mr-2"></i> All
+      </button>
+      <button data-filter="unread" class="filter-tab">
+        <i class="fas fa-dot-circle mr-2"></i> Unread
+      </button>
+      <button data-filter="inventory" class="filter-tab">
+        <i class="fas fa-boxes mr-2"></i> Inventory
+      </button>
+      <button data-filter="orders" class="filter-tab">
+        <i class="fas fa-shopping-cart mr-2"></i> Orders
+      </button>
+      <button data-filter="system" class="filter-tab">
+        <i class="fas fa-cogs mr-2"></i> System
+      </button>
+    </div>
+  </div>
+
+  <!-- Notifications List -->
+  <div class="space-y-4" data-controller="notifications">
+    <% current_user.notifications.order(created_at: :desc).each do |notification| %>
+      <div class="notification-item card-theme rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-102 hover:shadow-xl animate-fade-in-up <%= 'unread' if !notification.read_at %>" 
+           data-type="<%= notification.notification_type %>"
+           data-notification-id="<%= notification.id %>">
+        
+        <div class="flex items-start p-6 relative">
+          <!-- Notification Icon -->
+          <div class="flex-shrink-0 mr-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center <%= notification_icon_color(notification.notification_type) %>">
+              <i class="<%= notification_icon(notification.notification_type) %> text-xl text-white"></i>
+            </div>
+          </div>
+
+          <!-- Notification Content -->
+          <div class="flex-1">
+            <div class="flex items-start justify-between">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  <%= notification.title %>
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-3">
+                  <%= notification.message %>
+                </p>
+                
+                <!-- Metadata -->
+                <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                  <span class="flex items-center gap-1">
+                    <i class="fas fa-clock"></i>
+                    <%= time_ago_in_words(notification.created_at) %> ago
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <i class="fas fa-tag"></i>
+                    <%= notification.notification_type.titleize %>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center gap-2 ml-4">
+                <% unless notification.read_at %>
+                  <%= link_to mark_as_read_notification_path(notification), method: :post,
+                      class: "text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors",
+                      title: "Mark as read" do %>
+                    <i class="fas fa-check-circle text-xl"></i>
+                  <% end %>
+                <% end %>
+                
+                <% if notification.url %>
+                  <%= link_to notification.url,
+                      class: "text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 transition-colors",
+                      title: "View details" do %>
+                    <i class="fas fa-external-link-alt text-xl"></i>
+                  <% end %>
+                <% end %>
+                
+                <%= link_to notification, method: :delete,
+                    data: { confirm: "Are you sure you want to delete this notification?" },
+                    class: "text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors",
+                    title: "Delete" do %>
+                  <i class="fas fa-trash text-xl"></i>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Additional Content (if any) -->
+            <% if notification.data.present? %>
+              <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                <% case notification.notification_type %>
+                <% when 'low_stock' %>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <img src="<%= asset_path('product-placeholder.png') %>" alt="Product" class="w-16 h-16 rounded-lg object-cover">
+                      <div>
+                        <p class="font-medium text-gray-900 dark:text-white">
+                          <%= notification.data['product_name'] %>
+                        </p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                          SKU: <%= notification.data['sku'] %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xl font-bold text-red-600 dark:text-red-400">
+                        <%= notification.data['current_stock'] %> units
+                      </p>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Reorder Level: <%= notification.data['reorder_level'] %>
+                      </p>
+                    </div>
+                  </div>
+                <% when 'new_order' %>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">Order Number</p>
+                      <p class="font-medium text-gray-900 dark:text-white">
+                        <%= notification.data['order_number'] %>
+                      </p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">Customer</p>
+                      <p class="font-medium text-gray-900 dark:text-white">
+                        <%= notification.data['customer_name'] %>
+                      </p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">Total Amount</p>
+                      <p class="font-medium text-gray-900 dark:text-white">
+                        <%= number_to_currency(notification.data['amount'], unit: "GHS ") %>
+                      </p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                      <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                        <%= notification.data['status'] %>
+                      </span>
+                    </div>
+                  </div>
+                <% when 'payment_received' %>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">Payment Method</p>
+                      <p class="font-medium text-gray-900 dark:text-white">
+                        <%= notification.data['payment_method'] %>
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm text-gray-600 dark:text-gray-400">Amount Received</p>
+                      <p class="text-xl font-bold text-green-600 dark:text-green-400">
+                        <%= number_to_currency(notification.data['amount'], unit: "GHS ") %>
+                      </p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Unread Indicator -->
+          <% unless notification.read_at %>
+            <div class="absolute top-0 right-0 -mt-2 -mr-2">
+              <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    
+    <!-- Empty State -->
+    <% if current_user.notifications.empty? %>
+      <div class="text-center py-16">
+        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6">
+          <i class="fas fa-bell-slash text-4xl text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          No Notifications
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+          You're all caught up! We'll notify you when there's something new.
+        </p>
+        <div class="flex justify-center gap-4">
+          <%= link_to dashboard_path, class: "btn-gradient" do %>
+            <i class="fas fa-home mr-2"></i> Go to Dashboard
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Load More Button -->
+  <% if current_user.notifications.count > 10 %>
+    <div class="mt-8 text-center">
+      <button class="btn-theme-outline flex items-center gap-2 mx-auto" data-action="notifications#loadMore">
+        <i class="fas fa-spinner fa-spin hidden"></i>
+        <i class="fas fa-arrow-down"></i>
+        Load More Notifications
+      </button>
+    </div>
+  <% end %>
+</div>
+

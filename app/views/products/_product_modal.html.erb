@@ -1,0 +1,166 @@
+<%# Product Form Modal %>
+
+<% 
+  # Ensure we have a valid path
+  default_path = "/products"
+  begin
+    submit_path = defined?(products_path) ? products_path : default_path
+  rescue
+    submit_path = default_path
+  end
+%>
+
+<%= render partial: "shared/modal", locals: {
+  id: "product-modal",
+  title: "Manage Product",
+  size: "lg",
+  animation: "zoom",
+  resource_type: "product",
+  submit_path: submit_path,
+  form_id: "product-form"
+} do %>
+  <%# Add CSRF token and method field %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <input type="hidden" name="_method" value="post">
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <%# Basic Information %>
+    <div class="space-y-4">
+      <h4 class="font-medium text-gray-700 dark:text-gray-300">Basic Information</h4>
+      
+      <div>
+        <label for="product_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Product Name</label>
+        <input type="text" name="product[name]" id="product_name" required
+               class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+      </div>
+      
+      <div>
+        <label for="product_sku" class="block text-sm font-medium text-gray-700 dark:text-gray-300">SKU</label>
+        <input type="text" name="product[sku]" id="product_sku" required
+               class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+      </div>
+      
+      <div>
+        <label for="product_category" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+        <input type="text" name="product[category]" id="product_category"
+               class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+      </div>
+      
+      <div>
+        <label for="product_brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Brand</label>
+        <input type="text" name="product[brand]" id="product_brand"
+               class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+      </div>
+      
+      <div>
+        <label for="product_description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+        <textarea name="product[description]" id="product_description" rows="3"
+                  class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+      </div>
+    </div>
+    
+    <%# Pricing & Inventory %>
+    <div class="space-y-4">
+      <h4 class="font-medium text-gray-700 dark:text-gray-300">Pricing & Inventory</h4>
+      
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="product_cost_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cost Price</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 dark:text-gray-400 sm:text-sm">₵</span>
+            </div>
+            <input type="number" step="0.01" min="0" name="product[cost_price]" id="product_cost_price"
+                  class="pl-7 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          </div>
+        </div>
+        
+        <div>
+          <label for="product_selling_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Selling Price</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 dark:text-gray-400 sm:text-sm">₵</span>
+            </div>
+            <input type="number" step="0.01" min="0" name="product[selling_price]" id="product_selling_price"
+                  class="pl-7 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label for="product_unit_of_measure" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Unit of Measure</label>
+        <select name="product[unit_of_measure]" id="product_unit_of_measure"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <option value="unit">Unit / Each</option>
+          <option value="kg">Kilogram (kg)</option>
+          <option value="g">Gram (g)</option>
+          <option value="l">Liter (L)</option>
+          <option value="m">Meter (m)</option>
+          <option value="cm">Centimeter (cm)</option>
+          <option value="box">Box</option>
+          <option value="pack">Pack</option>
+          <option value="set">Set</option>
+        </select>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="product_minimum_stock_level" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Minimum Stock</label>
+          <input type="number" min="0" name="product[minimum_stock_level]" id="product_minimum_stock_level" value="0"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+        </div>
+        
+        <div>
+          <label for="product_reorder_point" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Reorder Point</label>
+          <input type="number" min="0" name="product[reorder_point]" id="product_reorder_point" value="0"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+        </div>
+      </div>
+      
+      <div class="pt-2">
+        <h4 class="font-medium text-gray-700 dark:text-gray-300">Physical Attributes</h4>
+        
+        <div class="grid grid-cols-2 gap-3 mt-3">
+          <div>
+            <label for="product_weight" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Weight</label>
+            <input type="number" step="0.01" min="0" name="product[weight]" id="product_weight"
+                  class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          </div>
+          
+          <div>
+            <div class="flex space-x-2">
+              <div class="flex-1">
+                <label for="product_perishable" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Perishable</label>
+                <select name="product[perishable]" id="product_perishable"
+                        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-3 mt-3">
+          <div>
+            <label for="product_length" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Length</label>
+            <input type="number" step="0.01" min="0" name="product[length]" id="product_length"
+                  class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          </div>
+          
+          <div>
+            <label for="product_width" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Width</label>
+            <input type="number" step="0.01" min="0" name="product[width]" id="product_width"
+                  class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          </div>
+          
+          <div>
+            <label for="product_height" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Height</label>
+            <input type="number" step="0.01" min="0" name="product[height]" id="product_height"
+                  class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

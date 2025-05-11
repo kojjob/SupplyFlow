@@ -1,0 +1,47 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  organization: one
+  customer: one
+  user: one
+  order_number: MyString
+  status: MyString
+  order_date: 2025-05-02
+  shipping_date: 2025-05-02
+  delivery_date: 2025-05-02
+  shipping_address: MyText
+  billing_address: MyText
+  subtotal: 9.99
+  tax_amount: 9.99
+  shipping_amount: 9.99
+  discount_amount: 9.99
+  total_amount: 9.99
+  payment_status: MyString
+  shipping_method: MyString
+  tracking_number: MyString
+  currency: MyString
+  notes: MyText
+  metadata: 
+
+two:
+  organization: two
+  customer: two
+  user: two
+  order_number: MyString
+  status: MyString
+  order_date: 2025-05-02
+  shipping_date: 2025-05-02
+  delivery_date: 2025-05-02
+  shipping_address: MyText
+  billing_address: MyText
+  subtotal: 9.99
+  tax_amount: 9.99
+  shipping_amount: 9.99
+  discount_amount: 9.99
+  total_amount: 9.99
+  payment_status: MyString
+  shipping_method: MyString
+  tracking_number: MyString
+  currency: MyString
+  notes: MyText
+  metadata: 

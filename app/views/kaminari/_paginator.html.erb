@@ -1,0 +1,35 @@
+<%= paginator.render do %>
+  <nav class="flex items-center justify-center space-x-1" role="navigation" aria-label="pagination">
+    <% if current_page.first? %>
+      <span class="px-3 py-2 text-gray-400 dark:text-gray-600">
+        <i class="fas fa-chevron-left"></i>
+      </span>
+    <% else %>
+      <%= prev_page_tag do %>
+        <i class="fas fa-chevron-left"></i>
+      <% end %>
+    <% end %>
+    
+    <% each_page do |page| %>
+      <% if page.current? %>
+        <span class="px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg font-medium">
+          <%= page %>
+        </span>
+      <% elsif page.left_outer? || page.right_outer? || page.inside_window? %>
+        <%= page_tag page %>
+      <% elsif !page.was_truncated? %>
+        <%= gap_tag %>
+      <% end %>
+    <% end %>
+    
+    <% if current_page.last? %>
+      <span class="px-3 py-2 text-gray-400 dark:text-gray-600">
+        <i class="fas fa-chevron-right"></i>
+      </span>
+    <% else %>
+      <%= next_page_tag do %>
+        <i class="fas fa-chevron-right"></i>
+      <% end %>
+    <% end %>
+  </nav>
+<% end %>

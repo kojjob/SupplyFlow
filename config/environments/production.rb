@@ -24,6 +24,12 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  # Configure Active Storage URL generation
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
+
+  # Set the host for URL generation (change this to your actual domain)
+  Rails.application.routes.default_url_options[:host] = ENV.fetch("APPLICATION_HOST", "example.com")
+
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true
 

@@ -1,0 +1,44 @@
+# Configure ActsAsTenant for multi-tenancy
+# https://github.com/ErwinM/acts_as_tenant
+
+# This initializer is no longer used. Tenant handling is now done in ApplicationController.
+# Keeping this file for reference but disabling the functionality.
+
+=begin
+# Set the current tenant in the controller
+module ActsAsTenantHelper
+  extend ActiveSupport::Concern
+
+  included do
+    # Set the current tenant based on the current user's organization
+    around_action :set_current_tenant_context
+
+    private
+
+    def set_current_tenant_context
+      if current_user && current_user.organization
+        ActsAsTenant.with_tenant(current_user.organization) do
+          # Set Current attributes for use throughout the app
+          Current.user = current_user
+          Current.organization = current_user.organization
+          Current.ip_address = request.remote_ip
+          Current.user_agent = request.user_agent
+          Current.request_id = request.uuid
+
+          yield
+        end
+      else
+        yield
+      end
+    ensure
+      # Reset Current attributes after the request
+      Current.reset
+    end
+  end
+end
+
+# Include ActsAsTenantHelper in ApplicationController when it's loaded
+ActiveSupport.on_load(:action_controller) do
+  include ActsAsTenantHelper
+end
+=end

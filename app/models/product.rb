@@ -4,9 +4,16 @@ class Product < ApplicationRecord
   acts_as_tenant :organization
 
   # Associations
+  has_many_attached :gallery_images # Changed from has_one_attached :main_image
   has_many :inventory_items, dependent: :destroy
   has_many :inventory_transactions
   has_many :locations, through: :inventory_items
+
+  # Order associations
+  has_many :purchase_order_items
+  has_many :purchase_orders, through: :purchase_order_items
+  has_many :sales_order_items
+  has_many :sales_orders, through: :sales_order_items
 
   # Validations
   validates :name, presence: true
@@ -18,8 +25,20 @@ class Product < ApplicationRecord
   # Scopes
   scope :active, -> { where(active: true) }
   scope :by_category, ->(category) { where(category: category) }
-  scope :low_stock, -> { joins(:inventory_items).group('products.id').having('SUM(inventory_items.quantity) <= products.reorder_point') }
-  scope :out_of_stock, -> { joins(:inventory_items).group('products.id').having('SUM(inventory_items.quantity) <= 0') }
+
+  # Find products with inventory below reorder point but above zero
+  scope :low_stock, -> {
+    left_joins(:inventory_items)
+      .group("products.id")
+      .having("SUM(COALESCE(inventory_items.quantity, 0)) <= products.reorder_point AND SUM(COALESCE(inventory_items.quantity, 0)) > 0")
+  }
+
+  # Find products with no inventory or zero inventory
+  scope :out_of_stock, -> {
+    left_joins(:inventory_items)
+      .group("products.id")
+      .having("SUM(COALESCE(inventory_items.quantity, 0)) <= 0 OR SUM(COALESCE(inventory_items.quantity, 0)) IS NULL")
+  }
 
   # Class methods
   def self.categories
@@ -36,7 +55,7 @@ class Product < ApplicationRecord
   end
 
   def available_quantity
-    inventory_items.sum('quantity - reserved_quantity')
+    inventory_items.sum("quantity - reserved_quantity")
   end
 
   def reserved_quantity
@@ -44,7 +63,7 @@ class Product < ApplicationRecord
   end
 
   def low_stock?
-    total_quantity <= reorder_point
+    total_quantity <= reorder_point && total_quantity > 0
   end
 
   def out_of_stock?
@@ -61,9 +80,9 @@ class Product < ApplicationRecord
     dimensions << "#{length} #{unit_of_measure}" if length.present?
     dimensions << "#{width} #{unit_of_measure}" if width.present?
     dimensions << "#{height} #{unit_of_measure}" if height.present?
-    
+
     if dimensions.any?
-      dimensions.join(' x ')
+      dimensions.join(" x ")
     else
       "Not specified"
     end

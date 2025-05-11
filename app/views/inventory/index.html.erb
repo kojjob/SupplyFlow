@@ -193,61 +193,12 @@
 
   <!-- Stock Level Overview -->
   <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-    <!-- Low Stock Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
-      <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 px-5 py-4">
-        <h2 class="text-lg font-semibold text-white flex items-center">
-          <i class="fas fa-exclamation-triangle mr-2"></i> Low Stock Items
-        </h2>
-      </div>
-      <div class="p-5">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center">
-            <div class="h-12 w-12 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600 dark:text-yellow-400 mr-3">
-              <i class="fas fa-chart-line text-xl"></i>
-            </div>
-            <div>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">Products Below Reorder Point</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                <%= policy_scope(Product).low_stock.count %>
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        <%= link_to products_path(stock_status: "low_stock"), class: "w-full text-center block py-2 px-4 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 rounded-lg hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors duration-200 text-sm font-medium" do %>
-          View Low Stock Items
-        <% end %>
-      </div>
-    </div>
-
-    <!-- Out of Stock Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
-      <div class="bg-gradient-to-r from-red-500 to-red-600 px-5 py-4">
-        <h2 class="text-lg font-semibold text-white flex items-center">
-          <i class="fas fa-times-circle mr-2"></i> Out of Stock Items
-        </h2>
-      </div>
-      <div class="p-5">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center">
-            <div class="h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 mr-3">
-              <i class="fas fa-box-open text-xl"></i>
-            </div>
-            <div>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">Products With Zero Stock</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                <%= policy_scope(Product).out_of_stock.count %>
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        <%= link_to products_path(stock_status: "out_of_stock"), class: "w-full text-center block py-2 px-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors duration-200 text-sm font-medium" do %>
-          View Out of Stock Items
-        <% end %>
-      </div>
-    </div>
+    <%# Removed Low Stock and Out of Stock cards as per user request %>
+    <%# The controller (InventoryController#index) does not prepare data for these cards,
+        and the direct calls to Product.low_stock.count / Product.out_of_stock.count
+        were causing issues by displaying hashes. If these cards are desired in the future,
+        the counts should be properly calculated in the controller (e.g., using .count.size)
+        and passed to the view. %>
 
     <!-- Total Value Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">

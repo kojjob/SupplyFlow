@@ -1,24 +1,37 @@
 class ProductPolicy < ApplicationPolicy
   def index?
-    user.present?
+    basic_access? && view_products?
   end
 
   def show?
-    same_organization?
+    basic_access? && same_organization? && view_products?
   end
 
   def create?
-    same_organization? && user.can_create_products?
+    basic_access? && same_organization? && manage_products?
   end
 
   def update?
-    same_organization? && user.can_edit_products?
+    basic_access? && same_organization? && manage_products?
   end
 
   def destroy?
-    same_organization? && user.can_delete_products?
+    basic_access? && same_organization? && user.can_delete_products?
   end
-  
+
+  # Additional product permissions
+  def import?
+    basic_access? && manage_products?
+  end
+
+  def export?
+    basic_access? && view_products?
+  end
+
+  def bulk_update?
+    basic_access? && manage_products?
+  end
+
   class Scope < Scope
     def resolve
       scope.where(organization_id: organization.id)

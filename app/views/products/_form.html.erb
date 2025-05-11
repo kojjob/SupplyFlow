@@ -31,30 +31,41 @@
     <div class="p-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="col-span-1 md:col-span-2">
-          <div class="form-group">
-            <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100", required: true %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :name,
+            label: "Product Name",
+            placeholder: "Enter product name",
+            required: true,
+            wrapper_class: ""
+          } %>
+        </div>
+
+        <div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :sku,
+            label: "SKU",
+            placeholder: "Enter SKU",
+            required: true,
+            wrapper_class: ""
+          } %>
+        </div>
+
+        <div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :barcode,
+            label: "Barcode",
+            placeholder: "Enter barcode",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
           <div class="form-group">
-            <%= form.label :sku, "SKU", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_field :sku, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100", required: true %>
-          </div>
-        </div>
-
-        <div>
-          <div class="form-group">
-            <%= form.label :barcode, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_field :barcode, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
-        </div>
-
-        <div>
-          <div class="form-group">
-            <%= form.label :category, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_field :category, list: "categories", class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+            <%= form.label :category, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= form.text_field :category, list: "categories", class: "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]", placeholder: "Select or enter category" %>
             <datalist id="categories">
               <% Product.categories.each do |category| %>
                 <option value="<%= category %>">
@@ -65,8 +76,8 @@
 
         <div>
           <div class="form-group">
-            <%= form.label :brand, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_field :brand, list: "brands", class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+            <%= form.label :brand, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= form.text_field :brand, list: "brands", class: "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]", placeholder: "Select or enter brand" %>
             <datalist id="brands">
               <% Product.brands.each do |brand| %>
                 <option value="<%= brand %>">
@@ -76,46 +87,72 @@
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :model, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_field :model, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :model,
+            label: "Model",
+            placeholder: "Enter model number",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :unit_of_measure, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.select :unit_of_measure, 
-                options_for_select([
-                  ["Unit", "unit"],
-                  ["Piece", "piece"],
-                  ["Kilogram", "kg"],
-                  ["Gram", "g"],
-                  ["Liter", "l"],
-                  ["Milliliter", "ml"],
-                  ["Meter", "m"],
-                  ["Centimeter", "cm"],
-                  ["Box", "box"],
-                  ["Dozen", "dozen"],
-                  ["Pair", "pair"]
-                ], product.unit_of_measure || "unit"), 
-                {}, 
-                { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" } %>
-          </div>
+          <%= render partial: "shared/form_select", locals: {
+            form: form,
+            field: :unit_of_measure,
+            label: "Unit of Measure",
+            options: [
+              ["Unit", "unit"],
+              ["Piece", "piece"],
+              ["Kilogram", "kg"],
+              ["Gram", "g"],
+              ["Liter", "l"],
+              ["Milliliter", "ml"],
+              ["Meter", "m"],
+              ["Centimeter", "cm"],
+              ["Box", "box"],
+              ["Dozen", "dozen"],
+              ["Pair", "pair"]
+            ],
+            include_blank: "Select unit of measure",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div class="col-span-1 md:col-span-2">
-          <div class="form-group">
-            <%= form.label :description, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.text_area :description, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= form.label :gallery_images, "Product Images", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+          <%= form.file_field :gallery_images, multiple: true, class: "block w-full text-sm text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 file:mr-4 file:py-3 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 dark:file:bg-gray-600 file:text-blue-700 dark:file:text-gray-300 hover:file:bg-blue-100 dark:hover:file:bg-gray-500" %>
+          <% if product.gallery_images.attached? %>
+            <div class="mt-4">
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Current images:</p>
+              <div class="flex flex-wrap gap-2">
+                <% product.gallery_images.each do |image| %>
+                  <%= image_tag image.variant(resize_to_limit: [100, 100]), class: "rounded-md border border-gray-200 dark:border-gray-700 h-24 w-24 object-cover" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         </div>
 
-        <div class="form-group">
-          <%= form.label :active, class: "flex items-center space-x-2 cursor-pointer" do %>
-            <%= form.check_box :active, class: "rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900" %>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Active</span>
-          <% end %>
+        <div class="col-span-1 md:col-span-2">
+          <%= render partial: "shared/form_textarea", locals: {
+            form: form,
+            field: :description,
+            label: "Description",
+            placeholder: "Enter product description",
+            rows: 3,
+            wrapper_class: ""
+          } %>
+        </div>
+
+        <div>
+          <%= render partial: "shared/form_checkbox", locals: {
+            form: form,
+            field: :active,
+            label: "Active",
+            hint: "Inactive products won't appear in inventory reports",
+            wrapper_class: ""
+          } %>
         </div>
       </div>
     </div>
@@ -131,17 +168,29 @@
     <div class="p-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <div class="form-group">
-            <%= form.label :cost_price, "Cost Price (₵)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :cost_price, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :cost_price,
+            label: "Cost Price (₵)",
+            type: "number",
+            placeholder: "0.00",
+            min: "0",
+            step: "0.01",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :selling_price, "Selling Price (₵)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :selling_price, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :selling_price,
+            label: "Selling Price (₵)",
+            type: "number",
+            placeholder: "0.00",
+            min: "0",
+            step: "0.01",
+            wrapper_class: ""
+          } %>
         </div>
       </div>
     </div>
@@ -157,31 +206,49 @@
     <div class="p-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <div class="form-group">
-            <%= form.label :minimum_stock_level, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :minimum_stock_level, min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :minimum_stock_level,
+            label: "Minimum Stock Level",
+            type: "number",
+            placeholder: "0",
+            min: "0",
+            hint: "Alert when stock falls below this level",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :reorder_point, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :reorder_point, min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :perishable, class: "flex items-center space-x-2 cursor-pointer" do %>
-            <%= form.check_box :perishable, class: "rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900" %>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Perishable Product</span>
-          <% end %>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :reorder_point,
+            label: "Reorder Point",
+            type: "number",
+            placeholder: "0",
+            min: "0",
+            hint: "Stock level at which to reorder",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :expiry_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.date_field :expiry_date, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_checkbox", locals: {
+            form: form,
+            field: :perishable,
+            label: "Perishable Product",
+            hint: "Product has an expiration date",
+            wrapper_class: ""
+          } %>
+        </div>
+
+        <div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :expiry_date,
+            label: "Expiry Date",
+            type: "date",
+            wrapper_class: ""
+          } %>
         </div>
       </div>
 
@@ -194,15 +261,18 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <% Location.order(name: :asc).each do |location| %>
-              <div class="form-group">
-                <label for="initial_inventory_<%= location.id %>" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div class="mb-4">
+                <label for="initial_inventory_<%= location.id %>" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   <%= location.name %> (<%= location.location_type.capitalize %>)
                 </label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                  <input type="number" name="initial_inventory[<%= location.id %>]" id="initial_inventory_<%= location.id %>" min="0" 
-                    class="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-                    placeholder="0">
-                </div>
+                <input
+                  type="number"
+                  name="initial_inventory[<%= location.id %>]"
+                  id="initial_inventory_<%= location.id %>"
+                  min="0"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+                  placeholder="0"
+                >
               </div>
             <% end %>
           </div>
@@ -221,31 +291,55 @@
     <div class="p-5">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div>
-          <div class="form-group">
-            <%= form.label :weight, "Weight (kg)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :weight, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :weight,
+            label: "Weight (kg)",
+            type: "number",
+            placeholder: "0.00",
+            min: "0",
+            step: "0.01",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :length, "Length (cm)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :length, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :length,
+            label: "Length (cm)",
+            type: "number",
+            placeholder: "0.00",
+            min: "0",
+            step: "0.01",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :width, "Width (cm)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :width, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :width,
+            label: "Width (cm)",
+            type: "number",
+            placeholder: "0.00",
+            min: "0",
+            step: "0.01",
+            wrapper_class: ""
+          } %>
         </div>
 
         <div>
-          <div class="form-group">
-            <%= form.label :height, "Height (cm)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-            <%= form.number_field :height, step: '0.01', min: '0', class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
-          </div>
+          <%= render partial: "shared/form_input", locals: {
+            form: form,
+            field: :height,
+            label: "Height (cm)",
+            type: "number",
+            placeholder: "0.00",
+            min: "0",
+            step: "0.01",
+            wrapper_class: ""
+          } %>
         </div>
       </div>
     </div>
@@ -254,7 +348,7 @@
   <!-- Submit -->
   <div class="flex justify-between">
     <%= link_to "Cancel", product.persisted? ? product_path(product) : products_path, class: "inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-    
+
     <%= form.submit class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
   </div>
 <% end %>

@@ -6,7 +6,7 @@ class InventoryTransactionPolicy < ApplicationPolicy
   def show?
     same_organization?
   end
-  
+
   class Scope < Scope
     def resolve
       scope.where(organization_id: organization.id)

@@ -1,0 +1,147 @@
+<%= form_with(model: sales_order, local: true, class: "space-y-8") do |form| %>
+  <% if sales_order.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative mb-6" role="alert">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400 text-xl"></i>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-700 dark:text-red-200">
+            <%= pluralize(sales_order.errors.count, "error") %> prohibited this sales order from being saved:
+          </h3>
+          <ul class="mt-2 list-disc list-inside text-sm text-red-600 dark:text-red-300">
+            <% sales_order.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Order Details & Customer Section -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+      <h2 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-user-tag mr-3"></i>Customer & Order Basics
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div class="md:col-span-2">
+          <%= render "shared/form_select", form: form, field: :customer_id, 
+              label: "Customer",
+              options: Customer.order(:name).map { |c| [c.name, c.id] }, 
+              include_blank: "Select Customer",
+              required: true,
+              wrapper_class: "mb-0" %>
+        </div>
+
+        <div>
+          <%= render "shared/form_input", form: form, field: :order_date, 
+              label: "Order Date", type: "date", 
+              required: true, 
+              value: sales_order.order_date || Date.today,
+              wrapper_class: "mb-0" %>
+        </div>
+        
+        <div>
+          <%= render "shared/form_select", form: form, field: :status, 
+              label: "Order Status",
+              options: SalesOrder.statuses_for_select.to_a, 
+              selected: sales_order.status || 'draft',
+              include_blank: "Select Status",
+              required: true,
+              wrapper_class: "mb-0" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shipping & Delivery Section -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-4">
+      <h2 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-truck mr-3"></i>Shipping & Delivery
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div>
+          <%= render "shared/form_input", form: form, field: :shipping_date, 
+              label: "Shipping Date", type: "date",
+              wrapper_class: "mb-0" %>
+        </div>
+
+        <div>
+          <%= render "shared/form_input", form: form, field: :delivery_date, 
+              label: "Expected Delivery Date", type: "date",
+              wrapper_class: "mb-0" %>
+        </div>
+
+        <div class="md:col-span-2">
+          <%= render "shared/form_textarea", form: form, field: :shipping_address, 
+              label: "Shipping Address", rows: 3, 
+              placeholder: "Enter shipping address",
+              wrapper_class: "mb-0" %>
+        </div>
+
+        <div class="md:col-span-2">
+          <%= render "shared/form_textarea", form: form, field: :billing_address, 
+              label: "Billing Address (if different)", rows: 3, 
+              placeholder: "Enter billing address",
+              wrapper_class: "mb-0" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Order Items Section -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4 flex justify-between items-center">
+      <h2 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-list-ul mr-3"></i>Order Items
+      </h2>
+      <button type="button" class="btn-white-outline text-sm" disabled>
+        <i class="fas fa-plus mr-2"></i>Add Item (Coming Soon)
+      </button>
+    </div>
+    <div class="p-6">
+      <%# Placeholder for dynamic line items %>
+      <div id="sales_order_items_container" class="space-y-4">
+        <%# Example of how items might look - to be replaced by dynamic form fields %>
+        <div class="p-4 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center">
+          <p class="text-gray-500 dark:text-gray-400">
+            Line item functionality will be implemented here.
+            <br>
+            You'll be able to add products, quantities, and prices.
+          </p>
+        </div>
+        <%#= form.fields_for :sales_order_items do |item_form| %>
+          <%# render 'sales_order_item_fields', f: item_form %>
+        <%# end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Information Section -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-gray-500 to-gray-600 px-6 py-4">
+      <h2 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-sticky-note mr-3"></i>Additional Information
+      </h2>
+    </div>
+    <div class="p-6">
+      <%= render "shared/form_textarea", form: form, field: :notes, 
+          label: "Internal Notes", rows: 4, 
+          placeholder: "Any internal notes for this order (not visible to customer)",
+          wrapper_class: "mb-0" %>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="pt-6 flex justify-end space-x-4">
+    <%= link_to 'Cancel', sales_orders_path, class: "btn-secondary" %>
+    <%= form.submit sales_order.persisted? ? 'Update Sales Order' : 'Create Sales Order', class: "btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,37 @@
+<% content_for :title, "Edit Order #{@order.order_number} | SupplyFlow" %>
+
+<div class="container mx-auto px-4 py-8">
+  <%# Page Header Section %>
+  <div class="mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Edit Order #<%= @order.order_number %></h1>
+        <p class="mt-1 text-sm text-gray-500">Modify the details of this order</p>
+      </div>
+      <div class="mt-4 sm:mt-0 flex flex-wrap gap-2">
+        <%= link_to order_path(@order), class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          Cancel
+        <% end %>
+      </div>
+    </div>
+    
+    <%# Status Badges %>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <span class="inline-flex items-center rounded-md bg-<%= @order.status == 'draft' ? 'gray' : 'yellow' %>-100 px-2.5 py-0.5 text-sm font-medium text-<%= @order.status == 'draft' ? 'gray' : 'yellow' %>-800">
+        Status: <%= @order.status.humanize %>
+      </span>
+      
+      <span class="inline-flex items-center rounded-md bg-<%= @order.payment_status == 'unpaid' ? 'gray' : (@order.payment_status == 'paid' ? 'green' : 'yellow') %>-100 px-2.5 py-0.5 text-sm font-medium text-<%= @order.payment_status == 'unpaid' ? 'gray' : (@order.payment_status == 'paid' ? 'green' : 'yellow') %>-800">
+        Payment: <%= @order.payment_status.humanize %>
+      </span>
+    </div>
+  </div>
+
+  <%# Main Content Section %>
+  <div>
+    <%= render "form", order: @order %>
+  </div>
+</div>

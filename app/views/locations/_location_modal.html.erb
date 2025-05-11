@@ -1,0 +1,223 @@
+<%# Location Creation/Edit Modal %>
+<%
+  # Default values
+  id = "location-modal"
+  title = "New Location"
+  size = "md"
+  animation = "fade"
+  close_on_outside_click = true
+  show_close = true
+  backdrop = true
+  form_id = "location-form"
+  resource_type = "location"
+  submit_path = "/locations"
+  submit_text = "Create Location"
+%>
+
+<div 
+  id="<%= id %>"
+  class="hidden" 
+  aria-hidden="true"
+>
+  <%= render partial: "shared/modal", locals: {
+    id: id,
+    title: title,
+    size: size,
+    animation: animation,
+    close_on_outside_click: close_on_outside_click,
+    show_close: show_close,
+    backdrop: backdrop,
+    form_id: form_id,
+    resource_type: resource_type,
+    submit_path: submit_path,
+    submit_text: submit_text
+  } do %>
+
+    <div class="space-y-4">
+      <%# Location Name %>
+      <div>
+        <label for="location_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location Name</label>
+        <div class="relative">
+          <input 
+            type="text" 
+            id="location_name" 
+            name="location[name]" 
+            placeholder="Warehouse A" 
+            class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 pl-10"
+            required
+          >
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <i class="fas fa-warehouse text-gray-400 dark:text-gray-500"></i>
+          </div>
+        </div>
+      </div>
+
+      <%# Location Type %>
+      <div>
+        <label for="location_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location Type</label>
+        <div class="relative">
+          <select 
+            id="location_type" 
+            name="location[location_type]" 
+            class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 pl-10"
+            required
+          >
+            <option value="warehouse">Warehouse</option>
+            <option value="store">Retail Store</option>
+            <option value="fulfillment">Fulfillment Center</option>
+            <option value="dropship">Dropship Location</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <i class="fas fa-tag text-gray-400 dark:text-gray-500"></i>
+          </div>
+        </div>
+      </div>
+
+      <%# Address Section %>
+      <div class="border dark:border-gray-700 rounded-lg p-3">
+        <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-3">Address</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <%# Street %>
+          <div class="md:col-span-2">
+            <label for="location_address_street" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Street</label>
+            <input 
+              type="text" 
+              id="location_address_street" 
+              name="location[address_street]" 
+              placeholder="123 Main St" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+              required
+            >
+          </div>
+          
+          <%# City %>
+          <div>
+            <label for="location_address_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
+            <input 
+              type="text" 
+              id="location_address_city" 
+              name="location[address_city]" 
+              placeholder="Accra" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+              required
+            >
+          </div>
+          
+          <%# Region/State %>
+          <div>
+            <label for="location_address_region" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Region/State</label>
+            <input 
+              type="text" 
+              id="location_address_region" 
+              name="location[address_region]" 
+              placeholder="Greater Accra" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+              required
+            >
+          </div>
+          
+          <%# Postal Code %>
+          <div>
+            <label for="location_address_postal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Postal Code</label>
+            <input 
+              type="text" 
+              id="location_address_postal" 
+              name="location[address_postal]" 
+              placeholder="00233" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+            >
+          </div>
+          
+          <%# Country %>
+          <div>
+            <label for="location_address_country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
+            <input 
+              type="text" 
+              id="location_address_country" 
+              name="location[address_country]" 
+              placeholder="Ghana" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+              required
+            >
+          </div>
+        </div>
+      </div>
+      
+      <%# Contact Information %>
+      <div class="border dark:border-gray-700 rounded-lg p-3">
+        <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-3">Contact Information</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <%# Contact Name %>
+          <div>
+            <label for="location_contact_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Name</label>
+            <input 
+              type="text" 
+              id="location_contact_name" 
+              name="location[contact_name]" 
+              placeholder="John Doe" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+            >
+          </div>
+          
+          <%# Contact Phone %>
+          <div>
+            <label for="location_contact_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Phone</label>
+            <input 
+              type="tel" 
+              id="location_contact_phone" 
+              name="location[contact_phone]" 
+              placeholder="+233 20 123 4567" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+            >
+          </div>
+          
+          <%# Contact Email %>
+          <div class="md:col-span-2">
+            <label for="location_contact_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Email</label>
+            <input 
+              type="email" 
+              id="location_contact_email" 
+              name="location[contact_email]" 
+              placeholder="contact@example.com" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800"
+            >
+          </div>
+        </div>
+      </div>
+      
+      <%# Notes %>
+      <div>
+        <label for="location_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes (Optional)</label>
+        <textarea 
+          id="location_notes" 
+          name="location[notes]" 
+          rows="2" 
+          placeholder="Additional information about this location" 
+          class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 resize-none"
+        ></textarea>
+      </div>
+
+      <%# Active Status %>
+      <div>
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="location_active" 
+            name="location[active]" 
+            class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 dark:checked:bg-primary"
+            checked
+          >
+          <label for="location_active" class="block text-sm font-medium text-gray-700 dark:text-gray-300 ml-2">
+            Active Location
+          </label>
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-6">
+          Inactive locations won't appear in inventory operations
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -3,7 +3,13 @@
 # not a terminal started via bin/rails console! Add "console" to any action or any ERB template view
 # to make the web console appear.
 development:
-  adapter: async
+  adapter: solid_cable
+  # Optional: Add connects_to if you have a separate DB for cable in dev, otherwise it uses the main DB.
+  # connects_to:
+  #   database:
+  #     writing: cable_dev # Or your development database alias for cable
+  # polling_interval: 0.1.seconds # Optional, defaults are usually fine for dev
+  # message_retention: 1.day # Optional
 
 test:
   adapter: test

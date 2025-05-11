@@ -21,12 +21,12 @@
         <span class="text-xs mt-1 font-medium">Search</span>
       </button>
 
-      <%# Main Action %>
-      <a href="#" class="flex flex-col items-center justify-center text-center px-2 py-1">
+      <%# Main Action - Orders %>
+      <a href="<%= suppliers_path %>" class="flex flex-col items-center justify-center text-center px-2 py-1">
         <div class="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg -mt-5 text-primary">
-          <i class="fas fa-plus text-lg"></i>
+          <i class="fas fa-shopping-cart text-lg"></i>
         </div>
-        <span class="text-xs mt-1 font-medium text-white dark:text-gray-300">New</span>
+        <span class="text-xs mt-1 font-medium text-white dark:text-gray-300">Orders</span>
       </a>
 
       <%# Notifications %>
@@ -164,16 +164,25 @@
       </div>
 
       <%# Account - Shows image if available, otherwise shows initials %>
-      <a href="#" class="flex flex-col items-center justify-center text-center px-2 py-1 text-white/80 hover:text-white dark:text-gray-300 group">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border-2 border-white/30 dark:border-gray-700 group-hover:border-white/60 dark:group-hover:border-gray-500 transition-colors duration-200 bg-gradient-to-br from-indigo-600 to-purple-600">
-          <% if false # Replace with actual condition to check if user has image %>
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover">
-          <% else %>
-            <span class="text-white font-bold text-sm">JD</span>
-          <% end %>
-        </div>
-        <span class="text-xs mt-1 font-medium">Account</span>
-      </a>
+      <% if user_signed_in? %>
+        <%= link_to settings_profile_path, class: "flex flex-col items-center justify-center text-center px-2 py-1 text-white/80 hover:text-white dark:text-gray-300 group" do %>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border-2 border-white/30 dark:border-gray-700 group-hover:border-white/60 dark:group-hover:border-gray-500 transition-colors duration-200 bg-gradient-to-br from-indigo-600 to-purple-600">
+            <% if current_user.has_avatar? %>
+              <%= image_tag current_user.avatar_url, alt: current_user.name, class: "w-full h-full object-cover" %>
+            <% else %>
+              <span class="text-white font-bold text-sm"><%= current_user.name.first(2).upcase %></span>
+            <% end %>
+          </div>
+          <span class="text-xs mt-1 font-medium">Account</span>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_session_path, class: "flex flex-col items-center justify-center text-center px-2 py-1 text-white/80 hover:text-white dark:text-gray-300 group" do %>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden border-2 border-white/30 dark:border-gray-700 group-hover:border-white/60 dark:group-hover:border-gray-500 transition-colors duration-200 bg-gradient-to-br from-indigo-600 to-purple-600">
+            <span class="text-white font-bold text-sm">SU</span>
+          </div>
+          <span class="text-xs mt-1 font-medium">Sign In</span>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

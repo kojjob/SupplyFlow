@@ -1,92 +1,94 @@
 class InventoryController < ApplicationController
-  before_action :set_inventory_item, only: [:adjust, :transfer]
-  
+  before_action :set_inventory_item, only: [ :adjust, :transfer ]
+
   def index
     authorize :inventory, :index?
-    
+
     @inventory_items = policy_scope(InventoryItem)
                        .includes(:product, :location)
-                       .order('locations.name ASC, products.name ASC')
-    
+                       .order("locations.name ASC, products.name ASC")
+
     if params[:location_id].present?
       @inventory_items = @inventory_items.where(location_id: params[:location_id])
       @location = Location.find_by(id: params[:location_id])
     end
-    
+
     if params[:product_id].present?
       @inventory_items = @inventory_items.where(product_id: params[:product_id])
       @product = Product.find_by(id: params[:product_id])
     end
-    
+
     if params[:status].present?
       @inventory_items = @inventory_items.where(status: params[:status])
     end
-    
+
     if params[:query].present?
       query = "%#{params[:query]}%"
       # Use LOWER() for case-insensitive search (works with PostgreSQL and SQLite)
       @inventory_items = @inventory_items.joins(:product)
-                         .where('LOWER(products.name) LIKE LOWER(?) OR LOWER(products.sku) LIKE LOWER(?)', 
-                               query, 
+                         .where("LOWER(products.name) LIKE LOWER(?) OR LOWER(products.sku) LIKE LOWER(?)",
+                               query,
                                query)
     end
-    
+
     # For pagination - limit to 50 records without using Kaminari
-    @total_count = @inventory_items.count
+    # If @inventory_items might be grouped, .count would return a hash. .count.size gives the number of groups.
+    @total_count = @inventory_items.count.try(:size) || @inventory_items.count
     @inventory_items = @inventory_items.limit(50).offset((params[:page].to_i || 0) * 50)
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @inventory_items }
     end
   end
-  
+
   def transactions
     authorize :inventory, :transactions?
-    
+
     @transactions = policy_scope(InventoryTransaction)
                     .includes(:product, :source_location, :destination_location, :user)
                     .order(created_at: :desc)
-    
+
     if params[:location_id].present?
       @transactions = @transactions.by_location(params[:location_id])
       @location = Location.find_by(id: params[:location_id])
     end
-    
+
     if params[:product_id].present?
       @transactions = @transactions.by_product(params[:product_id])
       @product = Product.find_by(id: params[:product_id])
     end
-    
+
     if params[:transaction_type].present?
       @transactions = @transactions.by_type(params[:transaction_type])
     end
-    
+
     if params[:start_date].present? && params[:end_date].present?
       start_date = Date.parse(params[:start_date]) rescue nil
       end_date = Date.parse(params[:end_date]) rescue nil
-      
+
       if start_date && end_date
         @transactions = @transactions.by_date_range(start_date, end_date)
       end
     end
-    
+
     # For pagination - limit to 50 records without using Kaminari
-    @total_count = @transactions.count
+    # If @transactions might be grouped, .count would return a hash. .count.size gives the number of groups.
+    @total_count = @transactions.count.try(:size) || @transactions.count
     @transactions = @transactions.limit(50).offset((params[:page].to_i || 0) * 50)
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @transactions }
     end
   end
-  
+
   def adjust
     authorize @inventory_item
-    
+
     amount = params[:amount].to_i
-    transaction_type = amount.positive? ? 'stock_addition' : 'stock_removal'
-    
+    transaction_type = amount.positive? ? "stock_addition" : "stock_removal"
+
     if amount.zero?
       respond_to do |format|
         format.html { redirect_back(fallback_location: inventory_path, alert: "Adjustment amount cannot be zero.") }
@@ -94,7 +96,7 @@ class InventoryController < ApplicationController
       end
       return
     end
-    
+
     if amount.negative? && amount.abs > @inventory_item.available_quantity
       respond_to do |format|
         format.html { redirect_back(fallback_location: inventory_path, alert: "Cannot remove more than available quantity.") }
@@ -102,13 +104,13 @@ class InventoryController < ApplicationController
       end
       return
     end
-    
+
     success = if amount.positive?
                 @inventory_item.add_stock(amount, transaction_type, current_user.id, params[:notes])
-              else
+    else
                 @inventory_item.remove_stock(amount.abs, transaction_type, current_user.id, params[:notes])
-              end
-    
+    end
+
     respond_to do |format|
       if success
         format.html { redirect_back(fallback_location: inventory_path, notice: "Inventory successfully adjusted.") }
@@ -119,13 +121,13 @@ class InventoryController < ApplicationController
       end
     end
   end
-  
+
   def transfer
     authorize @inventory_item
-    
+
     destination_location_id = params[:destination_location_id]
     amount = params[:amount].to_i
-    
+
     if amount <= 0
       respond_to do |format|
         format.html { redirect_back(fallback_location: inventory_path, alert: "Transfer amount must be greater than zero.") }
@@ -133,7 +135,7 @@ class InventoryController < ApplicationController
       end
       return
     end
-    
+
     if amount > @inventory_item.available_quantity
       respond_to do |format|
         format.html { redirect_back(fallback_location: inventory_path, alert: "Cannot transfer more than available quantity.") }
@@ -141,9 +143,9 @@ class InventoryController < ApplicationController
       end
       return
     end
-    
+
     success = @inventory_item.transfer_stock(destination_location_id, amount, current_user.id, params[:notes])
-    
+
     respond_to do |format|
       if success
         format.html { redirect_back(fallback_location: inventory_path, notice: "Inventory successfully transferred.") }
@@ -154,37 +156,37 @@ class InventoryController < ApplicationController
       end
     end
   end
-  
+
   def report
     authorize :inventory, :report?
-    
+
     @locations = policy_scope(Location).order(name: :asc)
-    
+
     @total_products = policy_scope(Product).count
     @total_items = policy_scope(InventoryItem).sum(:quantity)
-    @total_value = policy_scope(InventoryItem).joins(:product).sum('inventory_items.quantity * products.cost_price')
-    
-    @low_stock_count = policy_scope(Product).low_stock.count
-    @out_of_stock_count = policy_scope(Product).out_of_stock.count
-    
-    if params[:report_type] == 'by_location'
+    @total_value = policy_scope(InventoryItem).joins(:product).sum("inventory_items.quantity * products.cost_price")
+
+    @low_stock_count = policy_scope(Product).low_stock.count.size
+    @out_of_stock_count = policy_scope(Product).out_of_stock.count.size
+
+    if params[:report_type] == "by_location"
       @location_report = policy_scope(Location)
                          .left_joins(inventory_items: :product)
-                         .group('locations.id')
-                         .select('locations.*, COUNT(DISTINCT products.id) as product_count, SUM(inventory_items.quantity) as total_quantity, SUM(inventory_items.quantity * products.cost_price) as total_value')
-                         .order('locations.name ASC')
-    elsif params[:report_type] == 'by_category'
+                         .group("locations.id")
+                         .select("locations.*, COUNT(DISTINCT products.id) as product_count, SUM(inventory_items.quantity) as total_quantity, SUM(inventory_items.quantity * products.cost_price) as total_value")
+                         .order("locations.name ASC")
+    elsif params[:report_type] == "by_category"
       @category_report = policy_scope(Product)
-                         .where.not(category: [nil, ''])
+                         .where.not(category: [ nil, "" ])
                          .left_joins(:inventory_items)
-                         .group('products.category')
-                         .select('products.category, COUNT(DISTINCT products.id) as product_count, SUM(inventory_items.quantity) as total_quantity, SUM(inventory_items.quantity * products.cost_price) as total_value')
-                         .order('products.category ASC')
+                         .group("products.category")
+                         .select("products.category, COUNT(DISTINCT products.id) as product_count, SUM(inventory_items.quantity) as total_quantity, SUM(inventory_items.quantity * products.cost_price) as total_value")
+                         .order("products.category ASC")
     end
-    
+
     respond_to do |format|
       format.html
-      format.json { render json: { 
+      format.json { render json: {
         total_products: @total_products,
         total_items: @total_items,
         total_value: @total_value,
@@ -195,9 +197,9 @@ class InventoryController < ApplicationController
       } }
     end
   end
-  
+
   private
-  
+
   def set_inventory_item
     @inventory_item = InventoryItem.find(params[:id])
   end
