@@ -1,11 +1,35 @@
 <%# Set page title %>
-<% content_for :title, page_title("Home") %>
+<% content_for :title, "Home" %>
 
-<%# Example breadcrumbs - for the homepage we don't need them, but this shows how to use them %>
-<div class="container mx-auto px-4 mt-6">
-  <%= render_breadcrumbs([
-    { title: "Home", url: "/" }
-  ]) %>
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden mb-8">
+      <div class="p-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Welcome to SupplyFlow</h1>
+
+        <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">
+          Your comprehensive inventory management solution for growing businesses.
+        </p>
+
+        <% unless user_signed_in? %>
+          <div class="flex flex-wrap gap-4">
+            <%= link_to new_user_session_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+              <i class="fas fa-sign-in-alt mr-2"></i> Sign In
+            <% end %>
+            <%= link_to new_user_registration_path, class: "inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+              <i class="fas fa-user-plus mr-2"></i> Sign Up
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex flex-wrap gap-4">
+            <%= link_to dashboard_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" do %>
+              <i class="fas fa-tachometer-alt mr-2"></i> Go to Dashboard
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Hero Section -->

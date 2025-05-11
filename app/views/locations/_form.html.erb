@@ -1,0 +1,169 @@
+<%= form_with(model: location, local: true, class: "space-y-6") do |form| %>
+  <% if location.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <i class="fas fa-exclamation-circle text-red-600 dark:text-red-400 text-lg"></i>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-300">
+            <%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+            <ul class="list-disc pl-5 space-y-1">
+              <% location.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Basic Information -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-info-circle mr-2"></i> Basic Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="col-span-1 md:col-span-2">
+          <div class="form-group">
+            <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100", required: true %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :location_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.select :location_type, options_for_select([
+              ["Warehouse", "warehouse"],
+              ["Store", "store"],
+              ["Shelf", "shelf"],
+              ["Other", "other"]
+            ], location.location_type), {}, { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" } %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :parent_location_id, "Parent Location", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <% parent_locations = Location.where.not(id: location.id).map { |l| [l.full_name, l.id] } %>
+            <%= form.select :parent_location_id, 
+              options_for_select([["None", nil]] + parent_locations, location.parent_location_id || @parent_location&.id),
+              {}, 
+              { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" } 
+            %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :active, class: "flex items-center space-x-2 cursor-pointer" do %>
+            <%= form.check_box :active, class: "rounded text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900" %>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Active</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-address-card mr-2"></i> Contact Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div class="form-group">
+            <%= form.label :phone, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.telephone_field :phone, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :email, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.email_field :email, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address Information -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-green-600 to-green-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-map-marker-alt mr-2"></i> Address Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="col-span-1 md:col-span-2">
+          <div class="form-group">
+            <%= form.label :address, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :address, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :city, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :city, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :state, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :state, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :postal_code, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :postal_code, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <%= form.label :country, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= form.text_field :country, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-amber-600 to-amber-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-sticky-note mr-2"></i> Additional Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="form-group">
+        <%= form.label :notes, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+        <%= form.text_area :notes, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Optional: Add any additional notes about this location.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="flex justify-between">
+    <%= link_to "Cancel", location.persisted? ? location_path(location) : locations_path, class: "inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    
+    <%= form.submit class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>

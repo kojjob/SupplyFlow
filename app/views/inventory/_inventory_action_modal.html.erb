@@ -1,0 +1,296 @@
+<%# Inventory Action Modal - For adding, removing, transferring inventory %>
+
+<% 
+  # Ensure we have a valid resource type
+  resource_type = "inventory" 
+%>
+
+<%= render partial: "shared/modal", locals: {
+  id: "inventory-action-modal",
+  title: "Inventory Action",
+  size: "md",
+  animation: "zoom",
+  resource_type: resource_type,
+  form_id: false # Don't use the built-in form submission
+} do %>
+  <div
+    data-controller="inventory-api"
+    data-inventory-api-product-id-value="0"
+    data-inventory-api-location-id-value="0"
+    data-inventory-api-inventory-id-value="0"
+    class="space-y-4"
+  >
+    <%# Error Message Container %>
+    <div
+      data-inventory-api-target="errorMessage"
+      class="hidden p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-900/30 dark:text-red-300">
+    </div>
+  
+    <%# Action Type Selection %>
+    <div>
+      <input type="hidden" name="inventory_action" id="inventory_action" value="add">
+      
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Action Type</label>
+      <div class="mt-2 grid grid-cols-3 gap-3">
+        <label
+          class="flex items-center p-3 rounded-lg border border-gray-300 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors action-option active"
+          data-action="add"
+          data-action-click="inventory-api#actionChanged"
+        >
+          <input type="radio" name="action_type" value="add" class="hidden" checked>
+          <div class="flex-1 flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mb-2">
+              <i class="fas fa-plus text-green-600 dark:text-green-400"></i>
+            </div>
+            <span class="text-sm font-medium">Add Stock</span>
+          </div>
+        </label>
+        
+        <label
+          class="flex items-center p-3 rounded-lg border border-gray-300 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors action-option"
+          data-action="remove"
+          data-action-click="inventory-api#actionChanged"
+        >
+          <input type="radio" name="action_type" value="remove" class="hidden">
+          <div class="flex-1 flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center mb-2">
+              <i class="fas fa-minus text-red-600 dark:text-red-400"></i>
+            </div>
+            <span class="text-sm font-medium">Remove Stock</span>
+          </div>
+        </label>
+        
+        <label
+          class="flex items-center p-3 rounded-lg border border-gray-300 dark:border-gray-600 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors action-option"
+          data-action="transfer"
+          data-action-click="inventory-api#actionChanged"
+        >
+          <input type="radio" name="action_type" value="transfer" class="hidden">
+          <div class="flex-1 flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-2">
+              <i class="fas fa-exchange-alt text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <span class="text-sm font-medium">Transfer</span>
+          </div>
+        </label>
+      </div>
+    </div>
+    
+    <%# Quantity Section %>
+    <div>
+      <label for="inventory_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
+      <input
+        type="number"
+        min="1"
+        name="inventory_quantity"
+        id="inventory_quantity"
+        required
+        data-inventory-api-target="quantityField"
+        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+      >
+    </div>
+    
+    <%# Destination Location (only for transfers) %>
+    <div id="destination_location_container" class="hidden">
+      <label for="destination_location_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Destination Location</label>
+      <select
+        name="destination_location_id"
+        id="destination_location_id"
+        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+      >
+        <option value="">Select Destination Location</option>
+        <%# Locations will be populated via JavaScript %>
+      </select>
+    </div>
+    
+    <%# Reason / Notes %>
+    <div>
+      <label for="inventory_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span data-inventory-api-target="actionLabel" id="notes_label">Reason for Addition</span>
+      </label>
+      <textarea
+        name="inventory_notes"
+        id="inventory_notes"
+        rows="2"
+        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+      ></textarea>
+    </div>
+    
+    <%# Current Stock Information %>
+    <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-md">
+      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Stock Information</h4>
+      <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+        <dt class="text-gray-500 dark:text-gray-400">Product:</dt>
+        <dd data-inventory-api-target="productName" class="font-medium text-gray-700 dark:text-gray-300">--</dd>
+        
+        <dt class="text-gray-500 dark:text-gray-400">Location:</dt>
+        <dd data-inventory-api-target="locationName" class="font-medium text-gray-700 dark:text-gray-300">--</dd>
+        
+        <dt class="text-gray-500 dark:text-gray-400">Current Stock:</dt>
+        <dd data-inventory-api-target="stockLevel" class="font-medium text-gray-700 dark:text-gray-300">--</dd>
+        
+        <dt class="text-gray-500 dark:text-gray-400">Available:</dt>
+        <dd data-inventory-api-target="availableStock" class="font-medium text-gray-700 dark:text-gray-300">--</dd>
+      </dl>
+    </div>
+    
+    <%# Action Buttons %>
+    <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+      <button
+        type="button"
+        data-action="modal#close"
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none"
+      >
+        Cancel
+      </button>
+      
+      <%# Add Stock Button - shown for add operation %>
+      <button
+        type="button"
+        data-action="inventory-api#addStock"
+        class="add-action-btn px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded shadow-sm hover:bg-green-700 focus:outline-none"
+      >
+        <i class="fas fa-plus mr-2"></i> Add Stock
+      </button>
+      
+      <%# Remove Stock Button - shown for remove operation %>
+      <button
+        type="button"
+        data-action="inventory-api#removeStock"
+        class="remove-action-btn hidden px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded shadow-sm hover:bg-red-700 focus:outline-none"
+      >
+        <i class="fas fa-minus mr-2"></i> Remove Stock
+      </button>
+      
+      <%# Transfer Stock Button - shown for transfer operation %>
+      <button
+        type="button"
+        data-action="inventory-api#transferStock"
+        class="transfer-action-btn hidden px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded shadow-sm hover:bg-blue-700 focus:outline-none"
+      >
+        <i class="fas fa-exchange-alt mr-2"></i> Transfer Stock
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const actionOptions = document.querySelectorAll('.action-option');
+      const actionInput = document.getElementById('inventory_action');
+      const destinationContainer = document.getElementById('destination_location_container');
+      const notesLabel = document.getElementById('notes_label');
+      
+      // Show/hide action buttons based on selected action
+      const addButton = document.querySelector('.add-action-btn');
+      const removeButton = document.querySelector('.remove-action-btn');
+      const transferButton = document.querySelector('.transfer-action-btn');
+      
+      function updateActionButtons(actionType) {
+        // Hide all buttons first
+        addButton.classList.add('hidden');
+        removeButton.classList.add('hidden');
+        transferButton.classList.add('hidden');
+        
+        // Show the appropriate button
+        if (actionType === 'add') {
+          addButton.classList.remove('hidden');
+        } else if (actionType === 'remove') {
+          removeButton.classList.remove('hidden');
+        } else if (actionType === 'transfer') {
+          transferButton.classList.remove('hidden');
+        }
+      }
+      
+      // Action type selection
+      actionOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove active class from all options
+          actionOptions.forEach(opt => opt.classList.remove('active'));
+          
+          // Add active class to clicked option
+          this.classList.add('active');
+          
+          // Update hidden input value
+          const actionType = this.dataset.action;
+          actionInput.value = actionType;
+          
+          // Show/hide destination location field for transfers
+          if (actionType === 'transfer') {
+            destinationContainer.classList.remove('hidden');
+            notesLabel.textContent = 'Reason for Transfer';
+          } else {
+            destinationContainer.classList.add('hidden');
+            notesLabel.textContent = actionType === 'add' ? 'Reason for Addition' : 'Reason for Removal';
+          }
+          
+          // Update action buttons
+          updateActionButtons(actionType);
+        });
+      });
+      
+      // Initialize buttons
+      updateActionButtons('add');
+    });
+    
+    // Function to be called from outside to populate the modal with product and location data
+    window.populateInventoryModal = function(productId, productName, locationId, locationName, currentStock, availableStock, locations) {
+      // Get the controller
+      const modal = document.getElementById('inventory-action-modal');
+      const controller = modal.querySelector('[data-controller="inventory-api"]');
+      
+      if (controller) {
+        // Set data values on the controller
+        controller.dataset.inventoryApiProductIdValue = productId;
+        controller.dataset.inventoryApiLocationIdValue = locationId;
+        
+        // Stimulus will automatically fetch data when these values change
+      } else {
+        // Legacy fallback if controller not found
+        document.getElementById('current_product_name').textContent = productName;
+        document.getElementById('current_location_name').textContent = locationName;
+        document.getElementById('current_stock_level').textContent = currentStock;
+        document.getElementById('available_stock').textContent = availableStock;
+      }
+      
+      // Populate destination locations dropdown
+      const destinationSelect = document.getElementById('destination_location_id');
+      destinationSelect.innerHTML = '<option value="">Select Destination Location</option>';
+      
+      if (locations && locations.length) {
+        locations.forEach(location => {
+          if (location.id != locationId) { // Don't include current location
+            const option = document.createElement('option');
+            option.value = location.id;
+            option.textContent = location.name;
+            destinationSelect.appendChild(option);
+          }
+        });
+      }
+      
+      // Reset form
+      document.getElementById('inventory_quantity').value = '';
+      document.getElementById('inventory_notes').value = '';
+      
+      // Set action to "add" by default
+      document.getElementById('inventory_action').value = 'add';
+      
+      // Reset action buttons and UI
+      const actionOptions = document.querySelectorAll('.action-option');
+      actionOptions.forEach(opt => opt.classList.remove('active'));
+      document.querySelector('.action-option[data-action="add"]').classList.add('active');
+      
+      // Hide destination container
+      const destinationContainer = document.getElementById('destination_location_container');
+      destinationContainer.classList.add('hidden');
+      
+      // Update note label
+      const notesLabel = document.getElementById('notes_label');
+      notesLabel.textContent = 'Reason for Addition';
+      
+      // Show the add button
+      document.querySelector('.add-action-btn').classList.remove('hidden');
+      document.querySelector('.remove-action-btn').classList.add('hidden');
+      document.querySelector('.transfer-action-btn').classList.add('hidden');
+    }
+  </script>
+<% end %>

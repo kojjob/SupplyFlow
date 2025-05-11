@@ -1,0 +1,135 @@
+<% content_for :title, "Login - SupplyFlow" %>
+
+<div class="w-full max-w-6xl mx-auto overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl">
+  <div class="flex flex-col md:flex-row">
+    <!-- Left Column - Image and Branding -->
+    <div class="w-full md:w-1/2 bg-gradient-to-br from-blue-600 to-indigo-800 p-8 md:p-12 flex flex-col justify-between">
+      <div class="mb-8">
+        <div class="flex items-center mb-8">
+          <img src="https://placehold.co/200x80?text=SupplyFlow" alt="SupplyFlow Logo" class="h-10 mr-3">
+          <h1 class="text-white text-2xl font-bold">SupplyFlow</h1>
+        </div>
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Welcome Back!</h2>
+        <p class="text-blue-100 text-lg mb-6">Log in to your account to manage your inventory, track orders, and optimize your supply chain.</p>
+      </div>
+
+      <div class="hidden md:block">
+        <div class="relative h-64 md:h-80 overflow-hidden rounded-xl">
+          <img src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+               alt="Inventory Management"
+               class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-transparent flex items-end p-6">
+            <div class="text-white">
+              <p class="text-lg font-semibold">Streamline Your Supply Chain</p>
+              <p class="text-sm opacity-90">Real-time inventory tracking and management</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 text-blue-100 text-sm">
+        <p>Need assistance? Contact our support team at <a href="mailto:support@supplyflow.com" class="text-white underline">support@supplyflow.com</a></p>
+      </div>
+    </div>
+
+    <!-- Right Column - Login Form -->
+    <div class="w-full md:w-1/2 p-8 md:p-12">
+      <div class="max-w-md mx-auto">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign in to your account</h2>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">Enter your credentials to access your dashboard</p>
+        </div>
+
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+          <% if flash[:alert] %>
+            <div class="bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200 p-4 rounded-lg mb-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p><%= flash[:alert] %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="space-y-6">
+            <div class="relative">
+              <%= f.label :email, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-blue-500 dark:focus-within:border-blue-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-envelope text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "name@company.com" %>
+              </div>
+            </div>
+
+            <div class="relative">
+              <div class="flex items-center justify-between">
+                <%= f.label :password, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                <% if devise_mapping.recoverable? %>
+                  <%= link_to "Forgot password?", new_password_path(resource_name), class: "absolute -top-2.5 right-3 bg-white dark:bg-gray-800 px-1 text-xs text-blue-600 dark:text-blue-400 hover:underline" %>
+                <% end %>
+              </div>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-blue-500 dark:focus-within:border-blue-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-lock text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.password_field :password, autocomplete: "current-password",
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "••••••••" %>
+              </div>
+            </div>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="flex items-center mt-4">
+              <div class="relative inline-flex items-center">
+                <%= f.check_box :remember_me, class: "h-5 w-5 text-blue-600 focus:ring-blue-500 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded" %>
+                <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-700 dark:text-gray-300" %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="mt-6">
+            <%= f.submit "Sign in", class: "w-full flex justify-center py-3.5 px-4 border-0 rounded-lg shadow-md text-base font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02]" %>
+          </div>
+        <% end %>
+
+        <div class="mt-8">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or continue with</span>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <a href="#" class="w-full inline-flex justify-center items-center py-3 px-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-red-400 dark:hover:border-red-400 transition-all duration-300 transform hover:scale-[1.02]">
+              <i class="fab fa-google text-red-500 text-lg mr-2"></i>
+              <span>Google</span>
+            </a>
+            <a href="#" class="w-full inline-flex justify-center items-center py-3 px-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-blue-400 dark:hover:border-blue-400 transition-all duration-300 transform hover:scale-[1.02]">
+              <i class="fab fa-microsoft text-blue-500 text-lg mr-2"></i>
+              <span>Microsoft</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Don't have an account?
+            <%= link_to "Sign up", new_registration_path(resource_name), class: "font-medium text-blue-600 dark:text-blue-400 hover:underline" %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

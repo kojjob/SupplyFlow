@@ -1,0 +1,367 @@
+<div class="container mx-auto px-4 py-6" data-controller="analytics">
+  <!-- Page Header -->
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Inventory Reports</span>
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1">Analyze your inventory data and make informed decisions</p>
+    </div>
+    
+    <div class="mt-4 md:mt-0 flex flex-wrap gap-3">
+      <a href="<%= inventory_path %>" class="flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+        <i class="fas fa-boxes text-gray-500 dark:text-gray-400 mr-2"></i>
+        <span class="text-gray-700 dark:text-gray-300 text-sm font-medium">View Inventory</span>
+      </a>
+      <a href="<%= inventory_transactions_path %>" class="flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+        <i class="fas fa-exchange-alt text-gray-500 dark:text-gray-400 mr-2"></i>
+        <span class="text-gray-700 dark:text-gray-300 text-sm font-medium">Transactions</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Report Filters -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+    <div class="p-5">
+      <%= form_with url: inventory_report_path, method: :get, class: "space-y-4" do |form| %>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="report_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Report Type</label>
+            <%= form.select :report_type, 
+                options_for_select([
+                  ["Overview", ""], 
+                  ["By Location", "by_location"], 
+                  ["By Category", "by_category"]
+                ], params[:report_type]), 
+                {}, 
+                { class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" } %>
+          </div>
+          
+          <div class="md:col-span-2 flex items-end">
+            <%= form.submit "Generate Report", class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
+    <!-- Total Products Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Products</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1"><%= @total_products %></h3>
+          </div>
+          <div class="h-12 w-12 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+            <i class="fas fa-box text-blue-600 dark:text-blue-400 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Items Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Items</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1"><%= @total_items %></h3>
+          </div>
+          <div class="h-12 w-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center">
+            <i class="fas fa-boxes text-indigo-600 dark:text-indigo-400 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Value Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Value</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">₵<%= number_with_precision(@total_value, precision: 2) %></h3>
+          </div>
+          <div class="h-12 w-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+            <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Low Stock Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Low Stock</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1"><%= @low_stock_count %></h3>
+          </div>
+          <div class="h-12 w-12 bg-yellow-100 dark:bg-yellow-900/50 rounded-lg flex items-center justify-center">
+            <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-400 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Out of Stock Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
+      <div class="p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Out of Stock</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1"><%= @out_of_stock_count %></h3>
+          </div>
+          <div class="h-12 w-12 bg-red-100 dark:bg-red-900/50 rounded-lg flex items-center justify-center">
+            <i class="fas fa-times-circle text-red-600 dark:text-red-400 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if params[:report_type] == 'by_location' && @location_report.present? %>
+    <!-- Location Report -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-white flex items-center">
+          <i class="fas fa-map-marker-alt mr-2"></i> Inventory by Location
+        </h2>
+        <button class="text-white bg-white/20 hover:bg-white/30 rounded-lg px-3 py-1 text-xs font-medium transition-colors duration-200">
+          <i class="fas fa-download mr-1"></i> Export
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Location</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Type</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Products</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Quantity</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Value</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <% @location_report.each do |location| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  <%= link_to location.name, location_path(location), class: "hover:text-blue-600 dark:hover:text-blue-400" %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <%= location.location_type.capitalize %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-white">
+                  <%= location.product_count || 0 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-white">
+                  <%= location.total_quantity || 0 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-gray-900 dark:text-white">
+                  ₵<%= number_with_precision(location.total_value || 0, precision: 2) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Location Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+      <div class="bg-gradient-to-r from-green-600 to-green-700 px-5 py-4">
+        <h2 class="text-lg font-semibold text-white flex items-center">
+          <i class="fas fa-chart-pie mr-2"></i> Inventory Distribution by Location
+        </h2>
+      </div>
+      <div class="p-5">
+        <div 
+          class="h-80 flex items-center justify-center" 
+          data-analytics-target="inventoryLocationChart"
+          data-chart="<%= @location_report.map { |loc| { name: loc.name, value: loc.total_quantity || 0 } }.to_json %>"
+        ></div>
+      </div>
+    </div>
+
+  <% elsif params[:report_type] == 'by_category' && @category_report.present? %>
+    <!-- Category Report -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+      <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 px-5 py-4 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-white flex items-center">
+          <i class="fas fa-tags mr-2"></i> Inventory by Category
+        </h2>
+        <button class="text-white bg-white/20 hover:bg-white/30 rounded-lg px-3 py-1 text-xs font-medium transition-colors duration-200">
+          <i class="fas fa-download mr-1"></i> Export
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Category</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Products</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Quantity</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Value</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <% @category_report.each do |category| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  <%= category.category.presence || 'Uncategorized' %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-white">
+                  <%= category.product_count || 0 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-white">
+                  <%= category.total_quantity || 0 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-gray-900 dark:text-white">
+                  ₵<%= number_with_precision(category.total_value || 0, precision: 2) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Category Chart -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+      <div class="bg-gradient-to-r from-purple-600 to-purple-700 px-5 py-4">
+        <h2 class="text-lg font-semibold text-white flex items-center">
+          <i class="fas fa-chart-bar mr-2"></i> Value by Category
+        </h2>
+      </div>
+      <div class="p-5">
+        <div 
+          class="h-80 flex items-center justify-center" 
+          data-analytics-target="categoryValueChart"
+          data-chart="<%= @category_report.map { |cat| { category: cat.category.presence || 'Uncategorized', value: cat.total_value || 0 } }.to_json %>"
+        ></div>
+      </div>
+    </div>
+
+  <% else %>
+    <!-- Overview Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <!-- Inventory Status Chart -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
+          <h2 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-chart-pie mr-2"></i> Stock Status Overview
+          </h2>
+        </div>
+        <div class="p-5">
+          <div class="h-80 flex items-center justify-center">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4">
+                <i class="fas fa-chart-pie text-xl"></i>
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Stock Status Chart</h3>
+              <p class="text-gray-500 dark:text-gray-400 mb-4">
+                Select a report type to view detailed charts
+              </p>
+              <div class="flex justify-center space-x-4">
+                <%= link_to inventory_report_path(report_type: 'by_location'), class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors duration-200" do %>
+                  <i class="fas fa-map-marker-alt mr-2"></i> By Location
+                <% end %>
+                <%= link_to inventory_report_path(report_type: 'by_category'), class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" do %>
+                  <i class="fas fa-tags mr-2"></i> By Category
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stock Value Chart -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div class="bg-gradient-to-r from-green-600 to-green-700 px-5 py-4">
+          <h2 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-dollar-sign mr-2"></i> Stock Value Overview
+          </h2>
+        </div>
+        <div class="p-5">
+          <div class="h-80 flex flex-col items-center justify-center">
+            <div class="text-center mb-6">
+              <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 mb-4">
+                <i class="fas fa-dollar-sign text-2xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
+                ₵<%= number_with_precision(@total_value, precision: 2) %>
+              </h3>
+              <p class="text-gray-500 dark:text-gray-400">Total Inventory Value</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+              <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Products</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white"><%= @total_products %></p>
+              </div>
+              <div class="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Items</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white"><%= @total_items %></p>
+              </div>
+              <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Low Stock</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white"><%= @low_stock_count %></p>
+              </div>
+              <div class="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Out of Stock</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white"><%= @out_of_stock_count %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Locations Overview -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 mb-6">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-white flex items-center">
+          <i class="fas fa-map-marker-alt mr-2"></i> Locations Overview
+        </h2>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Location</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Type</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Address</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <% @locations.each do |location| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  <%= link_to location.name, location_path(location), class: "hover:text-blue-600 dark:hover:text-blue-400" %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <%= location.location_type.capitalize %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <%= location.address.presence || 'No address' %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <%= link_to inventory_path(location_id: location.id), class: "text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300" do %>
+                    <i class="fas fa-boxes mr-1"></i> View Inventory
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>

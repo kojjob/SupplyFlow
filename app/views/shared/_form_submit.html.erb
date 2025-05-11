@@ -1,0 +1,74 @@
+<%# 
+  Reusable Form Submit Button Partial that matches the Contact Page style
+  
+  Usage:
+  
+  <%= render partial: "shared/form_submit", locals: {
+    form: form,                   # The form builder object (optional)
+    text: "Submit",               # The button text (optional, defaults to "Submit")
+    wrapper_class: "mt-6",        # Additional classes for the wrapper div (optional, defaults to "mt-6")
+    button_class: "",             # Additional classes for the button (optional)
+    data: {},                     # Additional data attributes (optional)
+    color: "primary",             # Button color: "primary", "secondary", "success", "danger" (optional, defaults to "primary")
+    size: "md",                   # Button size: "sm", "md", "lg" (optional, defaults to "md")
+    full_width: false,            # Whether the button should be full width (optional, defaults to false)
+    type: "submit"                # Button type (optional, defaults to "submit")
+  } %>
+%>
+
+<%
+  # Set defaults
+  text ||= "Submit"
+  wrapper_class ||= "mt-6"
+  button_class ||= ""
+  data ||= {}
+  color ||= "primary"
+  size ||= "md"
+  full_width ||= false
+  type ||= "submit"
+  
+  # Color classes
+  color_classes = case color
+    when "primary"
+      "bg-[#0055A4] hover:bg-[#004a8f] focus:ring-[#0055A4]/50 text-white"
+    when "secondary"
+      "bg-gray-600 hover:bg-gray-700 focus:ring-gray-500/50 text-white"
+    when "success"
+      "bg-[#00A86B] hover:bg-[#009a5f] focus:ring-[#00A86B]/50 text-white"
+    when "danger"
+      "bg-red-600 hover:bg-red-700 focus:ring-red-500/50 text-white"
+    else
+      "bg-[#0055A4] hover:bg-[#004a8f] focus:ring-[#0055A4]/50 text-white"
+  end
+  
+  # Size classes
+  size_classes = case size
+    when "sm"
+      "py-2 px-4 text-sm"
+    when "md"
+      "py-3 px-6 text-base"
+    when "lg"
+      "py-4 px-8 text-lg"
+    else
+      "py-3 px-6 text-base"
+  end
+  
+  # Width classes
+  width_classes = full_width ? "w-full" : ""
+  
+  # Base button classes
+  base_button_classes = "rounded-lg font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
+  
+  # Combine all classes
+  all_classes = "#{base_button_classes} #{color_classes} #{size_classes} #{width_classes} #{button_class}"
+%>
+
+<div class="<%= wrapper_class %>">
+  <% if form.present? %>
+    <%= form.submit text, class: all_classes, data: data %>
+  <% else %>
+    <button type="<%= type %>" class="<%= all_classes %>" <%= data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(" ") %>>
+      <%= text %>
+    </button>
+  <% end %>
+</div>

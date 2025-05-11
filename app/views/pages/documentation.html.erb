@@ -1,0 +1,2386 @@
+<%# SupplyFlow Comprehensive Documentation %>
+
+<div class="min-h-screen bg-white" x-data="{ 
+  activeSection: window.location.hash ? window.location.hash.substring(1) : 'introduction',
+  mobileMenuOpen: false,
+  scrollToSection(section) {
+    this.activeSection = section;
+    this.mobileMenuOpen = false;
+    window.location.hash = section;
+    document.getElementById(section).scrollIntoView({behavior: 'smooth'});
+  }
+}">
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <a href="/" class="flex items-center text-blue-600 hover:text-blue-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <span class="ml-2 text-xl font-bold">SupplyFlow</span>
+        </a>
+        <span class="text-gray-500 hidden sm:inline">|</span>
+        <span class="hidden sm:inline font-medium text-gray-700">Documentation</span>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <div class="relative">
+          <input type="text" placeholder="Search documentation..." class="w-48 lg:w-64 px-4 py-2 pr-8 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute right-2 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-500 hover:text-gray-700 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen" class="md:hidden bg-white border-b border-gray-200 px-4 py-2" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4" @click.away="mobileMenuOpen = false">
+      <nav class="space-y-3 py-3">
+        <a href="#introduction" @click="scrollToSection('introduction')" :class="activeSection == 'introduction' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Introduction</a>
+        <a href="#getting-started" @click="scrollToSection('getting-started')" :class="activeSection == 'getting-started' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Getting Started</a>
+        <a href="#inventory-management" @click="scrollToSection('inventory-management')" :class="activeSection == 'inventory-management' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Inventory Management</a>
+        <a href="#supplier-management" @click="scrollToSection('supplier-management')" :class="activeSection == 'supplier-management' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Supplier Management</a>
+        <a href="#sales-tracking" @click="scrollToSection('sales-tracking')" :class="activeSection == 'sales-tracking' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Sales Tracking</a>
+        <a href="#forecasting" @click="scrollToSection('forecasting')" :class="activeSection == 'forecasting' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Sales Forecasting</a>
+        <a href="#payment-integration" @click="scrollToSection('payment-integration')" :class="activeSection == 'payment-integration' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Payment Integration</a>
+        <a href="#offline-mode" @click="scrollToSection('offline-mode')" :class="activeSection == 'offline-mode' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Offline Mode</a>
+        <a href="#user-management" @click="scrollToSection('user-management')" :class="activeSection == 'user-management' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">User Management</a>
+        <a href="#reports" @click="scrollToSection('reports')" :class="activeSection == 'reports' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Reports & Analytics</a>
+        <a href="#api" @click="scrollToSection('api')" :class="activeSection == 'api' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">API Reference</a>
+        <a href="#troubleshooting" @click="scrollToSection('troubleshooting')" :class="activeSection == 'troubleshooting' ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'" class="block py-2 px-3 rounded-md">Troubleshooting</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area with Sidebar -->
+  <div class="container mx-auto px-4 py-8 flex flex-wrap md:flex-nowrap">
+    <!-- Sidebar (Desktop) -->
+    <aside class="hidden md:block w-64 flex-shrink-0 pr-8 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pb-12">
+      <nav class="space-y-1">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Documentation</p>
+        
+        <a href="#introduction" @click="scrollToSection('introduction')" :class="activeSection == 'introduction' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Introduction
+        </a>
+        
+        <a href="#getting-started" @click="scrollToSection('getting-started')" :class="activeSection == 'getting-started' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Getting Started
+        </a>
+        
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-6 mb-3">Core Features</p>
+        
+        <a href="#inventory-management" @click="scrollToSection('inventory-management')" :class="activeSection == 'inventory-management' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Inventory Management
+        </a>
+        
+        <a href="#supplier-management" @click="scrollToSection('supplier-management')" :class="activeSection == 'supplier-management' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Supplier Management
+        </a>
+        
+        <a href="#sales-tracking" @click="scrollToSection('sales-tracking')" :class="activeSection == 'sales-tracking' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Sales Tracking
+        </a>
+        
+        <a href="#forecasting" @click="scrollToSection('forecasting')" :class="activeSection == 'forecasting' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Sales Forecasting
+        </a>
+        
+        <a href="#payment-integration" @click="scrollToSection('payment-integration')" :class="activeSection == 'payment-integration' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Payment Integration
+        </a>
+        
+        <a href="#offline-mode" @click="scrollToSection('offline-mode')" :class="activeSection == 'offline-mode' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Offline Mode
+        </a>
+        
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-6 mb-3">Admin & Settings</p>
+        
+        <a href="#user-management" @click="scrollToSection('user-management')" :class="activeSection == 'user-management' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          User Management
+        </a>
+        
+        <a href="#reports" @click="scrollToSection('reports')" :class="activeSection == 'reports' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Reports & Analytics
+        </a>
+        
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-6 mb-3">Advanced</p>
+        
+        <a href="#api" @click="scrollToSection('api')" :class="activeSection == 'api' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          API Reference
+        </a>
+        
+        <a href="#troubleshooting" @click="scrollToSection('troubleshooting')" :class="activeSection == 'troubleshooting' ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-3 -ml-px' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50 pl-4'" class="block py-2 rounded transition-colors duration-200">
+          Troubleshooting
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="w-full md:flex-1 min-w-0">
+      <!-- Introduction Section -->
+      <section id="introduction" class="pb-16">
+        <div class="prose prose-blue max-w-none">
+          <h1 class="text-3xl font-bold mb-6">SupplyFlow Documentation</h1>
+          <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
+            <p class="text-blue-700">This documentation provides comprehensive information on how to use SupplyFlow, the inventory management system designed specifically for small to medium-sized enterprises (SMEs) in Ghana's retail and distribution sectors.</p>
+          </div>
+          
+          <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4">What is SupplyFlow?</h2>
+          <p>SupplyFlow is a comprehensive inventory and supply chain management system designed specifically for small to medium-sized businesses. The platform provides real-time inventory tracking, supplier management, automated ordering, mobile accessibility, and offline capabilities to help businesses optimize their inventory management processes.</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div class="bg-white rounded-lg border border-gray-200 p-5">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold">Real-time Tracking</h3>
+              </div>
+              <p class="text-gray-600">Track inventory levels in real-time with automatic updates and low stock alerts.</p>
+            </div>
+            
+            <div class="bg-white rounded-lg border border-gray-200 p-5">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold">Supplier Management</h3>
+              </div>
+              <p class="text-gray-600">Maintain supplier information and streamline the ordering process.</p>
+            </div>
+            
+            <div class="bg-white rounded-lg border border-gray-200 p-5">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold">Always Available</h3>
+              </div>
+              <p class="text-gray-600">Access your inventory management system from anywhere, with offline capabilities.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Getting Started Section -->
+      <section id="getting-started" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Getting Started with SupplyFlow</h2>
+          
+          <p class="mb-8">This section will guide you through the initial setup process for your SupplyFlow account and help you configure your system for optimal performance.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Account Setup</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Step 1: Create Your Account</h4>
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Visit <a href="#" class="text-blue-600 hover:underline">app.supplyflow.com/signup</a> and enter your email address.</li>
+              <li>Choose a strong password for your account.</li>
+              <li>Enter your business information (name, contact details, address).</li>
+              <li>Select your subscription plan (Basic, Standard, or Premium).</li>
+              <li>Complete the verification process by clicking the link sent to your email.</li>
+            </ol>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Note:</strong> You'll need to verify your email address before you can access all features of SupplyFlow.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Initial Configuration</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Step 2: Set Up Your Business Profile</h4>
+            <ul class="list-disc list-inside space-y-3 mb-6">
+              <li>Navigate to Settings → Business Profile</li>
+              <li>Upload your company logo (recommended size: 200x200px)</li>
+              <li>Set your business hours</li>
+              <li>Configure regional settings (currency, date format, etc.)</li>
+              <li>Save your changes</li>
+            </ul>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Screenshot: Business Profile Settings</span>
+              </div>
+              <div class="p-4 bg-gray-100 flex items-center justify-center">
+                <div class="w-full max-w-md bg-white border border-gray-300 rounded-lg p-4">
+                  <div class="flex items-center mb-4">
+                    <div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-400">Logo</div>
+                    <div class="ml-4">
+                      <div class="h-6 bg-gray-200 rounded w-40 mb-2"></div>
+                      <div class="h-4 bg-gray-200 rounded w-32"></div>
+                    </div>
+                  </div>
+                  <div class="space-y-3">
+                    <div class="h-8 bg-gray-200 rounded"></div>
+                    <div class="h-8 bg-gray-200 rounded"></div>
+                    <div class="h-8 bg-gray-200 rounded"></div>
+                    <div class="h-8 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Adding Your First Products</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Step 3: Create Your Product Catalog</h4>
+            <p class="mb-4">Before adding individual products, we recommend setting up your product categories:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Inventory → Categories</li>
+              <li>Click "Add Category" and create categories relevant to your business</li>
+              <li>Once categories are set up, go to Inventory → Products</li>
+              <li>Click "Add Product" and fill in the product details:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Name and description</li>
+                  <li>SKU (Stock Keeping Unit)</li>
+                  <li>Category</li>
+                  <li>Purchase and selling prices</li>
+                  <li>Initial stock level</li>
+                  <li>Reorder level (for low stock alerts)</li>
+                </ul>
+              </li>
+              <li>Save the product</li>
+            </ol>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Pro Tip:</strong> You can also bulk import products using a CSV file. Go to Inventory → Import and download the template.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Inventory Management Section -->
+      <section id="inventory-management" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Inventory Management</h2>
+          
+          <p class="mb-8">The core of SupplyFlow is its inventory management capabilities. This section covers how to effectively manage your product inventory, track stock levels, and handle stock movements.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Managing Products</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Product List View</h4>
+            <p class="mb-4">The product list gives you an overview of all your inventory items:</p>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Screenshot: Product List</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">In Stock</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 bg-gray-200 rounded"></div>
+                          <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">Premium Rice (5kg)</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">RICE-001</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Grains</td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">42 in stock</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₵50.00</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 bg-gray-200 rounded"></div>
+                          <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">Cooking Oil (1L)</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">OIL-002</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Cooking</td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">8 in stock</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₵25.00</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 bg-gray-200 rounded"></div>
+                          <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">Laundry Soap</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">SOAP-003</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Household</td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Out of stock</span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₵15.00</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <h4 class="text-lg font-medium mb-4 mt-8">Filtering and Searching Products</h4>
+            <p>You can quickly find products using the following methods:</p>
+            
+            <ul class="list-disc list-inside space-y-3 mb-6">
+              <li><strong>Search bar</strong>: Search by product name, SKU, or description</li>
+              <li><strong>Category filter</strong>: Filter products by their assigned category</li>
+              <li><strong>Stock status</strong>: Filter by in stock, low stock, or out of stock</li>
+              <li><strong>Advanced filters</strong>: Filter by price range, supplier, etc.</li>
+            </ul>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Stock Adjustments</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Manual Stock Adjustments</h4>
+            <p class="mb-4">Sometimes you need to manually adjust stock levels due to damaged goods, theft, stocktaking corrections, etc.:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Inventory → Stock Adjustments</li>
+              <li>Click "New Adjustment"</li>
+              <li>Select the product</li>
+              <li>Enter the new quantity or the adjustment amount</li>
+              <li>Select the reason for the adjustment</li>
+              <li>Add notes for future reference</li>
+              <li>Save the adjustment</li>
+            </ol>
+            
+            <div class="bg-gray-50 rounded-lg border border-gray-200 p-4 mb-6">
+              <h5 class="font-medium mb-2">Available Adjustment Reasons:</h5>
+              <ul class="grid grid-cols-2 gap-2">
+                <li class="flex items-center">
+                  <span class="inline-block w-3 h-3 rounded-full bg-gray-400 mr-2"></span>
+                  Inventory Count
+                </li>
+                <li class="flex items-center">
+                  <span class="inline-block w-3 h-3 rounded-full bg-red-400 mr-2"></span>
+                  Damaged Goods
+                </li>
+                <li class="flex items-center">
+                  <span class="inline-block w-3 h-3 rounded-full bg-yellow-400 mr-2"></span>
+                  Returns
+                </li>
+                <li class="flex items-center">
+                  <span class="inline-block w-3 h-3 rounded-full bg-blue-400 mr-2"></span>
+                  Transfer
+                </li>
+                <li class="flex items-center">
+                  <span class="inline-block w-3 h-3 rounded-full bg-purple-400 mr-2"></span>
+                  Theft
+                </li>
+                <li class="flex items-center">
+                  <span class="inline-block w-3 h-3 rounded-full bg-green-400 mr-2"></span>
+                  Other
+                </li>
+              </ul>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Important:</strong> All stock adjustments are permanently recorded in the audit trail and cannot be deleted, only reversed with a new adjustment.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Low Stock Alerts</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Configuring Stock Alerts</h4>
+            <p class="mb-4">SupplyFlow can automatically alert you when stock levels fall below specified thresholds:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Set reorder levels for each product (either when creating or editing a product)</li>
+              <li>Go to Settings → Notifications</li>
+              <li>Enable low stock alerts</li>
+              <li>Choose notification methods:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>In-app notifications</li>
+                  <li>Email alerts</li>
+                  <li>SMS alerts (premium plan only)</li>
+                </ul>
+              </li>
+              <li>Set alert frequency (immediately, daily digest, weekly digest)</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <div class="flex items-center p-4 bg-red-50 border-l-4 border-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                  <h5 class="font-bold text-red-700">Low Stock Alert Example</h5>
+                  <p class="text-red-600">Cooking Oil (1L) has fallen below the reorder level. Current stock: 8, Reorder level: 10</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Supplier Management Section -->
+      <section id="supplier-management" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Supplier Management</h2>
+          
+          <p class="mb-8">Efficiently managing your suppliers is crucial for maintaining your inventory. This section explains how to add suppliers, create purchase orders, and track deliveries.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Adding Suppliers</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Supplier Information</h4>
+            <p class="mb-4">To add a new supplier to SupplyFlow:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Suppliers → Add Supplier</li>
+              <li>Enter the supplier's basic information:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Company name</li>
+                  <li>Contact person</li>
+                  <li>Email address</li>
+                  <li>Phone number</li>
+                  <li>Physical address</li>
+                </ul>
+              </li>
+              <li>Add optional details:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Payment terms</li>
+                  <li>Lead time (in days)</li>
+                  <li>Notes</li>
+                </ul>
+              </li>
+              <li>Save the supplier details</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Form: Adding a New Supplier</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="max-w-lg mx-auto">
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                      <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+                      <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                      <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                      <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <div class="h-20 rounded-md border border-gray-300 bg-gray-50"></div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Payment Terms</label>
+                      <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Lead Time (Days)</label>
+                      <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                    <div class="h-20 rounded-md border border-gray-300 bg-gray-50"></div>
+                  </div>
+                  <div class="flex justify-end">
+                    <button class="py-2 px-4 bg-gray-200 text-gray-600 rounded-md mr-2">Cancel</button>
+                    <button class="py-2 px-4 bg-blue-600 text-white rounded-md">Save Supplier</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Creating Purchase Orders</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Purchase Order Process</h4>
+            <p class="mb-4">SupplyFlow streamlines the purchase order process:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Suppliers → Purchase Orders</li>
+              <li>Click "New Purchase Order"</li>
+              <li>Select the supplier</li>
+              <li>Set the expected delivery date</li>
+              <li>Add products to the order:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Search and select each product</li>
+                  <li>Enter quantity to order</li>
+                  <li>Verify or adjust unit cost</li>
+                </ul>
+              </li>
+              <li>Add any notes or special instructions for the supplier</li>
+              <li>Save as draft or finalize the order</li>
+              <li>Send the purchase order to the supplier (via email or print)</li>
+            </ol>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+              <p class="text-blue-700 text-sm"><strong>Pro Tip:</strong> Use the "Auto-fill from Low Stock" button to automatically add all products that are below their reorder levels.</p>
+            </div>
+            
+            <h4 class="text-lg font-medium mb-4 mt-8">Purchase Order Status</h4>
+            <p class="mb-4">Track purchase orders through their lifecycle:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 rounded-full bg-gray-400 mr-2"></div>
+                  <span class="font-medium">Draft</span>
+                </div>
+                <p class="text-sm text-gray-600">Order created but not yet sent to supplier</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 rounded-full bg-blue-400 mr-2"></div>
+                  <span class="font-medium">Ordered</span>
+                </div>
+                <p class="text-sm text-gray-600">Order sent to supplier, awaiting delivery</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 rounded-full bg-yellow-400 mr-2"></div>
+                  <span class="font-medium">Partially Received</span>
+                </div>
+                <p class="text-sm text-gray-600">Some items received, others still pending</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 rounded-full bg-green-400 mr-2"></div>
+                  <span class="font-medium">Received</span>
+                </div>
+                <p class="text-sm text-gray-600">All items in the order received</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 rounded-full bg-red-400 mr-2"></div>
+                  <span class="font-medium">Cancelled</span>
+                </div>
+                <p class="text-sm text-gray-600">Order has been cancelled</p>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Receiving Deliveries</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Record Stock Receipts</h4>
+            <p class="mb-4">When goods arrive from suppliers, record their receipt to update inventory levels:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Suppliers → Purchase Orders</li>
+              <li>Find the relevant purchase order</li>
+              <li>Click "Receive Items"</li>
+              <li>Enter receipt details:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Date received</li>
+                  <li>For each product, enter quantity received</li>
+                  <li>Mark items as damaged if necessary</li>
+                  <li>Add notes about the receipt</li>
+                </ul>
+              </li>
+              <li>Complete the receipt process</li>
+            </ol>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Note:</strong> You can receive items partially. This will update the purchase order status to "Partially Received" until all items are received.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Sales Tracking Section -->
+      <section id="sales-tracking" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Sales Tracking</h2>
+          
+          <p class="mb-8">Recording sales is essential for accurate inventory management. This section explains how to create sales orders, process sales, and manage returns.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Creating Sales Orders</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Record a New Sale</h4>
+            <p class="mb-4">To record a sale in SupplyFlow:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Sales → New Sale</li>
+              <li>Add customer information (optional)</li>
+              <li>Add products to the sale:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Search for products by name, SKU, or scanning barcode (premium feature)</li>
+                  <li>Enter quantity sold</li>
+                  <li>The system will automatically check if sufficient stock is available</li>
+                  <li>Add discounts if applicable</li>
+                </ul>
+              </li>
+              <li>Review the total amount</li>
+              <li>Select payment method</li>
+              <li>Process the sale</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Sales Order Interface</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="grid grid-cols-3 gap-6">
+                  <div class="col-span-2">
+                    <div class="mb-4">
+                      <div class="flex justify-between mb-2">
+                        <span class="font-medium">Products</span>
+                        <button class="text-sm text-blue-600">+ Add Product</button>
+                      </div>
+                      <div class="border border-gray-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                          <thead class="bg-gray-50">
+                            <tr>
+                              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+                              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
+                              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
+                              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                            </tr>
+                          </thead>
+                          <tbody class="divide-y divide-gray-200">
+                            <tr>
+                              <td class="px-4 py-3">Premium Rice (5kg)</td>
+                              <td class="px-4 py-3">2</td>
+                              <td class="px-4 py-3">₵50.00</td>
+                              <td class="px-4 py-3">₵100.00</td>
+                              <td class="px-4 py-3 text-right">
+                                <button class="text-red-600 text-sm">Remove</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="px-4 py-3">Cooking Oil (1L)</td>
+                              <td class="px-4 py-3">1</td>
+                              <td class="px-4 py-3">₵25.00</td>
+                              <td class="px-4 py-3">₵25.00</td>
+                              <td class="px-4 py-3 text-right">
+                                <button class="text-red-600 text-sm">Remove</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-span-1">
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                      <h5 class="font-medium mb-4">Sale Summary</h5>
+                      <div class="space-y-2 mb-4">
+                        <div class="flex justify-between">
+                          <span class="text-gray-600">Subtotal</span>
+                          <span>₵125.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                          <span class="text-gray-600">Discount</span>
+                          <span>₵0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                          <span class="text-gray-600">Tax</span>
+                          <span>₵0.00</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-2 flex justify-between font-medium">
+                          <span>Total</span>
+                          <span>₵125.00</span>
+                        </div>
+                      </div>
+                      
+                      <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                        <select class="w-full border border-gray-300 rounded-md py-2 px-3 bg-white">
+                          <option>Cash</option>
+                          <option>MTN Mobile Money</option>
+                          <option>Credit Card</option>
+                        </select>
+                      </div>
+                      
+                      <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-md">
+                        Process Sale
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-green-50 border-l-4 border-green-500 p-4">
+              <p class="text-green-700 text-sm"><strong>Tip:</strong> For faster sales processing, use the Quick Sale mode (available on the dashboard) which streamlines the sales recording process for walk-in customers.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Managing Returns</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Processing Customer Returns</h4>
+            <p class="mb-4">When customers return products, you'll need to update your inventory accordingly:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Sales → Returns</li>
+              <li>Click "New Return"</li>
+              <li>Select the original sale (if known) or proceed with a standalone return</li>
+              <li>Add products being returned:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Select each product</li>
+                  <li>Enter quantity being returned</li>
+                  <li>Select reason for return</li>
+                  <li>Note the condition (returnable to inventory or damaged)</li>
+                </ul>
+              </li>
+              <li>Process refund if applicable</li>
+              <li>Complete the return</li>
+            </ol>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Important:</strong> Returns marked as "returnable to inventory" will automatically increase your stock levels. Items marked as "damaged" will not affect your available inventory but will be recorded in your stock movement history.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Sales Forecasting Section -->
+      <section id="forecasting" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Sales Forecasting</h2>
+          
+          <p class="mb-8">SupplyFlow's sales forecasting feature helps you anticipate future demand based on historical sales data, enabling better inventory planning and purchasing decisions.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Understanding Forecasts</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">How Forecasting Works</h4>
+            <p class="mb-4">SupplyFlow analyzes your historical sales data to predict future sales trends:</p>
+            
+            <ul class="list-disc list-inside space-y-3 mb-6">
+              <li>The system analyzes at least 3 months of sales history (longer history produces more accurate forecasts)</li>
+              <li>Sales patterns are identified, including:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Seasonal trends</li>
+                  <li>Weekly patterns</li>
+                  <li>Growth or decline trends</li>
+                </ul>
+              </li>
+              <li>Forecasts are generated for the next 30, 60, and 90 days</li>
+              <li>Predictions are continuously refined as new sales data becomes available</li>
+            </ul>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Sales Forecast Chart</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <div class="text-center text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                    </svg>
+                    Sales forecast visualization
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Note:</strong> Forecast accuracy improves over time as the system collects more data about your sales patterns. For new businesses, allow at least 3 months of sales data for meaningful forecasts.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Using Forecasts for Inventory Planning</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Optimizing Inventory with Forecasts</h4>
+            <p class="mb-4">Here's how to use sales forecasts to improve your inventory management:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Reports → Sales Forecast</li>
+              <li>Review the forecast dashboard</li>
+              <li>Use the product filter to see forecasts for specific products or categories</li>
+              <li>Click on "Generate Purchase Plan" to create suggested purchase orders based on:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Forecast demand</li>
+                  <li>Current inventory levels</li>
+                  <li>Lead times for suppliers</li>
+                  <li>Safety stock preferences</li>
+                </ul>
+              </li>
+              <li>Review and adjust the suggested purchase plan</li>
+              <li>Convert to purchase orders with a single click</li>
+            </ol>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div class="border border-gray-200 rounded-lg p-4 bg-green-50">
+                <h5 class="font-medium mb-2 text-green-700">Top Growing Products</h5>
+                <ul class="space-y-2">
+                  <li class="flex justify-between">
+                    <span>Premium Rice (5kg)</span>
+                    <span class="text-green-600">+15%</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Corn Flour (1kg)</span>
+                    <span class="text-green-600">+12%</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Bath Soap (Pack of 3)</span>
+                    <span class="text-green-600">+8%</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4 bg-red-50">
+                <h5 class="font-medium mb-2 text-red-700">Declining Products</h5>
+                <ul class="space-y-2">
+                  <li class="flex justify-between">
+                    <span>Canned Tomatoes</span>
+                    <span class="text-red-600">-10%</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>White Sugar (2kg)</span>
+                    <span class="text-red-600">-5%</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Laundry Detergent</span>
+                    <span class="text-red-600">-3%</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4 bg-yellow-50">
+                <h5 class="font-medium mb-2 text-yellow-700">Seasonal Trends</h5>
+                <ul class="space-y-2">
+                  <li class="flex justify-between">
+                    <span>School Supplies</span>
+                    <span class="text-yellow-600">+25% (Sep)</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Holiday Decorations</span>
+                    <span class="text-yellow-600">+40% (Dec)</span>
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Umbrellas</span>
+                    <span class="text-yellow-600">+30% (Rainy)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Pro Tip:</strong> While forecasts are useful planning tools, always review them in the context of your business knowledge. External factors like upcoming promotions, holidays, or market changes should be considered when making final inventory decisions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Payment Integration Section -->
+      <section id="payment-integration" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Payment Integration</h2>
+          
+          <p class="mb-8">SupplyFlow integrates with popular Ghanaian payment platforms to help you track payments for sales. This section explains how to set up and use these integrations.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Supported Payment Methods</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="border border-gray-200 rounded-lg p-5">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                    <span class="font-bold text-yellow-600">MTN</span>
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-medium">MTN Mobile Money</h4>
+                    <p class="text-sm text-gray-600">Ghana's most popular mobile payment platform</p>
+                  </div>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-600 mb-4">
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Accept payments directly to your MTN MoMo merchant account</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Automatic transaction verification</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Instant payment confirmation</span>
+                  </li>
+                </ul>
+                <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Set up MTN Mobile Money →</a>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-5">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                    <span class="font-bold text-blue-600">H</span>
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-medium">Hubtel</h4>
+                    <p class="text-sm text-gray-600">Multi-channel payment processing platform</p>
+                  </div>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-600 mb-4">
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Accept mobile money from multiple providers</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Card payments support</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Comprehensive payment dashboard</span>
+                  </li>
+                </ul>
+                <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Set up Hubtel →</a>
+              </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+              <h4 class="font-medium mb-2">Additional Payment Methods</h4>
+              <p class="text-sm text-gray-600 mb-4">You can also track these payment methods manually in SupplyFlow:</p>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div class="border border-gray-200 rounded p-2 text-center text-sm bg-white">Cash</div>
+                <div class="border border-gray-200 rounded p-2 text-center text-sm bg-white">Bank Transfer</div>
+                <div class="border border-gray-200 rounded p-2 text-center text-sm bg-white">Vodafone Cash</div>
+                <div class="border border-gray-200 rounded p-2 text-center text-sm bg-white">AirtelTigo Money</div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Setting Up MTN Mobile Money</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Integration Steps</h4>
+            <p class="mb-4">To integrate MTN Mobile Money with SupplyFlow:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Settings → Payment Methods</li>
+              <li>Click "Connect" next to MTN Mobile Money</li>
+              <li>You'll need the following information:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>MTN MoMo Merchant ID</li>
+                  <li>API Key (provided by MTN)</li>
+                  <li>Primary callback URL (copy this from SupplyFlow)</li>
+                </ul>
+              </li>
+              <li>Enter the required information and save</li>
+              <li>Complete the test transaction to verify the connection</li>
+            </ol>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+              <p class="text-yellow-700 text-sm"><strong>Important:</strong> To obtain the required API credentials, you must have a registered MTN MoMo merchant account. Contact MTN Business or visit their website for more information.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Processing Payments</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Accepting Mobile Payments</h4>
+            <p class="mb-4">Once your payment integration is set up, you can easily process payments:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>During the sales process, select "MTN Mobile Money" as the payment method</li>
+              <li>Enter the customer's phone number</li>
+              <li>The system will generate a payment request</li>
+              <li>The customer will receive a prompt on their phone to authorize the payment</li>
+              <li>Once approved, the payment is automatically marked as completed in SupplyFlow</li>
+              <li>The inventory is updated and a receipt can be generated</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Payment Flow</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="flex items-center justify-center">
+                  <div class="flex flex-col items-center mx-4">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2">1</div>
+                    <div class="text-sm text-center">Create Sale</div>
+                  </div>
+                  <div class="w-8 h-0.5 bg-gray-200"></div>
+                  <div class="flex flex-col items-center mx-4">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2">2</div>
+                    <div class="text-sm text-center">Send Payment Request</div>
+                  </div>
+                  <div class="w-8 h-0.5 bg-gray-200"></div>
+                  <div class="flex flex-col items-center mx-4">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2">3</div>
+                    <div class="text-sm text-center">Customer Approves</div>
+                  </div>
+                  <div class="w-8 h-0.5 bg-gray-200"></div>
+                  <div class="flex flex-col items-center mx-4">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2">4</div>
+                    <div class="text-sm text-center">Sale Completed</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Pro Tip:</strong> You can also generate payment links that can be shared with customers via SMS, WhatsApp, or email for remote payments.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Offline Mode Section -->
+      <section id="offline-mode" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Offline Mode</h2>
+          
+          <p class="mb-8">SupplyFlow's offline capabilities ensure you can continue managing your inventory even when internet connectivity is unstable. This section explains how to use the system offline and sync data when connectivity is restored.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Working Offline</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-medium">Offline Mode Features</h4>
+            </div>
+            
+            <p class="mb-4">When your device goes offline, SupplyFlow automatically switches to offline mode, providing these capabilities:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="font-medium">View Inventory</span>
+                </div>
+                <p class="text-sm text-gray-600">Browse your complete product catalog and current stock levels.</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="font-medium">Record Sales</span>
+                </div>
+                <p class="text-sm text-gray-600">Create new sales transactions that will be synced later.</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="font-medium">Adjust Stock</span>
+                </div>
+                <p class="text-sm text-gray-600">Make inventory adjustments that will be applied when connectivity returns.</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="font-medium">View Customer Info</span>
+                </div>
+                <p class="text-sm text-gray-600">Access customer data for reference during sales.</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span class="font-medium">Online Payments</span>
+                </div>
+                <p class="text-sm text-gray-600">Mobile money and online payments require connectivity.</p>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span class="font-medium">Reports & Analytics</span>
+                </div>
+                <p class="text-sm text-gray-600">Detailed reports and forecasting require online access.</p>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>How it Works:</strong> SupplyFlow caches your core inventory data locally on your device using Progressive Web App (PWA) technology. When offline, your actions are stored in a queue and automatically synchronized when internet connectivity is restored.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Offline Indicators</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Recognizing Offline Status</h4>
+            <p class="mb-4">SupplyFlow provides clear visual indicators when you're working offline:</p>
+            
+            <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Offline Mode Indicators</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="flex items-center justify-between p-3 bg-yellow-50 border border-yellow-200 rounded-lg mb-4">
+                  <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span class="font-medium text-yellow-700">You are working offline</span>
+                  </div>
+                  <div>
+                    <span class="text-sm text-yellow-600">Last synced: 15 minutes ago</span>
+                  </div>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 border border-red-200 rounded-lg mb-4">
+                  <div class="flex items-center">
+                    <div class="relative mr-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 19.5l15-15" />
+                      </svg>
+                    </div>
+                    <span class="font-medium text-red-700">Pending Actions: 3</span>
+                  </div>
+                  <button class="text-sm text-blue-600 font-medium">View Details</button>
+                </div>
+                
+                <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="font-medium text-green-700">Back online! All changes synced successfully.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Sync Management</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Managing Data Synchronization</h4>
+            <p class="mb-4">When connectivity is restored, SupplyFlow will automatically attempt to sync offline changes:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>When you regain internet connection, synchronization begins automatically</li>
+              <li>A sync progress indicator will appear in the top navigation bar</li>
+              <li>You can also manually trigger synchronization from the offline panel</li>
+              <li>If any conflicts occur (e.g., stock levels were changed from another device), you'll be prompted to resolve them</li>
+              <li>Once complete, a confirmation message will appear showing successful synchronization</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg p-4 mb-6">
+              <h5 class="font-medium mb-3">Conflict Resolution</h5>
+              <p class="text-sm text-gray-600 mb-3">If changes were made to the same data both offline and online, you'll need to resolve conflicts:</p>
+              
+              <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
+                <div class="flex items-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span class="font-medium text-red-700">Conflict Detected: Premium Rice (5kg)</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="p-2 bg-white border border-gray-200 rounded">
+                    <p class="text-sm font-medium mb-1">Local Change:</p>
+                    <p class="text-sm">Stock level: 35</p>
+                    <p class="text-xs text-gray-500">Changed offline on May 10, 2025</p>
+                  </div>
+                  <div class="p-2 bg-white border border-gray-200 rounded">
+                    <p class="text-sm font-medium mb-1">Server Change:</p>
+                    <p class="text-sm">Stock level: 28</p>
+                    <p class="text-xs text-gray-500">Changed online on May 10, 2025</p>
+                  </div>
+                </div>
+                <div class="flex justify-end mt-3">
+                  <button class="py-1 px-3 bg-gray-200 text-gray-600 rounded text-sm mr-2">Use Local</button>
+                  <button class="py-1 px-3 bg-blue-600 text-white rounded text-sm">Use Server</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Recommendation:</strong> To minimize sync conflicts, try to perform inventory counts and major stock adjustments when you have reliable internet connectivity. For extended offline use, consider assigning different team members to manage different product categories.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- User Management Section -->
+      <section id="user-management" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">User Management</h2>
+          
+          <p class="mb-8">Managing your team's access to SupplyFlow ensures that each staff member has the appropriate permissions for their role. This section explains how to add users, set permissions, and monitor activity.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">User Roles and Permissions</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Understanding User Roles</h4>
+            <p class="mb-4">SupplyFlow provides predefined roles with different permission levels:</p>
+            
+            <div class="overflow-x-auto mb-6">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Key Permissions</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-sm font-medium text-gray-900">Owner</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-900">Business owner with full system access</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <ul class="text-sm text-gray-500 list-disc list-inside">
+                        <li>Full system access</li>
+                        <li>User management</li>
+                        <li>Subscription management</li>
+                        <li>All data & settings</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-sm font-medium text-gray-900">Manager</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-900">Store or department manager with high-level access</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <ul class="text-sm text-gray-500 list-disc list-inside">
+                        <li>Full inventory management</li>
+                        <li>Supplier management</li>
+                        <li>Sales & purchase data</li>
+                        <li>Reports & analytics</li>
+                        <li>Cannot change subscription</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                          </svg>
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-sm font-medium text-gray-900">Inventory Clerk</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-900">Staff responsible for managing stock</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <ul class="text-sm text-gray-500 list-disc list-inside">
+                        <li>View inventory</li>
+                        <li>Adjust stock levels</li>
+                        <li>Receive purchase orders</li>
+                        <li>Limited reports access</li>
+                        <li>Cannot create purchase orders</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-sm font-medium text-gray-900">Cashier/Sales</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-900">Staff handling sales transactions</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <ul class="text-sm text-gray-500 list-disc list-inside">
+                        <li>Process sales</li>
+                        <li>View inventory</li>
+                        <li>Process returns</li>
+                        <li>No access to financials</li>
+                        <li>Cannot adjust stock</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-sm font-medium text-gray-900">Viewer</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-900">Read-only access to system data</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <ul class="text-sm text-gray-500 list-disc list-inside">
+                        <li>View inventory</li>
+                        <li>View reports</li>
+                        <li>View suppliers</li>
+                        <li>No ability to create/edit/delete</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Note:</strong> Premium plan subscribers can also create custom roles with specific permission combinations tailored to their business needs.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Adding Team Members</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Inviting Users to SupplyFlow</h4>
+            <p class="mb-4">To add new users to your SupplyFlow account:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Settings → User Management</li>
+              <li>Click "Invite User"</li>
+              <li>Enter the user's email address</li>
+              <li>Select their role from the dropdown</li>
+              <li>Add optional notes (e.g., what location they work at)</li>
+              <li>Click "Send Invitation"</li>
+              <li>The user will receive an email invitation with instructions to create their account</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Invite User Form</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="max-w-lg mx-auto">
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                    <div class="h-10 rounded-md border border-gray-300 bg-gray-50"></div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                    <div class="h-20 rounded-md border border-gray-300 bg-gray-50"></div>
+                  </div>
+                  <div class="flex justify-end">
+                    <button class="py-2 px-4 bg-gray-200 text-gray-600 rounded-md mr-2">Cancel</button>
+                    <button class="py-2 px-4 bg-blue-600 text-white rounded-md">Send Invitation</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Note:</strong> Your subscription plan may limit the number of users you can add. You can check your current user limit and usage in Settings → Subscription.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Activity Tracking</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Monitoring User Activity</h4>
+            <p class="mb-4">SupplyFlow maintains a detailed activity log of user actions:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Settings → Activity Log</li>
+              <li>View a chronological list of all system activities</li>
+              <li>Filter the log by:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>User</li>
+                  <li>Date range</li>
+                  <li>Activity type (stock adjustment, sales, login, etc.)</li>
+                </ul>
+              </li>
+              <li>Click on any activity for more details</li>
+              <li>Export the activity log as CSV for external analysis</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Activity Log</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                      <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Today, 14:32</td>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Abena Owusu</td>
+                      <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Sale Processed</span>
+                      </td>
+                      <td class="px-4 py-3 text-sm text-gray-500">Sale #1024, Amount: ₵125.00</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Today, 13:15</td>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Kwame Adu</td>
+                      <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Stock Adjusted</span>
+                      </td>
+                      <td class="px-4 py-3 text-sm text-gray-500">Premium Rice (5kg), -5 units, Reason: Damaged</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Today, 10:03</td>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">System</td>
+                      <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Low Stock Alert</span>
+                      </td>
+                      <td class="px-4 py-3 text-sm text-gray-500">Cooking Oil (1L) has fallen below reorder level</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">Today, 09:47</td>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Kwame Adu</td>
+                      <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Login</span>
+                      </td>
+                      <td class="px-4 py-3 text-sm text-gray-500">Logged in from 192.168.1.105</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Security Tip:</strong> Regularly review the activity log to monitor for unusual patterns or unauthorized actions. This can help identify potential security issues or training needs for your staff.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Reports Section -->
+      <section id="reports" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Reports & Analytics</h2>
+          
+          <p class="mb-8">SupplyFlow provides comprehensive reporting tools to help you understand your inventory performance, sales trends, and business metrics. This section explains how to use the various reports and analytics features.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Available Reports</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Report Categories</h4>
+            <p class="mb-4">SupplyFlow offers various report types organized by category:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h5 class="font-medium mb-3 text-gray-800">Inventory Reports</h5>
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Current Stock Levels</span>
+                      <p class="text-sm text-gray-600">Overview of all products and their current quantities</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Low Stock Items</span>
+                      <p class="text-sm text-gray-600">Products below their reorder levels</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Inventory Valuation</span>
+                      <p class="text-sm text-gray-600">Total value of current inventory at cost and retail prices</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Stock Movement History</span>
+                      <p class="text-sm text-gray-600">Detailed audit trail of all inventory changes</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h5 class="font-medium mb-3 text-gray-800">Sales Reports</h5>
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Sales Summary</span>
+                      <p class="text-sm text-gray-600">Overview of sales by day, week, month, or custom period</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Top Selling Products</span>
+                      <p class="text-sm text-gray-600">Products ranked by sales volume or revenue</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Sales by Category</span>
+                      <p class="text-sm text-gray-600">Analysis of sales performance by product category</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Payment Method Analysis</span>
+                      <p class="text-sm text-gray-600">Breakdown of sales by payment type</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h5 class="font-medium mb-3 text-gray-800">Supplier Reports</h5>
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Purchase Order Summary</span>
+                      <p class="text-sm text-gray-600">Overview of all purchase orders and their status</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Supplier Performance</span>
+                      <p class="text-sm text-gray-600">Analysis of supplier reliability, lead times, and pricing</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Purchasing Costs</span>
+                      <p class="text-sm text-gray-600">Analysis of spending by supplier and category</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h5 class="font-medium mb-3 text-gray-800">Financial Reports</h5>
+                <ul class="space-y-2">
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Profit Margin Analysis</span>
+                      <p class="text-sm text-gray-600">Breakdown of profit margins by product and category</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Revenue Trends</span>
+                      <p class="text-sm text-gray-600">Visual representation of revenue over time</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                      <span class="font-medium">Cash Flow from Sales</span>
+                      <p class="text-sm text-gray-600">Analysis of incoming cash flow by payment method</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Pro Tip:</strong> The Premium plan includes additional advanced reports and custom report builders, allowing you to create tailored reports specific to your business needs.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Generating and Customizing Reports</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Report Creation Process</h4>
+            <p class="mb-4">To generate reports in SupplyFlow:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Reports → Select the report category</li>
+              <li>Choose the specific report type</li>
+              <li>Set report parameters:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Date range</li>
+                  <li>Product categories (if applicable)</li>
+                  <li>Other filters specific to the report type</li>
+                </ul>
+              </li>
+              <li>Click "Generate Report"</li>
+              <li>View the report on screen, with interactive charts and tables</li>
+              <li>Export the report (PDF, Excel, CSV) or print it directly</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg mb-6 overflow-hidden">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Report Parameters Example</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
+                    <select class="w-full border border-gray-300 rounded-md py-2 px-3">
+                      <option>Sales by Product</option>
+                      <option>Sales by Category</option>
+                      <option>Sales by Payment Method</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                    <select class="w-full border border-gray-300 rounded-md py-2 px-3">
+                      <option>Today</option>
+                      <option>This Week</option>
+                      <option>This Month</option>
+                      <option>Custom Range</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Categories</label>
+                    <select class="w-full border border-gray-300 rounded-md py-2 px-3">
+                      <option>All Categories</option>
+                      <option>Grains</option>
+                      <option>Cooking</option>
+                      <option>Household</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button class="py-2 px-4 bg-blue-600 text-white rounded-md">Generate Report</button>
+                </div>
+              </div>
+            </div>
+            
+            <h4 class="text-lg font-medium mb-4 mt-8">Saving and Scheduling Reports</h4>
+            <p class="mb-4">For reports you run frequently:</p>
+            
+            <ul class="list-disc list-inside space-y-3 mb-6">
+              <li>After generating a report, click "Save Report" to save the parameters for future use</li>
+              <li>Give the report a name and description</li>
+              <li>Optionally, set up a schedule to automatically generate and email the report:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Daily, weekly, or monthly frequency</li>
+                  <li>Specific time for generation</li>
+                  <li>Email recipients</li>
+                </ul>
+              </li>
+              <li>Access saved reports from the "Saved Reports" tab</li>
+            </ul>
+            
+            <div class="bg-green-50 border-l-4 border-green-500 p-4">
+              <p class="text-green-700 text-sm"><strong>Time-Saving Tip:</strong> Set up scheduled reports for key business metrics (e.g., weekly sales summary, monthly inventory valuation) to automatically receive them in your inbox without having to manually generate them.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Dashboard Analytics</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Customizing Your Dashboard</h4>
+            <p class="mb-4">The SupplyFlow dashboard provides at-a-glance analytics for your business. You can customize it to show the metrics most important to you:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>From your dashboard, click "Customize" in the top right corner</li>
+              <li>Select widgets to add from the available options:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Sales summary (today, this week, this month)</li>
+                  <li>Low stock alerts</li>
+                  <li>Top selling products</li>
+                  <li>Recent purchase orders</li>
+                  <li>Inventory value</li>
+                  <li>Sales trend chart</li>
+                  <li>And many more...</li>
+                </ul>
+              </li>
+              <li>Drag and drop widgets to arrange them</li>
+              <li>Resize widgets as needed</li>
+              <li>Click "Save Layout" when finished</li>
+            </ol>
+            
+            <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+              <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                <span class="text-sm font-medium text-gray-600">Dashboard Example</span>
+              </div>
+              <div class="p-4 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="border border-gray-200 rounded-lg p-4 bg-blue-50">
+                    <h5 class="font-medium mb-2">Today's Sales</h5>
+                    <div class="text-2xl font-bold text-blue-700">₵1,250.00</div>
+                    <div class="text-sm text-blue-600">10 transactions</div>
+                  </div>
+                  <div class="border border-gray-200 rounded-lg p-4 bg-yellow-50">
+                    <h5 class="font-medium mb-2">Low Stock Items</h5>
+                    <div class="text-2xl font-bold text-yellow-700">5</div>
+                    <div class="text-sm text-yellow-600">Items below reorder level</div>
+                  </div>
+                  <div class="border border-gray-200 rounded-lg p-4 bg-green-50">
+                    <h5 class="font-medium mb-2">Inventory Value</h5>
+                    <div class="text-2xl font-bold text-green-700">₵15,420.00</div>
+                    <div class="text-sm text-green-600">At cost price</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Note:</strong> You can create multiple dashboard layouts for different purposes. For example, create a "Sales Focus" dashboard and an "Inventory Focus" dashboard, and switch between them as needed.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- API Reference Section -->
+      <section id="api" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">API Reference</h2>
+          
+          <p class="mb-8">SupplyFlow offers a REST API for integrating with other business systems. This section provides an overview of the API capabilities and how to use them.</p>
+          
+          <div class="bg-gray-50 border-l-4 border-gray-500 p-4 mb-8">
+            <p class="text-gray-700"><strong>Note:</strong> API access is available on Standard and Premium subscription plans only.</p>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">API Authentication</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">Generating API Keys</h4>
+            <p class="mb-4">To use the SupplyFlow API, you'll need to generate API credentials:</p>
+            
+            <ol class="list-decimal list-inside space-y-3 mb-6">
+              <li>Go to Settings → API</li>
+              <li>Click "Generate New API Key"</li>
+              <li>Enter a description for the key (e.g., "Accounting Integration")</li>
+              <li>Select the permissions for this key:
+                <ul class="list-disc list-inside ml-5 mt-2 space-y-2">
+                  <li>Read-only</li>
+                  <li>Read/Write</li>
+                  <li>Full access</li>
+                </ul>
+              </li>
+              <li>Click "Generate Key"</li>
+              <li>Copy and securely store your API key and secret - the secret will only be shown once</li>
+            </ol>
+            
+            <div class="bg-gray-100 rounded-lg p-4 mb-6">
+              <h5 class="font-medium mb-2">Authentication Example (HTTP Headers)</h5>
+              <div class="bg-gray-800 text-white font-mono text-sm p-4 rounded">
+                <pre>Authorization: Bearer your_api_key_here
+Content-Type: application/json
+Accept: application/json</pre>
+              </div>
+            </div>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+              <p class="text-yellow-700 text-sm"><strong>Security Warning:</strong> Treat your API credentials like passwords. Do not share them or include them in client-side code. Always use HTTPS for API requests.</p>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Available Endpoints</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <h4 class="text-lg font-medium mb-4">API Endpoints Overview</h4>
+            <p class="mb-4">The SupplyFlow API includes the following main endpoint categories:</p>
+            
+            <div class="overflow-x-auto mb-6">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint Category</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Example Endpoint</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Products</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Manage product catalog</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><code>GET /api/v1/products</code></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Inventory</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Check and update stock levels</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><code>GET /api/v1/inventory</code></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Sales</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Manage sales and transactions</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><code>POST /api/v1/sales</code></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Suppliers</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Manage suppliers and purchase orders</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><code>GET /api/v1/suppliers</code></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Reports</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Generate reports and analytics</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><code>GET /api/v1/reports/sales</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <a href="#" class="text-blue-600 hover:underline">View Full API Documentation →</a>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">API Usage Examples</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Common API Requests</h4>
+            
+            <div class="mb-6">
+              <h5 class="font-medium mb-2">Example: Retrieving Products</h5>
+              <div class="bg-gray-100 rounded-lg p-4">
+                <div class="font-mono text-sm mb-2">Request:</div>
+                <div class="bg-gray-800 text-white font-mono text-sm p-4 rounded mb-4">
+                  <pre>GET /api/v1/products
+Authorization: Bearer your_api_key_here</pre>
+                </div>
+                <div class="font-mono text-sm mb-2">Response:</div>
+                <div class="bg-gray-800 text-white font-mono text-sm p-4 rounded overflow-x-auto">
+                  <pre>{
+  "data": [
+    {
+      "id": "prod_123",
+      "name": "Premium Rice (5kg)",
+      "sku": "RICE-001",
+      "category_id": "cat_456",
+      "description": "High-quality rice, 5kg package",
+      "unit_of_measure": "package",
+      "purchase_price": 35.00,
+      "selling_price": 50.00,
+      "reorder_level": 10,
+      "stock_count": 42,
+      "created_at": "2025-01-15T10:30:00Z",
+      "updated_at": "2025-05-10T14:25:00Z"
+    },
+    {
+      "id": "prod_124",
+      "name": "Cooking Oil (1L)",
+      "sku": "OIL-002",
+      "category_id": "cat_457",
+      "description": "Vegetable cooking oil, 1 liter bottle",
+      "unit_of_measure": "bottle",
+      "purchase_price": 18.00,
+      "selling_price": 25.00,
+      "reorder_level": 15,
+      "stock_count": 8,
+      "created_at": "2025-01-15T10:35:00Z",
+      "updated_at": "2025-05-09T16:45:00Z"
+    }
+  ],
+  "meta": {
+    "total": 250,
+    "page": 1,
+    "per_page": 2,
+    "pages": 125
+  }
+}</pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h5 class="font-medium mb-2">Example: Creating a Sale</h5>
+              <div class="bg-gray-100 rounded-lg p-4">
+                <div class="font-mono text-sm mb-2">Request:</div>
+                <div class="bg-gray-800 text-white font-mono text-sm p-4 rounded mb-4">
+                  <pre>POST /api/v1/sales
+                    Authorization: Bearer your_api_key_here
+                    Content-Type: application/json
+
+                    {
+                      "customer_name": "Walk-in Customer",
+                      "items": [
+                        {
+                          "product_id": "prod_123",
+                          "quantity": 2,
+                          "unit_price": 50.00
+                        },
+                        {
+                          "product_id": "prod_124",
+                          "quantity": 1,
+                          "unit_price": 25.00
+                        }
+                      ],
+                      "payment_method": "cash",
+                      "payment_status": "paid",
+                      "notes": "Customer requested delivery"
+                  }</pre>
+                </div>
+                <div class="font-mono text-sm mb-2">Response:</div>
+                <div class="bg-gray-800 text-white font-mono text-sm p-4 rounded overflow-x-auto">
+                  <pre>{
+                    "data": {
+                      "id": "sale_789",
+                      "customer_name": "Walk-in Customer",
+                      "items": [
+                        {
+                          "product_id": "prod_123",
+                          "name": "Premium Rice (5kg)",
+                          "quantity": 2,
+                          "unit_price": 50.00,
+                          "total": 100.00
+                        },
+                        {
+                          "product_id": "prod_124",
+                          "name": "Cooking Oil (1L)",
+                          "quantity": 1,
+                          "unit_price": 25.00,
+                          "total": 25.00
+                        }
+                      ],
+                      "subtotal": 125.00,
+                      "tax": 0.00,
+                      "total": 125.00,
+                      "payment_method": "cash",
+                      "payment_status": "paid",
+                      "notes": "Customer requested delivery",
+                      "created_at": "2025-05-11T09:45:00Z"
+                    }
+                  }</pre>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+              <p class="text-blue-700 text-sm"><strong>Integration Ideas:</strong> Common integrations include connecting SupplyFlow to your accounting software (e.g., QuickBooks, Xero), e-commerce platforms, or custom POS systems. The API makes it possible to keep inventory synchronized across multiple systems.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Troubleshooting Section -->
+      <section id="troubleshooting" class="pt-8 pb-16 border-t border-gray-200">
+        <div class="prose prose-blue max-w-none">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Troubleshooting</h2>
+          
+          <p class="mb-8">This section provides solutions to common issues you might encounter while using SupplyFlow, along with tips for resolving them.</p>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Common Issues and Solutions</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <div class="space-y-6">
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-2">Connection Issues</h4>
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                  <div class="px-4 py-3 border-b border-gray-200 flex items-center bg-red-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="font-medium text-red-700">Problem: Can't access SupplyFlow or frequently disconnected</span>
+                  </div>
+                  <div class="p-4">
+                    <p class="text-gray-700 mb-4">This is usually caused by internet connectivity issues or browser problems.</p>
+                    <p class="font-medium mb-2 text-gray-800">Solutions:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                      <li>Check your internet connection and try accessing other websites</li>
+                      <li>Clear your browser cache and cookies</li>
+                      <li>Try using a different browser</li>
+                      <li>Disable browser extensions that might be interfering</li>
+                      <li>If using mobile data, move to an area with better reception</li>
+                      <li>If the problem persists, contact your internet service provider</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-2">Inventory Discrepancies</h4>
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                  <div class="px-4 py-3 border-b border-gray-200 flex items-center bg-yellow-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="font-medium text-yellow-700">Problem: Physical inventory doesn't match system records</span>
+                  </div>
+                  <div class="p-4">
+                    <p class="text-gray-700 mb-4">Discrepancies between physical inventory and system records can occur for various reasons, including sales not being recorded, theft, or data entry errors.</p>
+                    <p class="font-medium mb-2 text-gray-800">Solutions:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                      <li>Check the Stock Movement History report to identify unexpected changes</li>
+                      <li>Verify that all sales are being properly recorded</li>
+                      <li>Ensure that all stock receipts have been entered correctly</li>
+                      <li>Look for unusual adjustments or patterns that might indicate theft</li>
+                      <li>Conduct a full inventory count and reconciliation</li>
+                      <li>Use the "Adjust Stock" feature to correct discrepancies, with clear notes</li>
+                      <li>Implement more regular stock counts for high-value or fast-moving items</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-2">Sync Conflicts in Offline Mode</h4>
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                  <div class="px-4 py-3 border-b border-gray-200 flex items-center bg-yellow-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="font-medium text-yellow-700">Problem: Data conflicts when reconnecting after offline use</span>
+                  </div>
+                  <div class="p-4">
+                    <p class="text-gray-700 mb-4">When multiple devices are used offline and then reconnected, data conflicts can occur if the same items were modified differently.</p>
+                    <p class="font-medium mb-2 text-gray-800">Solutions:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                      <li>Assign specific products or categories to different staff members to avoid overlap</li>
+                      <li>When resolving conflicts, carefully review both versions and choose the most accurate one</li>
+                      <li>After resolving conflicts, perform a spot check on affected inventory items</li>
+                      <li>Minimize offline usage when possible, especially for critical inventory operations</li>
+                      <li>Establish clear procedures for offline operations and sync conflicts</li>
+                      <li>Train staff on proper procedures for offline mode and synchronization</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 class="text-lg font-medium text-gray-800 mb-2">Payment Integration Issues</h4>
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                  <div class="px-4 py-3 border-b border-gray-200 flex items-center bg-red-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="font-medium text-red-700">Problem: Mobile money payments not processing or confirming</span>
+                  </div>
+                  <div class="p-4">
+                    <p class="text-gray-700 mb-4">Issues with payment processing can be caused by API connectivity problems, incorrect credentials, or service outages.</p>
+                    <p class="font-medium mb-2 text-gray-800">Solutions:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                      <li>Verify that your payment API credentials are correct in Settings → Payment Methods</li>
+                      <li>Check that the callback URL is properly configured in your mobile money merchant account</li>
+                      <li>Ensure that the mobile phone number is entered correctly, including the country code</li>
+                      <li>Test with a small amount to verify the integration is working</li>
+                      <li>Check the payment provider's status page for any reported service issues</li>
+                      <li>Temporarily switch to an alternative payment method if needed</li>
+                      <li>Contact SupplyFlow support if the issue persists</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-4">Getting Help</h3>
+          
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium mb-4">Support Resources</h4>
+            <p class="mb-4">If you encounter issues not covered in this documentation, SupplyFlow offers several support channels:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div class="border border-gray-200 rounded-lg p-5">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-medium">Live Chat Support</h4>
+                    <p class="text-sm text-gray-600">Available Monday-Friday, 8am-5pm GMT</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Get real-time assistance for urgent issues directly within the SupplyFlow application.</p>
+                <a href="#" class="text-blue-600 font-medium hover:underline">Start Chat Support →</a>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-5">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-medium">Email Support</h4>
+                    <p class="text-sm text-gray-600">Response within 24 hours</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">For less urgent issues or detailed questions, email our support team.</p>
+                <a href="mailto:support@supplyflow.com" class="text-blue-600 font-medium hover:underline">support@supplyflow.com</a>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="border border-gray-200 rounded-lg p-5">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-medium">Knowledge Base</h4>
+                    <p class="text-sm text-gray-600">Detailed articles and tutorials</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Browse our extensive collection of help articles, video tutorials, and step-by-step guides.</p>
+                <a href="#" class="text-blue-600 font-medium hover:underline">Visit Knowledge Base →</a>
+              </div>
+              
+              <div class="border border-gray-200 rounded-lg p-5">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-medium">Community Forum</h4>
+                    <p class="text-sm text-gray-600">Connect with other users</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4">Join our community forum to ask questions, share best practices, and connect with other SupplyFlow users.</p>
+                <a href="#" class="text-blue-600 font-medium hover:underline">Join Community Forum →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Back to Top Button -->
+  <div class="fixed bottom-8 right-8" x-data="{ showButton: false }" @scroll.window="showButton = (window.pageYOffset > 300)">
+    <button 
+      x-show="showButton"
+      @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      class="p-3 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 focus:outline-none transition-opacity ease-in duration-200"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 transform translate-y-4"
+      x-transition:enter-end="opacity-100 transform translate-y-0"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 transform translate-y-0"
+      x-transition:leave-end="opacity-0 transform translate-y-4"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="text-center">
+        <div class="flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <span class="text-xl font-bold ml-2">SupplyFlow</span>
+        </div>
+        <p class="text-gray-400 mb-6">Comprehensive inventory management for Ghanaian SMEs</p>
+        <div class="flex justify-center space-x-4 mb-8">
+          <a href="#" class="text-gray-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.195 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.261.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="text-center text-sm text-gray-500">
+        <p>&copy; <%= Time.now.year %> SupplyFlow. All rights reserved.</p>
+        <p class="mt-2">SupplyFlow is a product of Acme Technologies Ltd.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<%# Include Alpine.js for interactivity %>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<%# Custom JavaScript for documentation Page %>
+<% content_for :page_javascript do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set initial active section based on URL hash or default to introduction
+      const initialHash = window.location.hash.substring(1) || 'introduction';
+      const targetSection = document.getElementById(initialHash);
+      
+      if (targetSection) {
+        // Scroll to the section after a small delay to ensure Alpine has initialized
+        setTimeout(() => {
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+      
+      // Handle internal documentation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            e.preventDefault();
+            history.pushState(null, '', `#${targetId}`);
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+            
+            // This will trigger Alpine to update the active section
+            window.dispatchEvent(new CustomEvent('hashchange'));
+          }
+        });
+      });
+    });
+  </script>
+<% end %>

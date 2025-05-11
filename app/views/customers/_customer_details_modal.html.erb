@@ -1,0 +1,57 @@
+<%# Customer Details Modal %>
+<div
+  id="customer-details-modal"
+  data-controller="modal"
+  data-modal-size-value="xl"
+  data-modal-animation-value="fade"
+  data-modal-close-on-outside-click-value="true"
+  data-modal-show-close-value="true"
+  data-modal-backdrop-value="true"
+  class="hidden">
+
+  <%# The modal backdrop/overlay %>
+  <div
+    data-modal-target="modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+
+    <%# Backdrop overlay %>
+    <div
+      data-modal-target="overlay"
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+    <%# Modal container %>
+    <div
+      data-modal-target="container"
+      class="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full opacity-0
+             overflow-hidden flex flex-col max-h-[90vh] max-w-4xl">
+
+      <%# Modal header %>
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3
+          data-modal-target="title"
+          class="text-lg font-medium text-gray-900 dark:text-white">
+          Customer Details
+        </h3>
+        <button
+          type="button"
+          data-action="modal#close"
+          class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 focus:outline-none">
+          <span class="sr-only">Close</span>
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <%# Modal content %>
+      <div
+        data-modal-target="content"
+        class="flex-1 p-6 overflow-y-auto">
+        <div id="customer-modal-content" class="space-y-6">
+          <!-- Content will be loaded dynamically -->
+          <div class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

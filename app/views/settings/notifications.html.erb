@@ -1,0 +1,272 @@
+<% content_for :title, "Notification Settings" %>
+
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-4">
+      <h1 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-bell mr-2"></i> Notification Settings
+      </h1>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300">
+        Customize how and when you receive notifications. You can enable or disable different types of notifications.
+      </p>
+    </div>
+  </div>
+  
+  <!-- Notification Channels -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Notification Channels</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Choose how you want to receive notifications. You can enable multiple channels.
+      </p>
+      
+      <%= form_with model: @user, url: update_notifications_path, method: :patch do |f| %>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-gray-900 dark:text-white">Email Notifications</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Receive notifications via email</p>
+              </div>
+            </div>
+            
+            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+              <%= f.check_box "notification_preferences[email]", 
+                            checked: @user.notification_preferences["email"], 
+                            class: "absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-indigo-600 dark:checked:border-indigo-400 transition-all duration-200",
+                            style: "top: 0; outline: none; margin: 0; border-color: #d1d5db;" %>
+              <label for="user_notification_preferences_email" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-gray-900 dark:text-white">In-App Notifications</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Receive notifications within the application</p>
+              </div>
+            </div>
+            
+            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+              <%= f.check_box "notification_preferences[in_app]", 
+                            checked: @user.notification_preferences["in_app"], 
+                            class: "absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-indigo-600 dark:checked:border-indigo-400 transition-all duration-200",
+                            style: "top: 0; outline: none; margin: 0; border-color: #d1d5db;" %>
+              <label for="user_notification_preferences_in_app" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-3">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-gray-900 dark:text-white">Push Notifications</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Receive push notifications on your devices</p>
+              </div>
+            </div>
+            
+            <div class="relative inline-block w-12 mr-2 align-middle select-none">
+              <%= f.check_box "notification_preferences[push]", 
+                            checked: @user.notification_preferences["push"], 
+                            class: "absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-indigo-600 dark:checked:border-indigo-400 transition-all duration-200",
+                            style: "top: 0; outline: none; margin: 0; border-color: #d1d5db;" %>
+              <label for="user_notification_preferences_push" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 flex justify-end">
+          <%= f.submit "Save Channel Settings", class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Notification Types -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Notification Types</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Choose which types of notifications you want to receive.
+      </p>
+      
+      <%= form_with model: @user, url: update_notifications_path, method: :patch do |f| %>
+        <div class="space-y-6">
+          <!-- Inventory Notifications -->
+          <div>
+            <h3 class="text-md font-medium text-gray-900 dark:text-white mb-3">Inventory Notifications</h3>
+            
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[low_stock]", 
+                              checked: @user.notification_preferences["low_stock"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_low_stock" class="text-sm font-medium text-gray-900 dark:text-white">Low Stock Alerts</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified when products are running low</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[out_of_stock]", 
+                              checked: @user.notification_preferences["out_of_stock"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_out_of_stock" class="text-sm font-medium text-gray-900 dark:text-white">Out of Stock Alerts</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified when products are out of stock</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[inventory_movements]", 
+                              checked: @user.notification_preferences["inventory_movements"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_inventory_movements" class="text-sm font-medium text-gray-900 dark:text-white">Inventory Movements</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified about inventory transfers and adjustments</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Order Notifications -->
+          <div>
+            <h3 class="text-md font-medium text-gray-900 dark:text-white mb-3">Order Notifications</h3>
+            
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[new_orders]", 
+                              checked: @user.notification_preferences["new_orders"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_new_orders" class="text-sm font-medium text-gray-900 dark:text-white">New Orders</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified when new orders are created</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[order_status_changes]", 
+                              checked: @user.notification_preferences["order_status_changes"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_order_status_changes" class="text-sm font-medium text-gray-900 dark:text-white">Order Status Changes</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified when order statuses change</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[payment_updates]", 
+                              checked: @user.notification_preferences["payment_updates"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_payment_updates" class="text-sm font-medium text-gray-900 dark:text-white">Payment Updates</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified about payment status changes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- System Notifications -->
+          <div>
+            <h3 class="text-md font-medium text-gray-900 dark:text-white mb-3">System Notifications</h3>
+            
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[system_updates]", 
+                              checked: @user.notification_preferences["system_updates"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_system_updates" class="text-sm font-medium text-gray-900 dark:text-white">System Updates</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified about system updates and maintenance</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center">
+                <%= f.check_box "notification_preferences[security_alerts]", 
+                              checked: @user.notification_preferences["security_alerts"], 
+                              class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                <div class="ml-3">
+                  <label for="user_notification_preferences_security_alerts" class="text-sm font-medium text-gray-900 dark:text-white">Security Alerts</label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Get notified about security-related events</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 flex justify-end">
+          <%= f.submit "Save Notification Preferences", class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Email Frequency -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Email Frequency</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Choose how often you want to receive email notifications.
+      </p>
+      
+      <%= form_with model: @user, url: update_notifications_path, method: :patch do |f| %>
+        <div class="space-y-4">
+          <div class="flex items-center">
+            <%= f.radio_button "notification_preferences[email_frequency]", "immediate", 
+                             checked: @user.notification_preferences["email_frequency"] == "immediate", 
+                             class: "h-5 w-5 text-indigo-600 border-gray-300 focus:ring-indigo-500" %>
+            <div class="ml-3">
+              <label for="user_notification_preferences_email_frequency_immediate" class="text-sm font-medium text-gray-900 dark:text-white">Immediate</label>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Send emails as events occur</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <%= f.radio_button "notification_preferences[email_frequency]", "daily", 
+                             checked: @user.notification_preferences["email_frequency"] == "daily", 
+                             class: "h-5 w-5 text-indigo-600 border-gray-300 focus:ring-indigo-500" %>
+            <div class="ml-3">
+              <label for="user_notification_preferences_email_frequency_daily" class="text-sm font-medium text-gray-900 dark:text-white">Daily Digest</label>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Send a daily summary of all notifications</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <%= f.radio_button "notification_preferences[email_frequency]", "weekly", 
+                             checked: @user.notification_preferences["email_frequency"] == "weekly", 
+                             class: "h-5 w-5 text-indigo-600 border-gray-300 focus:ring-indigo-500" %>
+            <div class="ml-3">
+              <label for="user_notification_preferences_email_frequency_weekly" class="text-sm font-medium text-gray-900 dark:text-white">Weekly Digest</label>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Send a weekly summary of all notifications</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 flex justify-end">
+          <%= f.submit "Save Email Frequency", class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

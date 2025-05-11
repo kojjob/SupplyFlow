@@ -1,0 +1,189 @@
+<%# Location Selector Modal %>
+
+<% 
+  # Ensure we have a valid resource type
+  resource_type = "location" 
+%>
+
+<%= render partial: "shared/modal", locals: {
+  id: "location-selector-modal",
+  title: "Select Location",
+  size: "md",
+  animation: "fade",
+  resource_type: resource_type,
+  show_close: true,
+  form_id: false
+} do %>
+  <div class="space-y-4">
+    <%# Search Box %>
+    <div>
+      <div class="relative rounded-md shadow-sm">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="fas fa-search text-gray-400"></i>
+        </div>
+        <input type="text" id="location-search" placeholder="Search locations..."
+              class="pl-10 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+      </div>
+    </div>
+    
+    <%# Location List %>
+    <div class="max-h-96 overflow-y-auto">
+      <ul id="location-list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <%# Locations will be populated via JavaScript %>
+        <li class="py-3 px-2 flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md cursor-pointer transition-colors">
+          <div class="w-8 h-8 bg-[#0055A4] text-white rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+            <i class="fas fa-building"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">Loading locations...</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">Please wait</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    
+    <%# No results message %>
+    <div id="no-locations-message" class="hidden text-center py-8">
+      <div class="w-16 h-16 mx-auto bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500 mb-4">
+        <i class="fas fa-map-marker-slash text-2xl"></i>
+      </div>
+      <h3 class="text-base font-medium text-gray-900 dark:text-white">No locations found</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Try a different search or create a new location.</p>
+    </div>
+    
+    <%# Quick actions %>
+    <div class="pt-4 flex justify-center">
+      <button type="button" id="create-location-button" 
+              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#0055A4] hover:bg-[#004890] focus:outline-none">
+        <i class="fas fa-plus mr-2"></i> Create New Location
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('location-search');
+      const locationList = document.getElementById('location-list');
+      const noLocationsMessage = document.getElementById('no-locations-message');
+      const createLocationButton = document.getElementById('create-location-button');
+      
+      let allLocations = [];
+      
+      // Function to filter locations based on search term
+      function filterLocations(searchTerm) {
+        searchTerm = searchTerm.toLowerCase();
+        
+        const filteredLocations = allLocations.filter(location => 
+          location.name.toLowerCase().includes(searchTerm) || 
+          (location.address && location.address.toLowerCase().includes(searchTerm))
+        );
+        
+        renderLocationList(filteredLocations);
+      }
+      
+      // Function to render the location list
+      function renderLocationList(locations) {
+        locationList.innerHTML = '';
+        
+        if (locations.length === 0) {
+          locationList.classList.add('hidden');
+          noLocationsMessage.classList.remove('hidden');
+          return;
+        }
+        
+        locationList.classList.remove('hidden');
+        noLocationsMessage.classList.add('hidden');
+        
+        locations.forEach(location => {
+          const li = document.createElement('li');
+          li.className = 'py-3 px-2 flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md cursor-pointer transition-colors';
+          li.dataset.locationId = location.id;
+          
+          let iconClass = 'fas fa-building';
+          if (location.location_type === 'warehouse') iconClass = 'fas fa-warehouse';
+          if (location.location_type === 'store') iconClass = 'fas fa-store';
+          if (location.location_type === 'office') iconClass = 'fas fa-briefcase';
+          
+          li.innerHTML = `
+            <div class="w-8 h-8 bg-[#0055A4] text-white rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              <i class="${iconClass}"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 dark:text-white truncate">${location.name}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${location.address || 'No address provided'}</p>
+            </div>
+          `;
+          
+          li.addEventListener('click', function() {
+            selectLocation(location);
+          });
+          
+          locationList.appendChild(li);
+        });
+      }
+      
+      // Function to select a location
+      function selectLocation(location) {
+        // Trigger custom event with selected location
+        const event = new CustomEvent('location:selected', {
+          detail: { location }
+        });
+        document.dispatchEvent(event);
+        
+        // Close the modal
+        const modal = document.getElementById('location-selector-modal');
+        const controller = window.Stimulus.getControllerForElementAndIdentifier(modal, 'modal');
+        if (controller) controller.close();
+      }
+      
+      // Search input handler
+      searchInput.addEventListener('input', function() {
+        filterLocations(this.value);
+      });
+      
+      // Create location button handler
+      createLocationButton.addEventListener('click', function() {
+        // Close this modal
+        const selectorModal = document.getElementById('location-selector-modal');
+        const selectorController = window.Stimulus.getControllerForElementAndIdentifier(selectorModal, 'modal');
+        if (selectorController) selectorController.close();
+        
+        // Open create location modal
+        setTimeout(() => {
+          const createModal = document.getElementById('location-modal');
+          if (createModal) {
+            const createController = window.Stimulus.getControllerForElementAndIdentifier(createModal, 'modal');
+            if (createController) createController.open();
+          }
+        }, 300);
+      });
+      
+      // Function to load locations
+      function loadLocations() {
+        fetch('/locations.json')
+          .then(response => response.json())
+          .then(data => {
+            allLocations = data;
+            renderLocationList(data);
+          })
+          .catch(error => {
+            console.error('Error loading locations:', error);
+            locationList.innerHTML = `
+              <li class="py-3 px-2">
+                <p class="text-sm text-red-600 dark:text-red-400">Error loading locations. Please try again.</p>
+              </li>
+            `;
+          });
+      }
+      
+      // Load locations when modal opens
+      document.addEventListener('modal:opened', function(event) {
+        if (event.target.id === 'location-selector-modal') {
+          loadLocations();
+          searchInput.value = '';
+          searchInput.focus();
+        }
+      });
+    });
+  </script>
+<% end %>

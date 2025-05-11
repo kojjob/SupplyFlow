@@ -1,0 +1,76 @@
+<div class="max-w-md mx-auto my-8">
+  <%= render partial: "shared/form_container", locals: {
+    title: "CREATE ACCOUNT",
+    subtitle: "Sign up for SupplyFlow",
+    container_class: "mb-6",
+    accent_color: "#0055A4"
+  } do %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <%= render partial: "shared/form_input", locals: {
+          form: f,
+          field: :first_name,
+          label: "First Name",
+          type: "text",
+          placeholder: "John",
+          required: true,
+          autofocus: true,
+          wrapper_class: ""
+        } %>
+
+        <%= render partial: "shared/form_input", locals: {
+          form: f,
+          field: :last_name,
+          label: "Last Name",
+          type: "text",
+          placeholder: "Doe",
+          required: true,
+          wrapper_class: ""
+        } %>
+      </div>
+
+      <%= render partial: "shared/form_input", locals: {
+        form: f,
+        field: :email,
+        label: "Email Address",
+        type: "email",
+        placeholder: "your.email@example.com",
+        required: true,
+        autocomplete: "email"
+      } %>
+
+      <%= render partial: "shared/form_input", locals: {
+        form: f,
+        field: :password,
+        label: "Password",
+        type: "password",
+        placeholder: "••••••••",
+        required: true,
+        autocomplete: "new-password",
+        hint: @minimum_password_length ? "#{@minimum_password_length} characters minimum" : nil
+      } %>
+
+      <%= render partial: "shared/form_input", locals: {
+        form: f,
+        field: :password_confirmation,
+        label: "Confirm Password",
+        type: "password",
+        placeholder: "••••••••",
+        required: true,
+        autocomplete: "new-password"
+      } %>
+
+      <%= render partial: "shared/form_submit", locals: {
+        form: f,
+        text: "Sign up",
+        full_width: true
+      } %>
+    <% end %>
+  <% end %>
+
+  <div class="text-center mt-6">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

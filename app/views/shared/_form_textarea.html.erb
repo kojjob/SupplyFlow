@@ -1,0 +1,60 @@
+<%# 
+  Reusable Form Textarea Partial that matches the Contact Page style
+  
+  Usage:
+  
+  <%= render partial: "shared/form_textarea", locals: {
+    form: form,                   # The form builder object
+    field: :message,              # The field name
+    label: "Your Message",        # The label text (optional, defaults to humanized field name)
+    placeholder: "Type your message here...", # Placeholder text (optional)
+    required: true,               # Whether the field is required (optional, defaults to false)
+    rows: 5,                      # Number of rows (optional, defaults to 5)
+    hint: "Please be specific",   # Hint text (optional)
+    wrapper_class: "mb-6",        # Additional classes for the wrapper div (optional, defaults to "mb-6")
+    input_class: "",              # Additional classes for the textarea (optional)
+    data: {}                      # Additional data attributes (optional)
+  } %>
+ 
+
+<%
+  # Set defaults
+  label = local_assigns.fetch(:label, field.to_s.humanize)
+  required = local_assigns.fetch(:required, false)
+  rows = local_assigns.fetch(:rows, 5)
+  placeholder = local_assigns.fetch(:placeholder, nil)
+  hint = local_assigns.fetch(:hint, nil)
+  wrapper_class = local_assigns.fetch(:wrapper_class, "mb-6")
+  input_class = local_assigns.fetch(:input_class, "")
+  data = local_assigns.fetch(:data, {})
+  
+  # Generate a unique ID for the textarea
+  input_id = "#{form.object_name}_#{field}_#{SecureRandom.hex(4)}"
+  
+  # Base textarea classes that match the contact page style
+  base_textarea_classes = "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B]"
+%>
+
+<div class="<%= wrapper_class %>">
+  <%= form.label field, label, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+  
+  <%= form.text_area(
+    field, 
+    id: input_id,
+    class: "#{base_textarea_classes} #{input_class}",
+    placeholder: placeholder,
+    required: required,
+    rows: rows,
+    data: data
+  ) %>
+  
+  <% if hint.present? %>
+    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400"><%= hint %></p>
+  <% end %>
+  
+  <% if form.object.errors[field].any? %>
+    <p class="mt-1 text-xs text-red-600 dark:text-red-400">
+      <%= form.object.errors[field].join(", ") %>
+    </p>
+  <% end %>
+</div>

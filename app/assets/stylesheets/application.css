@@ -17,3 +17,6 @@
 
 /* Import theme components */
 @import "theme_components.css";
+
+/* Import toast notifications styling */
+@import "toast_notifications.css";

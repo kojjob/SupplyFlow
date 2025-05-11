@@ -1,0 +1,68 @@
+
+<%
+  # Set defaults
+  # Set defaults
+  label = local_assigns.fetch(:label, field.to_s.humanize)
+  required = local_assigns.fetch(:required, false)
+  _passed_include_blank = local_assigns.fetch(:include_blank, nil) # Store the originally passed value
+  hint = local_assigns.fetch(:hint, nil)
+
+  # If the field is marked as 'required' (for HTML5 attribute, implying model requirement),
+  # Rails' form.select helper requires that 'include_blank' cannot be false.
+  # We ensure 'include_blank' is true if it was 'false' or 'nil' (default),
+  # otherwise, we respect the passed prompt string or explicit 'true'.
+  if required
+    if _passed_include_blank == false || _passed_include_blank.nil?
+      include_blank = true # Default to true to ensure a blank option is available
+    else
+      include_blank = _passed_include_blank # Use the provided prompt or explicit true
+    end
+  else
+    # If not required, use the passed value as is (can be false, nil, string, or true)
+    include_blank = _passed_include_blank
+  end
+  wrapper_class = local_assigns.fetch(:wrapper_class, "mb-6")
+  select_class = local_assigns.fetch(:select_class, "")
+  data = local_assigns.fetch(:data, {})
+  
+  # Generate a unique ID for the select
+  select_id = "#{form.object_name}_#{field}_#{SecureRandom.hex(4)}"
+  
+  # Base select classes that match the contact page style
+  base_select_classes = "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#00A86B] appearance-none"
+%>
+
+<div class="<%= wrapper_class %>">
+  <%= form.label field, label, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+  
+  <div class="relative">
+    <%= form.select(
+      field, 
+      options,
+      { include_blank: include_blank },
+      { 
+        id: select_id,
+        class: "#{base_select_classes} #{select_class}",
+        required: required,
+        data: data
+      }
+    ) %>
+    
+    <%# Custom dropdown arrow %>
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700 dark:text-gray-300">
+      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </div>
+  </div>
+  
+  <% if hint.present? %>
+    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400"><%= hint %></p>
+  <% end %>
+  
+  <% if form.object.errors[field].any? %>
+    <p class="mt-1 text-xs text-red-600 dark:text-red-400">
+      <%= form.object.errors[field].join(", ") %>
+    </p>
+  <% end %>
+</div>

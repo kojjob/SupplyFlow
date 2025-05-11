@@ -1,0 +1,64 @@
+<div class="max-w-md mx-auto my-8">
+  <%= render partial: "shared/form_container", locals: {
+    title: "WELCOME BACK",
+    subtitle: "Log in to your account",
+    container_class: "mb-6"
+  } do %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <% if flash[:alert] %>
+        <div class="bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200 p-4 rounded-lg mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p><%= flash[:alert] %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= render partial: "shared/form_input", locals: {
+        form: f,
+        field: :email,
+        label: "Email Address",
+        type: "email",
+        placeholder: "your.email@example.com",
+        required: true,
+        autofocus: true,
+        autocomplete: "email"
+      } %>
+
+      <%= render partial: "shared/form_input", locals: {
+        form: f,
+        field: :password,
+        label: "Password",
+        type: "password",
+        placeholder: "••••••••",
+        required: true,
+        autocomplete: "current-password"
+      } %>
+
+      <% if devise_mapping.rememberable? %>
+        <%= render partial: "shared/form_checkbox", locals: {
+          form: f,
+          field: :remember_me,
+          label: "Remember me",
+          hint: "Stay logged in for 30 days"
+        } %>
+      <% end %>
+
+      <%= render partial: "shared/form_submit", locals: {
+        form: f,
+        text: "Log in",
+        full_width: true
+      } %>
+    <% end %>
+  <% end %>
+
+  <div class="text-center mt-6">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

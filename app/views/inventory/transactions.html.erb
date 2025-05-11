@@ -1,0 +1,231 @@
+<div class="container mx-auto px-4 py-6">
+  <!-- Page Header -->
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Inventory Transactions</span>
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1">
+        <% if @product %>
+          Viewing transactions for product: <span class="font-medium"><%= @product.name %></span>
+        <% elsif @location %>
+          Viewing transactions for location: <span class="font-medium"><%= @location.name %></span>
+        <% else %>
+          View, filter, and analyze inventory movement history
+        <% end %>
+      </p>
+    </div>
+
+    <div class="mt-4 md:mt-0 flex flex-wrap gap-3">
+      <button class="flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+        <i class="fas fa-download text-gray-500 dark:text-gray-400 mr-2"></i>
+        <span class="text-gray-700 dark:text-gray-300 text-sm font-medium">Export</span>
+      </button>
+      <a href="<%= inventory_path %>" class="flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200">
+        <i class="fas fa-boxes mr-2"></i>
+        <span class="text-sm font-medium">View Inventory</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Filters Card -->
+  <div class="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+      <h2 class="text-lg font-semibold text-white">Transaction Filters</h2>
+    </div>
+    <div class="p-6">
+      <%= form_with(url: inventory_transactions_path, method: :get, class: "space-y-4") do |f| %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Product Filter -->
+          <div>
+            <label for="product_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product</label>
+            <%= f.select :product_id,
+                options_from_collection_for_select(Product.order(:name), :id, :name, params[:product_id]),
+                { include_blank: 'All Products' },
+                { class: "block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200" }
+            %>
+          </div>
+          
+          <!-- Location Filter -->
+          <div>
+            <label for="location_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location</label>
+            <%= f.select :location_id,
+                options_from_collection_for_select(Location.order(:name), :id, :name, params[:location_id]),
+                { include_blank: 'All Locations' },
+                { class: "block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200" }
+            %>
+          </div>
+          
+          <!-- Transaction Type Filter -->
+          <div>
+            <label for="transaction_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Transaction Type</label>
+            <%= f.select :transaction_type,
+                options_for_select(InventoryTransaction.transaction_types_for_select.invert, params[:transaction_type]),
+                { include_blank: 'All Types' },
+                { class: "block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200" }
+            %>
+          </div>
+          
+          <!-- Date Range Filter -->
+          <div>
+            <label for="date_range" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date Range</label>
+            <select name="date_range" id="date_range" class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+              <option value="all" <%= 'selected' if params[:date_range] == 'all' %>>All Time</option>
+              <option value="today" <%= 'selected' if params[:date_range] == 'today' %>>Today</option>
+              <option value="week" <%= 'selected' if params[:date_range] == 'week' %>>This Week</option>
+              <option value="month" <%= 'selected' if params[:date_range] == 'month' %>>This Month</option>
+              <option value="custom" <%= 'selected' if params[:date_range] == 'custom' %>>Custom Range</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Custom Date Range Fields (initially hidden) -->
+        <div id="custom_date_range" class="<%= params[:date_range] == 'custom' ? '' : 'hidden' %> grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
+            <%= f.date_field :start_date, 
+                value: params[:start_date], 
+                class: "block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200" 
+            %>
+          </div>
+          <div>
+            <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date</label>
+            <%= f.date_field :end_date, 
+                value: params[:end_date], 
+                class: "block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200" 
+            %>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-end space-x-3">
+          <a href="<%= inventory_transactions_path %>" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-gray-700 dark:text-gray-200 text-sm font-medium transition-colors duration-200">
+            Reset Filters
+          </a>
+          <%= f.submit "Apply Filters", class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Transactions Table Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <!-- Card Header -->
+    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4 flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-exchange-alt mr-2"></i> 
+        Transaction History
+      </h2>
+      <span class="text-white bg-white/20 rounded-full px-3 py-1 text-xs font-medium">
+        Total: <%= @total_count %> transactions
+      </span>
+    </div>
+    
+    <!-- Transactions Table -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date & Time</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Product</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Transaction Type</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Location</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Quantity</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">User</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Notes</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% if @transactions.any? %>
+            <% @transactions.each do |transaction| %>
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <%= transaction.created_at.strftime("%b %d, %Y %H:%M") %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                      <%= transaction.product.name %>
+                    </div>
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    SKU: <%= transaction.product.sku %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% badge_color = case transaction.transaction_type
+                       when 'purchase', 'receipt', 'return', 'stock_addition' then 'green'
+                       when 'sale', 'shipment', 'damage', 'expiry', 'stock_removal' then 'red'
+                       when 'transfer' then 'blue'
+                       else 'gray'
+                     end 
+                  %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-<%= badge_color %>-100 dark:bg-<%= badge_color %>-900/50 text-<%= badge_color %>-800 dark:text-<%= badge_color %>-200">
+                    <%= transaction.transaction_type_name %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                  <%= transaction.location_summary %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                  <span class="<%= transaction.quantity > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %>">
+                    <%= transaction.quantity > 0 ? '+' : '' %><%= transaction.quantity %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                  <%= transaction.user.name %>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 max-w-xs truncate">
+                  <%= transaction.notes %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center justify-center">
+                  <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+                    <i class="fas fa-history text-gray-400 dark:text-gray-500 text-3xl"></i>
+                  </div>
+                  <p class="text-gray-700 dark:text-gray-300 font-medium">No transactions found</p>
+                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Try adjusting your filters to see more results</p>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <% if @total_count > 0 %>
+      <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div class="text-sm text-gray-600 dark:text-gray-300">
+            Showing <%= [@transactions.offset_value + 1, @total_count].min %> to <%= [@transactions.offset_value + 50, @total_count].min %> of <%= @total_count %> transactions
+          </div>
+          <div class="flex space-x-2">
+            <%= link_to_unless (params[:page].to_i <= 0), "Previous", inventory_transactions_path(params.permit!.merge(page: params[:page].to_i - 1)), class: "px-3 py-1 rounded-md #{params[:page].to_i <= 0 ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-550'}" %>
+            
+            <%= link_to_unless (@transactions.size < 50 || @transactions.offset_value + 50 >= @total_count), "Next", inventory_transactions_path(params.permit!.merge(page: (params[:page].to_i || 0) + 1)), class: "px-3 py-1 rounded-md #{(@transactions.size < 50 || @transactions.offset_value + 50 >= @total_count) ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-550'}" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  // Handle showing/hiding custom date range based on selection
+  document.addEventListener('DOMContentLoaded', function() {
+    const dateRangeSelect = document.getElementById('date_range');
+    const customDateRangeDiv = document.getElementById('custom_date_range');
+    
+    dateRangeSelect.addEventListener('change', function() {
+      if (this.value === 'custom') {
+        customDateRangeDiv.classList.remove('hidden');
+      } else {
+        customDateRangeDiv.classList.add('hidden');
+      }
+    });
+  });
+</script>

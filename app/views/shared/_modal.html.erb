@@ -1,0 +1,148 @@
+<%# 
+  Reusable Modal Component
+
+  Parameters:
+  - id: String (required) - Unique ID for the modal
+  - title: String (required) - Title for the modal header
+  - size: String (optional) - Modal size (sm, md, lg, xl, full) - default: md
+  - animation: String (optional) - Animation type (fade, slide, zoom) - default: fade
+  - resource_type: String (optional) - Type of resource being edited (e.g., "product", "inventory")
+  - close_on_outside_click: Boolean (optional) - Whether to close on outside click - default: true
+  - show_close: Boolean (optional) - Whether to show the close button - default: true
+  - backdrop: Boolean (optional) - Whether to show a backdrop - default: true
+  - submit_path: String (optional) - Path for submitting the form
+  - form_id: String (optional) - ID for the form inside the modal
+
+  Usage:
+  
+  <%= render partial: "shared/modal", locals: {
+    id: "create-product-modal",
+    title: "Create New Product",
+    size: "lg",
+    animation: "zoom",
+    resource_type: "product",
+    submit_path: products_path
+  } do %>
+    <div>Modal content goes here...</div>
+  <% end %>
+%>
+
+<%
+  # Default values and handle nil values safely
+  size = size.presence || "md"
+  animation = animation.presence || "fade"
+  close_on_outside_click = close_on_outside_click.nil? ? true : close_on_outside_click
+  show_close = show_close.nil? ? true : show_close
+  backdrop = backdrop.nil? ? true : backdrop
+  form_id = form_id.nil? ? "#{id}-form" : form_id
+  
+  # For safety, ensure these are always strings
+  resource_type = resource_type.to_s if defined?(resource_type)
+  submit_path = submit_path.to_s if defined?(submit_path)
+%>
+
+<div 
+  id="<%= id %>" 
+  data-controller="modal" 
+  data-modal-size-value="<%= size %>" 
+  data-modal-animation-value="<%= animation %>"
+  data-modal-close-on-outside-click-value="<%= close_on_outside_click %>"
+  data-modal-show-close-value="<%= show_close %>"
+  data-modal-backdrop-value="<%= backdrop %>"
+  <% if defined?(resource_type) && resource_type.present? %>
+    data-modal-resource-type-value="<%= resource_type %>"
+  <% end %>
+  <% if defined?(submit_path) && submit_path.present? %>
+    data-modal-submit-path-value="<%= submit_path %>"
+  <% end %>
+  class="hidden">
+  
+  <%# The modal backdrop/overlay %>
+  <div 
+    data-modal-target="modal" 
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+    
+    <%# Backdrop overlay %>
+    <div 
+      data-modal-target="overlay" 
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+    
+    <%# Modal container %>
+    <div 
+      data-modal-target="container" 
+      class="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full opacity-0 
+             overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <%# Modal header %>
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 
+          data-modal-target="title" 
+          class="text-lg font-medium text-gray-900 dark:text-white">
+          <%= title %>
+        </h3>
+        <% if show_close %>
+          <button 
+            type="button" 
+            data-action="modal#close" 
+            class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 focus:outline-none">
+            <span class="sr-only">Close</span>
+            <i class="fas fa-times"></i>
+          </button>
+        <% end %>
+      </div>
+      
+      <%# Modal content %>
+      <div 
+        data-modal-target="content" 
+        class="flex-1 p-6 overflow-y-auto">
+        <% if defined?(form_id) && form_id.present? && form_id != false %>
+          <form 
+            id="<%= form_id %>" 
+            data-modal-target="form" 
+            data-action="submit->modal#submitForm" 
+            class="space-y-4">
+            
+            <%# Error message container %>
+            <div 
+              data-modal-target="errorMessage" 
+              class="error-message hidden p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-900/30 dark:text-red-300"></div>
+            
+            <%# Form fields will be yielded here %>
+            <%= yield %>
+            
+            <%# Form actions %>
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button 
+                type="button" 
+                data-action="modal#close" 
+                data-modal-target="cancelButton"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none">
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                data-modal-target="submitButton"
+                class="px-4 py-2 text-sm font-medium text-white bg-[#0055A4] border border-transparent rounded shadow-sm hover:bg-[#004a8f] focus:outline-none">
+                Save
+              </button>
+            </div>
+          </form>
+        <% else %>
+          <%# If no form is needed, just render the content %>
+          <%= yield %>
+          
+          <%# Action buttons (if no form) %>
+          <div class="flex items-center justify-end space-x-3 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+            <button 
+              type="button" 
+              data-action="modal#close" 
+              data-modal-target="cancelButton"
+              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none">
+              Close
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
