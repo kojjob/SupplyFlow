@@ -1,0 +1,286 @@
+<%# Product Details Modal %>
+
+<% 
+  # Ensure we have a valid resource type
+  resource_type = "product" 
+%>
+
+<%= render partial: "shared/modal", locals: {
+  id: "product-details-modal",
+  title: "Product Details",
+  size: "lg",
+  animation: "zoom",
+  resource_type: resource_type,
+  form_id: false
+} do %>
+  <div data-controller="product-details" data-product-details-product-id-value="0" class="space-y-6">
+    <%# Loading State %>
+    <div data-product-details-target="loading" class="py-8">
+      <div class="flex justify-center">
+        <div class="w-12 h-12 border-4 border-gray-200 dark:border-gray-700 border-t-[#0055A4] rounded-full animate-spin"></div>
+      </div>
+      <p class="text-center mt-4 text-gray-500 dark:text-gray-400">Loading product information...</p>
+    </div>
+    
+    <%# Product Details %>
+    <div data-product-details-target="content" class="hidden">
+      <%# Product Header %>
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+        <%# Basic Info %>
+        <div class="space-y-1 flex-1 min-w-0">
+          <h2 data-product-details-target="productName" class="text-xl font-bold text-gray-900 dark:text-white"></h2>
+          <div class="flex items-center flex-wrap gap-2">
+            <span data-product-details-target="skuBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300">
+              SKU: 
+            </span>
+            <span data-product-details-target="categoryBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
+              Category:
+            </span>
+            <span data-product-details-target="stockBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+              Stock:
+            </span>
+          </div>
+        </div>
+        
+        <%# Price Info %>
+        <div class="flex flex-col items-end">
+          <div class="text-2xl font-bold text-gray-900 dark:text-white" data-product-details-target="sellingPrice"></div>
+          <div class="flex items-center text-sm">
+            <span class="text-gray-500 dark:text-gray-400 mr-2">Cost:</span>
+            <span data-product-details-target="costPrice" class="font-medium"></span>
+          </div>
+          <div class="flex items-center text-sm mt-1">
+            <span class="text-gray-500 dark:text-gray-400 mr-2">Margin:</span>
+            <span data-product-details-target="margin" class="font-medium"></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+      
+      <%# Product Info Tabs %>
+      <div data-controller="tabs" data-tabs-active-tab-class="border-[#0055A4] text-[#0055A4] dark:text-[#4a9aff]">
+        <%# Tab Navigation %>
+        <div class="border-b border-gray-200 dark:border-gray-700">
+          <nav class="-mb-px flex space-x-6">
+            <button 
+              data-tabs-target="tab" 
+              data-action="click->tabs#selectTab" 
+              class="border-transparent text-gray-500 dark:text-gray-400 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm active"
+              role="tab"
+              type="button"
+            >
+              Overview
+            </button>
+            <button 
+              data-tabs-target="tab" 
+              data-action="click->tabs#selectTab" 
+              class="border-transparent text-gray-500 dark:text-gray-400 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm"
+              role="tab"
+              type="button"
+            >
+              Inventory
+            </button>
+            <button 
+              data-tabs-target="tab" 
+              data-action="click->tabs#selectTab" 
+              class="border-transparent text-gray-500 dark:text-gray-400 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm"
+              role="tab"
+              type="button"
+            >
+              Transactions
+            </button>
+          </nav>
+        </div>
+        
+        <%# Tab Panels %>
+        <div class="pt-4">
+          <%# Overview Tab %>
+          <div data-tabs-target="panel" role="tabpanel" class="block">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <%# Description and Details %>
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Description</h3>
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+                  <p data-product-details-target="description" class="text-sm text-gray-800 dark:text-gray-200"></p>
+                </div>
+                
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 mb-2">Details</h3>
+                <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                  <dt class="text-gray-500 dark:text-gray-400">Brand:</dt>
+                  <dd data-product-details-target="brand" class="font-medium text-gray-900 dark:text-white"></dd>
+                  
+                  <dt class="text-gray-500 dark:text-gray-400">Unit of Measure:</dt>
+                  <dd data-product-details-target="uom" class="font-medium text-gray-900 dark:text-white"></dd>
+                  
+                  <dt class="text-gray-500 dark:text-gray-400">Dimensions:</dt>
+                  <dd data-product-details-target="dimensions" class="font-medium text-gray-900 dark:text-white"></dd>
+                  
+                  <dt class="text-gray-500 dark:text-gray-400">Weight:</dt>
+                  <dd data-product-details-target="weight" class="font-medium text-gray-900 dark:text-white"></dd>
+                  
+                  <dt class="text-gray-500 dark:text-gray-400">Perishable:</dt>
+                  <dd data-product-details-target="perishable" class="font-medium text-gray-900 dark:text-white"></dd>
+                </dl>
+              </div>
+              
+              <%# Inventory Summary %>
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Inventory Summary</h3>
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                  <div class="flex flex-col space-y-4">
+                    <%# Stock Level Chart %>
+                    <div>
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Stock Level</span>
+                        <span data-product-details-target="stockLevel" class="text-xs font-medium text-gray-700 dark:text-gray-300"></span>
+                      </div>
+                      <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-1">
+                        <div data-product-details-target="stockBar" class="h-2.5 rounded-full" style="width: 0%"></div>
+                      </div>
+                    </div>
+                    
+                    <%# Available vs Reserved %>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Available</h4>
+                        <p data-product-details-target="availableStock" class="text-xl font-bold text-green-600 dark:text-green-400"></p>
+                      </div>
+                      <div>
+                        <h4 class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Reserved</h4>
+                        <p data-product-details-target="reservedStock" class="text-xl font-bold text-amber-600 dark:text-amber-400"></p>
+                      </div>
+                    </div>
+                    
+                    <%# Reorder Points %>
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                      <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                        <dt class="text-gray-500 dark:text-gray-400">Reorder Point:</dt>
+                        <dd data-product-details-target="reorderPoint" class="font-medium text-gray-900 dark:text-white"></dd>
+                        
+                        <dt class="text-gray-500 dark:text-gray-400">Minimum Stock:</dt>
+                        <dd data-product-details-target="minimumStock" class="font-medium text-gray-900 dark:text-white"></dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+                
+                <%# Quick Actions %>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <button 
+                    type="button" 
+                    data-action="product-details#editProduct"
+                    class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none"
+                  >
+                    <i class="fas fa-pencil-alt mr-1.5"></i> Edit
+                  </button>
+                  <button 
+                    type="button" 
+                    data-action="product-details#manageInventory"
+                    class="inline-flex items-center justify-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#0055A4] hover:bg-[#004a8f] focus:outline-none"
+                  >
+                    <i class="fas fa-boxes mr-1.5"></i> Manage Inventory
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <%# Inventory Tab %>
+          <div data-tabs-target="panel" role="tabpanel" class="hidden">
+            <div class="space-y-4">
+              <%# Inventory By Location Table %>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Location</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Quantity</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Available</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Reserved</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                      <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody data-product-details-target="inventoryTable" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tr>
+                      <td colspan="6" class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                        Loading inventory data...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <%# Add New Location button %>
+              <div class="flex justify-end">
+                <button
+                  type="button"
+                  data-action="product-details#addToLocation"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none"
+                >
+                  <i class="fas fa-plus mr-2"></i> Add to New Location
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <%# Transactions Tab %>
+          <div data-tabs-target="panel" role="tabpanel" class="hidden">
+            <div class="space-y-4">
+              <%# Recent Transactions Table %>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Type</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Quantity</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">From</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">To</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">User</th>
+                    </tr>
+                  </thead>
+                  <tbody data-product-details-target="transactionsTable" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tr>
+                      <td colspan="6" class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                        Loading transaction history...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <%# View All Transactions Link %>
+              <div class="flex justify-end">
+                <a
+                  href="#"
+                  data-product-details-target="viewAllTransactionsLink"
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-[#0055A4] dark:hover:text-[#4a9aff]"
+                >
+                  View all transactions <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <%# Error State %>
+    <div data-product-details-target="error" class="hidden py-8 text-center">
+      <div class="w-16 h-16 mx-auto bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-500 dark:text-red-400 mb-4">
+        <i class="fas fa-exclamation-triangle text-2xl"></i>
+      </div>
+      <h3 class="text-base font-medium text-gray-900 dark:text-white">Error loading product</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Unable to fetch product information. Please try again.</p>
+      <button
+        type="button"
+        data-action="product-details#retryLoad"
+        class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#0055A4] hover:bg-[#004a8f] focus:outline-none"
+      >
+        <i class="fas fa-sync-alt mr-2"></i> Try Again
+      </button>
+    </div>
+  </div>
+<% end %>

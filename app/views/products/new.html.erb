@@ -1,0 +1,85 @@
+<div class="container mx-auto px-4 py-6">
+  <!-- Breadcrumbs -->
+  <nav class="mb-4 flex text-sm text-gray-500 dark:text-gray-400" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <%= link_to root_path, class: "inline-flex items-center hover:text-gray-900 dark:hover:text-white" do %>
+          <i class="fas fa-home mr-2"></i>
+          Home
+        <% end %>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+          <%= link_to "Products", products_path, class: "hover:text-gray-900 dark:hover:text-white" %>
+        </div>
+      </li>
+      <li aria-current="page">
+        <div class="flex items-center">
+          <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
+          <span class="text-gray-600 dark:text-gray-300">New Product</span>
+        </div>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+        Create New Product
+      </span>
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400 mt-1">
+      Add a new product to your inventory catalog
+    </p>
+  </div>
+
+  <!-- Form -->
+  <%= render 'form', product: @product %>
+
+  <!-- Guidance Card -->
+  <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-info-circle mr-2"></i> Product Setup Guide
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="flex flex-col">
+          <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
+            <span class="font-bold">1</span>
+          </div>
+          <h3 class="text-md font-medium text-gray-900 dark:text-white mb-1">Basic Details</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Enter product name, SKU, and any identifying information. These details help differentiate products.</p>
+        </div>
+        <div class="flex flex-col">
+          <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
+            <span class="font-bold">2</span>
+          </div>
+          <h3 class="text-md font-medium text-gray-900 dark:text-white mb-1">Pricing</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Set cost and selling prices to track your margins and profitability. This helps with financial reporting.</p>
+        </div>
+        <div class="flex flex-col">
+          <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
+            <span class="font-bold">3</span>
+          </div>
+          <h3 class="text-md font-medium text-gray-900 dark:text-white mb-1">Stock Settings</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Configure minimum stock levels and reorder points to get alerts when inventory runs low.</p>
+        </div>
+      </div>
+      <div class="mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800 flex items-center">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-800/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-700 dark:text-gray-300">
+            <span class="font-medium text-blue-700 dark:text-blue-300">Pro Tip:</span>
+            Use consistent naming conventions and categorization for your products to make them easier to find and organize.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,171 @@
+<%= form_with(model: purchase_order, local: true, html: { id: "purchase-order-form", data: { controller: "purchase-order-form" } }, class: "space-y-8") do |form| %>
+  <% if purchase_order.errors.any? %>
+    <div id="error_explanation" class="animate-fade-in-up">
+      <div class="bg-gradient-to-r from-red-500 to-pink-500 rounded-t-lg p-4">
+        <h3 class="text-white font-semibold flex items-center">
+          <i class="fas fa-exclamation-triangle mr-2"></i>
+          <%= pluralize(purchase_order.errors.count, "error") %> prohibited this order from being saved
+        </h3>
+      </div>
+      <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-b-lg p-4">
+        <ul class="list-disc list-inside text-sm text-red-600 dark:text-red-300 space-y-1">
+          <% purchase_order.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Supplier & Order Information Card -->
+  <div class="card-theme rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 animate-fade-in-up animate-delay-100">
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-6">
+      <h2 class="text-2xl font-bold text-white flex items-center">
+        <i class="fas fa-truck mr-3 text-purple-200"></i>
+        Supplier Information
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Supplier Selection -->
+        <div data-controller="select-search" class="lg:col-span-2">
+          <%= render "shared/form_select", form: form, field: :supplier_id, 
+              label: "Supplier",
+              options: Supplier.order(:name).map { |s| ["#{s.name} - #{s.email}", s.id] }, 
+              include_blank: "Select or search for a supplier...",
+              required: true,
+              icon: "fas fa-building",
+              data: { select_search_target: "select" },
+              wrapper_class: "mb-0" %>
+        </div>
+
+        <!-- Order Date -->
+        <div>
+          <%= render "shared/form_input", form: form, field: :order_date, 
+              label: "Order Date", type: "date", 
+              required: true, 
+              value: purchase_order.order_date || Date.today,
+              icon: "fas fa-calendar-alt",
+              wrapper_class: "mb-0" %>
+        </div>
+        
+        <!-- Expected Delivery Date -->
+        <div>
+          <%= render "shared/form_input", form: form, field: :expected_delivery_date, 
+              label: "Expected Delivery Date", type: "date",
+              icon: "fas fa-shipping-fast",
+              wrapper_class: "mb-0" %>
+        </div>
+
+        <!-- Order Status -->
+        <div class="lg:col-span-2">
+          <%= render "shared/form_select", form: form, field: :status, 
+              label: "Order Status",
+              options: PurchaseOrder.statuses_for_select.to_a, 
+              selected: purchase_order.status || 'draft',
+              include_blank: false,
+              required: true,
+              icon: "fas fa-flag",
+              wrapper_class: "mb-0" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Order Items Card -->
+  <div class="card-theme rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 animate-fade-in-up animate-delay-200">
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6">
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-white flex items-center">
+          <i class="fas fa-boxes mr-3 text-blue-200"></i>
+          Order Items
+        </h2>
+        <button type="button" data-action="click->purchase-order-form#addItem" class="btn-white-outline flex items-center gap-2 hover:scale-105 transition-transform">
+          <i class="fas fa-plus-circle"></i>
+          Add Item
+        </button>
+      </div>
+    </div>
+    <div class="p-6">
+      <div id="purchase_order_items_container" data-purchase-order-form-target="itemsContainer">
+        <%= form.fields_for :purchase_order_items do |item_form| %>
+          <%= render 'purchase_order_item_fields', f: item_form %>
+        <% end %>
+      </div>
+      
+      <!-- Order Summary -->
+      <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="lg:col-start-2">
+            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 space-y-3">
+              <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Subtotal</span>
+                <span data-purchase-order-form-target="subtotal"><%= number_to_currency(purchase_order.subtotal || 0, unit: "GHS ") %></span>
+              </div>
+              <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Tax</span>
+                <span data-purchase-order-form-target="tax"><%= number_to_currency(purchase_order.tax_amount || 0, unit: "GHS ") %></span>
+              </div>
+              <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Shipping</span>
+                <span data-purchase-order-form-target="shipping"><%= number_to_currency(purchase_order.shipping_amount || 0, unit: "GHS ") %></span>
+              </div>
+              <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Discount</span>
+                <span data-purchase-order-form-target="discount">-<%= number_to_currency(purchase_order.discount_amount || 0, unit: "GHS ") %></span>
+              </div>
+              <div class="border-t border-gray-300 dark:border-gray-600 pt-3">
+                <div class="flex justify-between text-lg font-bold text-gray-900 dark:text-white">
+                  <span>Total</span>
+                  <span data-purchase-order-form-target="total"><%= number_to_currency(purchase_order.total_amount || 0, unit: "GHS ") %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Information Card -->
+  <div class="card-theme rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 animate-fade-in-up animate-delay-300">
+    <div class="bg-gradient-to-r from-gray-600 to-gray-700 p-6">
+      <h2 class="text-2xl font-bold text-white flex items-center">
+        <i class="fas fa-sticky-note mr-3 text-gray-300"></i>
+        Additional Information
+      </h2>
+    </div>
+    <div class="p-6">
+      <%= render "shared/form_textarea", form: form, field: :notes, 
+          label: "Internal Notes", rows: 4, 
+          placeholder: "Add any notes or special instructions for this purchase order",
+          icon: "fas fa-comment-alt",
+          wrapper_class: "mb-0" %>
+    </div>
+  </div>
+
+  <!-- Fixed Action Bar -->
+  <div class="sticky bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 p-4 shadow-2xl z-10">
+    <div class="container mx-auto max-w-7xl">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+          <i class="fas fa-info-circle text-purple-500"></i>
+          <span>All fields marked with * are required</span>
+        </div>
+        <div class="flex gap-3">
+          <%= link_to 'Cancel', purchase_orders_path, class: "btn-theme-ghost hover:scale-105 transition-transform" %>
+          <%= form.submit purchase_order.persisted? ? 'Update Order' : 'Create Order', 
+              class: "btn-gradient flex items-center gap-2 hover:scale-105 transition-all duration-300",
+              data: { disable_with: purchase_order.persisted? ? 'Updating...' : 'Creating...' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- Hidden template for new order items -->
+<template id="purchase-order-item-template">
+  <%= fields_for 'purchase_order[purchase_order_items_attributes][]', PurchaseOrderItem.new, index: 'NEW_RECORD' do |item_form| %>
+    <%= render 'purchase_order_item_fields', f: item_form %>
+  <% end %>
+</template>

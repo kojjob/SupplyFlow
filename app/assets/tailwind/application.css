@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+
+/* Custom styles for notifications page */
+.filter-tab {
+  @apply px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition-all duration-200;
+}
+
+.filter-tab.active {
+  @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white;
+}
+
+.filter-tab:not(.active):hover {
+  @apply bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white;
+}
+
+.notification-item.unread {
+  @apply border-l-4 border-blue-500;
+}
+
+.notification-item:not(.unread) {
+  @apply opacity-95;
+}
+
+/* Animated gradient background */
+.bg-gradient-animated {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Enhanced icon containers */
+.icon-container-gradient {
+  @apply w-12 h-12 flex items-center justify-center rounded-full;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+
+.icon-container-gradient i {
+  @apply text-white;
+}
+
+/* Hover scale effect */
+.hover:scale-102:hover {
+  transform: scale(1.02);
+}

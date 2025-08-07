@@ -1,0 +1,120 @@
+/* Toast Notifications Styling */
+
+/* Toast Container Themes */
+.toast-theme-light {
+  --toast-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 8px 30px rgba(0, 0, 0, 0.05);
+  --toast-bg: #ffffff;
+  --toast-text: #333333;
+  --toast-border: #e2e8f0;
+}
+
+.toast-theme-dark {
+  --toast-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 8px 30px rgba(0, 0, 0, 0.15);
+  --toast-bg: #1e293b;
+  --toast-text: #ffffff;
+  --toast-border: #334155;
+}
+
+/* Toast Paused State */
+.toast-paused .progress-bar {
+  animation-play-state: paused !important;
+}
+
+/* Progress Bar Animation */
+@keyframes toast-progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.progress-bar {
+  width: 100%;
+  animation: toast-progress linear forwards;
+}
+
+/* Toast Display Positions */
+[data-toast-position-value="top-left"] [data-toast-target="container"] {
+  top: 1rem;
+  left: 1rem;
+}
+
+[data-toast-position-value="top-center"] [data-toast-target="container"] {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+[data-toast-position-value="top-right"] [data-toast-target="container"] {
+  top: 1rem;
+  right: 1rem;
+}
+
+[data-toast-position-value="bottom-left"] [data-toast-target="container"] {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+[data-toast-position-value="bottom-center"] [data-toast-target="container"] {
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+[data-toast-position-value="bottom-right"] [data-toast-target="container"] {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+[data-toast-position-value="center"] [data-toast-target="container"] {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Toast Animation Transitions */
+[data-toast-target="container"] > div {
+  box-shadow: var(--toast-shadow);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Types of toasts - icon colors */
+[data-toast-target="container"] .text-green-500 {
+  color: #10b981;
+}
+
+[data-toast-target="container"] .text-red-500 {
+  color: #ef4444;
+}
+
+[data-toast-target="container"] .text-amber-500 {
+  color: #f59e0b;
+}
+
+[data-toast-target="container"] .text-blue-500 {
+  color: #3b82f6;
+}
+
+/* Force visible contrast on toast actions */
+[data-toast-target="container"] .text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+[data-toast-target="container"] button {
+  transition: all 0.2s ease;
+}
+
+/* Ensure proper display on mobile */
+@media (max-width: 640px) {
+  [data-toast-target="container"] {
+    max-width: calc(100vw - 2rem) !important;
+    width: calc(100vw - 2rem) !important;
+  }
+  
+  [data-toast-position-value="top-center"] [data-toast-target="container"],
+  [data-toast-position-value="bottom-center"] [data-toast-target="container"] {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    width: auto !important;
+  }
+}

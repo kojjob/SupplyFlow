@@ -1,0 +1,108 @@
+<%# Error Modal %>
+<div
+  id="error-modal"
+  data-controller="modal"
+  data-modal-size-value="lg"
+  data-modal-animation-value="fade"
+  data-modal-close-on-outside-click-value="true"
+  data-modal-show-close-value="true"
+  data-modal-backdrop-value="true"
+  class="hidden">
+
+  <%# The modal backdrop/overlay %>
+  <div
+    data-modal-target="modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+
+    <%# Backdrop overlay %>
+    <div
+      data-modal-target="overlay"
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+    <%# Modal container %>
+    <div
+      data-modal-target="container"
+      class="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full opacity-0
+             overflow-hidden flex flex-col max-h-[90vh] max-w-2xl">
+
+      <%# Modal header %>
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3
+          data-modal-target="title"
+          class="text-lg font-medium text-gray-900 dark:text-white">
+          Error Details
+        </h3>
+        <button
+          type="button"
+          data-action="modal#close"
+          class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 focus:outline-none">
+          <span class="sr-only">Close</span>
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <%# Modal content %>
+      <div
+        data-modal-target="content"
+        class="flex-1 p-6 overflow-y-auto">
+        <div class="space-y-4">
+          <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400"></i>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800 dark:text-red-300" id="error-modal-title"></h3>
+                <div class="mt-2 text-sm text-red-700 dark:text-red-200" id="error-modal-message"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
+            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Source Code</h4>
+            <pre class="text-xs bg-gray-100 dark:bg-gray-900 p-3 rounded overflow-x-auto" id="error-modal-source"></pre>
+          </div>
+
+          <div class="mt-4">
+            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Suggested Fix</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400" id="error-modal-fix"></p>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button type="button" data-action="modal#close" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded shadow-sm hover:bg-indigo-700 focus:outline-none">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Function to show the error modal with details
+    window.showErrorModal = function(title, message, source, fix) {
+      const titleEl = document.getElementById('error-modal-title');
+      const messageEl = document.getElementById('error-modal-message');
+      const sourceEl = document.getElementById('error-modal-source');
+      const fixEl = document.getElementById('error-modal-fix');
+
+      if (titleEl) titleEl.textContent = title || 'Error';
+      if (messageEl) messageEl.textContent = message || '';
+      if (sourceEl) sourceEl.textContent = source || '';
+      if (fixEl) fixEl.textContent = fix || '';
+
+      // Open the modal
+      if (window.ModalHelpers) {
+        window.ModalHelpers.openModal('error-modal');
+      } else {
+        const modal = document.getElementById('error-modal');
+        if (modal) {
+          const controller = window.Stimulus.getControllerForElementAndIdentifier(modal, 'modal');
+          if (controller) controller.open();
+        }
+      }
+    };
+  });
+</script>

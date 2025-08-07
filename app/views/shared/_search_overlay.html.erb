@@ -1,0 +1,92 @@
+<%# Search Overlay Partial %>
+<div data-controller="search-overlay" class="fixed inset-0 z-[1000] bg-black/50 backdrop-blur-sm hidden" data-search-overlay-target="overlay">
+  <div class="absolute top-0 left-0 w-full bg-white dark:bg-gray-800 shadow-2xl overflow-hidden transition-all duration-300 transform -translate-y-full" data-search-overlay-target="container">
+    <%# Search Header %>
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Search SupplyFlow</h3>
+        <button data-action="search-overlay#close" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center transition-colors duration-200 text-gray-800 dark:text-white">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <%# Search Form %>
+      <form data-action="submit->search-overlay#search" class="relative">
+        <input 
+          type="text" 
+          placeholder="Search for features, help articles, or topics..." 
+          class="w-full px-4 py-3 pr-12 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0055A4] dark:focus:ring-[#1A6FBF]"
+          data-search-overlay-target="input"
+          autocomplete="off"
+        >
+        <button type="submit" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-[#0055A4] dark:hover:text-[#1A6FBF] transition-colors duration-200">
+          <i class="fas fa-search text-lg"></i>
+        </button>
+      </form>
+      
+      <%# Quick Links %>
+      <div class="mt-6">
+        <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Popular Searches</h4>
+        <div class="flex flex-wrap gap-2">
+          <button data-action="click->search-overlay#quickSearch" data-term="inventory management" class="bg-gray-100 dark:bg-gray-700 hover:bg-[#0055A4]/10 dark:hover:bg-[#0055A4]/20 text-gray-800 dark:text-white text-sm py-2 px-3 rounded-full transition-colors duration-200">
+            Inventory Management
+          </button>
+          <button data-action="click->search-overlay#quickSearch" data-term="mobile money" class="bg-gray-100 dark:bg-gray-700 hover:bg-[#0055A4]/10 dark:hover:bg-[#0055A4]/20 text-gray-800 dark:text-white text-sm py-2 px-3 rounded-full transition-colors duration-200">
+            Mobile Money
+          </button>
+          <button data-action="click->search-overlay#quickSearch" data-term="offline mode" class="bg-gray-100 dark:bg-gray-700 hover:bg-[#0055A4]/10 dark:hover:bg-[#0055A4]/20 text-gray-800 dark:text-white text-sm py-2 px-3 rounded-full transition-colors duration-200">
+            Offline Mode
+          </button>
+          <button data-action="click->search-overlay#quickSearch" data-term="sales reports" class="bg-gray-100 dark:bg-gray-700 hover:bg-[#0055A4]/10 dark:hover:bg-[#0055A4]/20 text-gray-800 dark:text-white text-sm py-2 px-3 rounded-full transition-colors duration-200">
+            Sales Reports
+          </button>
+          <button data-action="click->search-overlay#quickSearch" data-term="stock alerts" class="bg-gray-100 dark:bg-gray-700 hover:bg-[#0055A4]/10 dark:hover:bg-[#0055A4]/20 text-gray-800 dark:text-white text-sm py-2 px-3 rounded-full transition-colors duration-200">
+            Stock Alerts
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <%# Search Results %>
+    <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hidden" data-search-overlay-target="results">
+      <div class="container mx-auto px-4 py-6">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4" data-search-overlay-target="resultsTitle">Search Results</h3>
+        
+        <div class="space-y-4" data-search-overlay-target="resultsContainer">
+          <%# Results will be populated here %>
+          <div class="animate-pulse">
+            <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+            <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-1"></div>
+            <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+          </div>
+          <div class="animate-pulse">
+            <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-2"></div>
+            <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-1"></div>
+            <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          </div>
+          <div class="animate-pulse">
+            <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5 mb-2"></div>
+            <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-2/5 mb-1"></div>
+            <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-4/6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <%# No Results Message %>
+    <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 hidden" data-search-overlay-target="noResults">
+      <div class="container mx-auto px-4 py-12 text-center">
+        <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-search text-2xl text-gray-400 dark:text-gray-500"></i>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">No results found</h3>
+        <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+          We couldn't find any matches for your search. Try using different keywords or check out our help center.
+        </p>
+        <a href="/support" class="inline-block mt-4 px-4 py-2 bg-[#0055A4] hover:bg-[#004080] text-white font-medium rounded-lg transition-colors duration-200">
+          Visit Help Center
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,334 @@
+<% content_for :title, "Sign Up - SupplyFlow" %>
+
+<div class="w-full max-w-6xl mx-auto overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl">
+  <div class="flex flex-col md:flex-row">
+    <!-- Left Column - Image and Branding -->
+    <div class="w-full md:w-1/2 bg-gradient-to-br from-indigo-600 to-purple-800 p-8 md:p-12 flex flex-col justify-between">
+      <div class="mb-8">
+        <div class="flex items-center mb-8">
+          <img src="<%= asset_path('logo-white.svg') %>" alt="SupplyFlow Logo" class="h-10 mr-3" onerror="this.src='https://placehold.co/200x80?text=SupplyFlow';this.onerror='';">
+          <h1 class="text-white text-2xl font-bold">SupplyFlow</h1>
+        </div>
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Join SupplyFlow Today</h2>
+        <p class="text-indigo-100 text-lg mb-6">Create your account and start optimizing your inventory management and supply chain operations.</p>
+      </div>
+
+      <div class="hidden md:block">
+        <div class="relative h-64 md:h-80 overflow-hidden rounded-xl">
+          <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
+               alt="Supply Chain Management"
+               class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/80 to-transparent flex items-end p-6">
+            <div class="text-white">
+              <p class="text-lg font-semibold">Powerful Inventory Management</p>
+              <p class="text-sm opacity-90">Track, manage, and optimize your entire supply chain</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 text-indigo-100 text-sm">
+        <p>By signing up, you agree to our <a href="#" class="text-white underline">Terms of Service</a> and <a href="#" class="text-white underline">Privacy Policy</a>.</p>
+      </div>
+    </div>
+
+    <!-- Right Column - Signup Form -->
+    <div class="w-full md:w-1/2 p-8 md:p-12">
+      <div class="max-w-md mx-auto">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Create your account</h2>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">Fill in the details below to get started</p>
+        </div>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5" }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+
+          <div class="space-y-6">
+            <div class="relative">
+              <%= f.label :name, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-user text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.text_field :name, autofocus: true,
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "Full Name" %>
+              </div>
+            </div>
+
+            <div class="relative">
+              <%= f.label :email, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-envelope text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.email_field :email, autocomplete: "email",
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "name@company.com" %>
+              </div>
+            </div>
+
+            <div class="relative">
+              <%= f.label :phone_number, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-phone text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.telephone_field :phone_number,
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "+233 XX XXX XXXX" %>
+              </div>
+            </div>
+
+            <div id="organization-selection" class="space-y-4">
+              <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                <div class="flex items-center mb-3">
+                  <input id="existing_organization" type="radio" name="organization_option" value="existing" <%= "checked" unless @creating_organization %> 
+                         class="h-5 w-5 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400 cursor-pointer">
+                  <label for="existing_organization" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-200 cursor-pointer">
+                    Join an existing organization
+                  </label>
+                </div>
+                
+                <div id="existing_organization_form" class="<%= 'hidden' if @creating_organization %> pl-7">
+                  <div class="relative">
+                    <%= f.label :organization_id, "Organization", class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                    <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                      <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                        <i class="fas fa-building text-gray-500 dark:text-gray-400"></i>
+                      </div>
+                      <%= f.collection_select :organization_id, @organizations, :id, :name,
+                          { prompt: "Select your organization" },
+                          { class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none appearance-none" } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                <div class="flex items-center mb-3">
+                  <input id="new_organization" type="radio" name="organization_option" value="new" <%= "checked" if @creating_organization %>
+                         class="h-5 w-5 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400 cursor-pointer">
+                  <label for="new_organization" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-200 cursor-pointer">
+                    Create a new organization
+                  </label>
+                </div>
+                
+                <div id="new_organization_form" class="<%= 'hidden' unless @creating_organization %> pl-7">
+                  <%= f.hidden_field :create_organization, value: "1", disabled: !@creating_organization, id: "create_organization_field" %>
+                  
+                  <div class="relative mb-4">
+                    <%= f.label :organization_name, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                    <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                      <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                        <i class="fas fa-building text-gray-500 dark:text-gray-400"></i>
+                      </div>
+                      <%= f.text_field :organization_name, 
+                          class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                          placeholder: "Organization Name", 
+                          disabled: !@creating_organization %>
+                    </div>
+                  </div>
+                  
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    As the creator, you'll be designated as the organization owner with full administrative access.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                const existingRadio = document.getElementById('existing_organization');
+                const newRadio = document.getElementById('new_organization');
+                const existingForm = document.getElementById('existing_organization_form');
+                const newForm = document.getElementById('new_organization_form');
+                const createOrgField = document.getElementById('create_organization_field');
+                const orgIdField = document.querySelector('[name="user[organization_id]"]');
+                const orgNameField = document.querySelector('[name="user[organization_name]"]');
+                
+                function toggleForms() {
+                  if (existingRadio.checked) {
+                    existingForm.classList.remove('hidden');
+                    newForm.classList.add('hidden');
+                    createOrgField.disabled = true;
+                    orgIdField.disabled = false;
+                    orgNameField.disabled = true;
+                  } else {
+                    existingForm.classList.add('hidden');
+                    newForm.classList.remove('hidden');
+                    createOrgField.disabled = false;
+                    orgIdField.disabled = true;
+                    orgNameField.disabled = false;
+                  }
+                }
+                
+                existingRadio.addEventListener('change', toggleForms);
+                newRadio.addEventListener('change', toggleForms);
+                
+                // Initial state
+                toggleForms();
+              });
+            </script>
+
+            <div class="relative">
+              <div class="flex items-center justify-between">
+                <%= f.label :password, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                <% if @minimum_password_length %>
+                <span class="absolute -top-2.5 right-3 bg-white dark:bg-gray-800 px-1 text-xs text-gray-500 dark:text-gray-400">(<%= @minimum_password_length %> characters min)</span>
+                <% end %>
+              </div>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-lock text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.password_field :password, autocomplete: "new-password",
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "••••••••" %>
+              </div>
+            </div>
+
+            <div class="relative">
+              <%= f.label :password_confirmation, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+              <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                  <i class="fas fa-lock text-gray-500 dark:text-gray-400"></i>
+                </div>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                    class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                    placeholder: "••••••••" %>
+              </div>
+            </div>
+
+            <div class="flex items-start mt-6">
+              <div class="flex items-center h-5">
+                <input id="terms" name="terms" type="checkbox" class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded" required>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="terms" class="font-medium text-gray-700 dark:text-gray-300">I agree to the <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:underline">Privacy Policy</a></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <%= f.submit "Create account", class: "w-full flex justify-center py-3.5 px-4 border-0 rounded-lg shadow-md text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02]" %>
+          </div>
+        <% end %>
+
+        <div class="mt-8">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or sign up with</span>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <a href="#" class="w-full inline-flex justify-center items-center py-3 px-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-red-400 dark:hover:border-red-400 transition-all duration-300 transform hover:scale-[1.02]">
+              <i class="fab fa-google text-red-500 text-lg mr-2"></i>
+              <span>Google</span>
+            </a>
+            <a href="#" class="w-full inline-flex justify-center items-center py-3 px-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-blue-400 dark:hover:border-blue-400 transition-all duration-300 transform hover:scale-[1.02]">
+              <i class="fab fa-microsoft text-blue-500 text-lg mr-2"></i>
+              <span>Microsoft</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Already have an account?
+            <%= link_to "Sign in", new_session_path(resource_name), class: "font-medium text-blue-600 dark:text-blue-400 hover:underline" %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Organization Modal -->
+<div id="newOrganizationModal" data-controller="modal" data-modal-target="modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <!-- Background overlay -->
+    <div data-action="click->modal#close" data-modal-target="overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+    <!-- Modal panel -->
+    <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 dark:bg-indigo-900 sm:mx-0 sm:h-10 sm:w-10">
+            <i class="fas fa-building text-indigo-600 dark:text-indigo-400"></i>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
+              Create New Organization
+            </h3>
+            <div class="mt-4">
+              <%= form_with(model: Organization.new, url: organizations_path, method: :post, id: "new_organization_form", data: { action: "submit->modal#submitForm" }, class: "space-y-4") do |f| %>
+                <div class="relative">
+                  <%= f.label :name, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                  <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                    <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                      <i class="fas fa-building text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                    <%= f.text_field :name, required: true,
+                        class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                        placeholder: "Organization Name" %>
+                  </div>
+                </div>
+
+                <div class="relative">
+                  <%= f.label :email, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                  <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                    <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                      <i class="fas fa-envelope text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                    <%= f.email_field :email,
+                        class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                        placeholder: "organization@example.com" %>
+                  </div>
+                </div>
+
+                <div class="relative">
+                  <%= f.label :phone, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                  <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                    <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                      <i class="fas fa-phone text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                    <%= f.telephone_field :phone,
+                        class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                        placeholder: "+233 XX XXX XXXX" %>
+                  </div>
+                </div>
+
+                <div class="relative">
+                  <%= f.label :country, class: "absolute -top-2.5 left-3 bg-white dark:bg-gray-800 px-1 text-sm font-medium text-gray-600 dark:text-gray-300" %>
+                  <div class="flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors duration-200">
+                    <div class="px-3 py-2 bg-gray-50 dark:bg-gray-700 border-r-2 border-gray-300 dark:border-gray-600">
+                      <i class="fas fa-globe text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                    <%= f.text_field :country, value: "Ghana",
+                        class: "block w-full py-3 px-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none",
+                        placeholder: "Country" %>
+                  </div>
+                </div>
+
+                <div id="organization_error_message" class="text-red-500 text-sm hidden"></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="submit" form="new_organization_form" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+          Create
+        </button>
+        <button type="button" data-action="click->modal#close" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

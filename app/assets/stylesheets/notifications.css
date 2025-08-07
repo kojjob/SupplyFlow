@@ -1,0 +1,278 @@
+
+/* Animated gradient backgrounds */
+.bg-gradient-animated {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Filter tabs */
+  .filter-tab {
+    @apply px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 transition-all duration-200;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .filter-tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .filter-tab:hover::before {
+    left: 100%;
+  }
+  
+  .filter-tab.active {
+    @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white;
+    box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+  }
+  
+  /* Notification items */
+  .notification-item {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .notification-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: left 0.7s ease;
+  }
+  
+  .notification-item:hover::before {
+    left: 100%;
+  }
+  
+  .notification-item.unread {
+    @apply border-l-4 border-blue-500;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent);
+  }
+  
+  /* Icon containers with gradient backgrounds */
+  .icon-container-gradient {
+    @apply w-12 h-12 flex items-center justify-center rounded-full;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+    transition: all 0.3s ease;
+  }
+  
+  .icon-container-gradient:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 20px 0 rgba(116, 79, 168, 0.85);
+  }
+  
+  /* Animated pulse effects */
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  /* Unread indicator animation */
+  .unread-indicator {
+    position: relative;
+    display: inline-flex;
+  }
+  
+  .unread-indicator span:first-child {
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  
+  @keyframes ping {
+    75%, 100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  
+  /* Hover scale effect */
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Notification type badges */
+  .notification-type-badge {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, var(--badge-primary), var(--badge-secondary));
+  }
+  
+  .notification-type-badge::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+  }
+  
+  .notification-type-badge:hover::after {
+    animation: shine 0.5s ease-in-out;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+  }
+  
+  /* Card glass effects */
+  .card-theme-glass {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .card-theme-glass {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Notification data grid */
+  .notification-data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  /* Action buttons */
+  .notification-action-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .notification-action-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  .notification-action-button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* Loading animations */
+  .loading-notification {
+    animation: fadeInUp 0.5s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Empty state illustration */
+  .empty-state-illustration {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .filter-tabs {
+      display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .notification-item {
+      border-radius: 0;
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+  }
+  
+  /* Dark mode specific styles */
+  .dark .notification-item {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  
+  .dark .notification-item.unread {
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.1), transparent);
+  }
+  
+  .dark .icon-container-gradient {
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.5);
+  }
+  
+  /* Print styles */
+  @media print {
+    .filter-tabs,
+    .notification-action-button,
+    .animate-pulse-slow {
+      display: none !important;
+    }
+    
+    .notification-item {
+      box-shadow: none;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 0.5rem;
+    }
+  }

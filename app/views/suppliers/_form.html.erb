@@ -1,0 +1,148 @@
+<%= form_with(model: supplier, class: "space-y-6") do |form| %>
+  <% if supplier.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900/30 p-4 rounded-lg mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <i class="fas fa-exclamation-circle text-red-400 dark:text-red-300"></i>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-300">
+            <%= pluralize(supplier.errors.count, "error") %> prohibited this supplier from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700 dark:text-red-200">
+            <ul class="list-disc pl-5 space-y-1">
+              <% supplier.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-building mr-2"></i> Basic Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :name, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :contact_person, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :contact_person, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :email, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.email_field :email, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :phone, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.telephone_field :phone, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div class="md:col-span-2">
+          <%= form.label :active, class: "flex items-center" do %>
+            <%= form.check_box :active, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-700 rounded" %>
+            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Active</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-map-marker-alt mr-2"></i> Address Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="md:col-span-2">
+          <%= form.label :address, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_area :address, rows: 3, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :city, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :city, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :state, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :state, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :postal_code, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :postal_code, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :country, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :country, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-green-600 to-green-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-briefcase mr-2"></i> Business Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <%= form.label :tax_id, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :tax_id, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :registration_number, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :registration_number, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :payment_terms, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.text_field :payment_terms, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+        
+        <div>
+          <%= form.label :credit_limit, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.number_field :credit_limit, step: 0.01, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-purple-600 to-purple-700 px-5 py-4">
+      <h2 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-sticky-note mr-2"></i> Additional Information
+      </h2>
+    </div>
+    <div class="p-5">
+      <div>
+        <%= form.label :notes, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+        <%= form.text_area :notes, rows: 4, class: "block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3">
+    <%= link_to "Cancel", supplier.new_record? ? suppliers_path : supplier_path(supplier), class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none" %>
+    
+    <%= form.submit supplier.new_record? ? "Create Supplier" : "Update Supplier", class: "px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded shadow-sm hover:bg-blue-700 focus:outline-none" %>
+  </div>
+<% end %>

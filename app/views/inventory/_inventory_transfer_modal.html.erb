@@ -1,0 +1,167 @@
+<%# Inventory Transfer Modal %>
+<%
+  # Default values
+  id = "inventory-transfer-modal"
+  title = "Transfer Inventory"
+  size = "lg"
+  animation = "fade"
+  close_on_outside_click = true
+  show_close = true
+  backdrop = true
+  form_id = "inventory-transfer-form"
+  resource_type = "inventory"
+  submit_path = "/inventory/transfer"
+  submit_text = "Transfer Stock"
+%>
+
+<div 
+  id="<%= id %>"
+  class="hidden" 
+  aria-hidden="true"
+  data-controller="inventory-api"
+  data-action="modal:before-submit->inventory-api#transferStock"
+>
+  <%= render partial: "shared/modal", locals: {
+    id: id,
+    title: title,
+    size: size,
+    animation: animation,
+    close_on_outside_click: close_on_outside_click,
+    show_close: show_close,
+    backdrop: backdrop,
+    form_id: form_id,
+    resource_type: resource_type,
+    submit_path: submit_path,
+    submit_text: submit_text
+  } do %>
+
+    <div class="space-y-4">
+      <%# Product Selection %>
+      <div class="mb-4">
+        <label for="product_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product</label>
+        <div class="relative">
+          <select 
+            id="product_id" 
+            name="product_id" 
+            class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            data-inventory-api-target="productField"
+            required
+          >
+            <option value="">Select a product</option>
+            <%# Products will be populated dynamically %>
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            <i class="fas fa-box-open text-gray-400 dark:text-gray-500"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <%# Source Location %>
+        <div>
+          <label for="source_location_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">From Location</label>
+          <div class="relative">
+            <select 
+              id="source_location_id" 
+              name="source_location_id" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              data-inventory-api-target="sourceLocationField"
+              data-action="change->inventory-api#sourceLocationChanged"
+              required
+            >
+              <option value="">Select source location</option>
+              <%# Locations will be populated dynamically %>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i class="fas fa-map-marker-alt text-gray-400 dark:text-gray-500"></i>
+            </div>
+          </div>
+        </div>
+
+        <%# Destination Location %>
+        <div>
+          <label for="destination_location_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">To Location</label>
+          <div class="relative">
+            <select 
+              id="destination_location_id" 
+              name="destination_location_id" 
+              class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              data-inventory-api-target="destinationLocationField"
+              required
+            >
+              <option value="">Select destination location</option>
+              <%# Locations will be populated dynamically %>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i class="fas fa-map-marker-alt text-gray-400 dark:text-gray-500"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Available Quantity Display %>
+      <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 hidden" data-inventory-api-target="availableContainer">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 mr-3">
+            <i class="fas fa-info-circle"></i>
+          </div>
+          <div>
+            <p class="text-sm text-blue-800 dark:text-blue-200">
+              Available: <span class="font-bold" data-inventory-api-target="availableQuantity">0</span> units
+            </p>
+            <p class="text-xs text-blue-600 dark:text-blue-300">
+              At <span data-inventory-api-target="locationName"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <%# Transfer quantity %>
+      <div>
+        <label for="quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quantity to Transfer</label>
+        <div class="relative">
+          <input 
+            type="number" 
+            id="quantity" 
+            name="quantity" 
+            min="1" 
+            placeholder="Enter quantity" 
+            class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed pl-10"
+            data-inventory-api-target="quantityField"
+            required
+          >
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <i class="fas fa-hashtag text-gray-400 dark:text-gray-500"></i>
+          </div>
+        </div>
+      </div>
+
+      <%# Notes %>
+      <div>
+        <label for="inventory_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes (Optional)</label>
+        <textarea 
+          id="inventory_notes" 
+          name="notes" 
+          rows="3" 
+          placeholder="Add any additional information about this transfer" 
+          class="block w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 bg-white dark:bg-gray-800 resize-none"
+        ></textarea>
+      </div>
+
+      <%# Error Messages %>
+      <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-100 dark:border-red-800 hidden" data-inventory-api-target="errorContainer">
+        <div class="flex items-start">
+          <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-red-600 dark:text-red-400 mr-3 mt-0.5 flex-shrink-0">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div>
+            <p class="font-medium text-red-800 dark:text-red-200">Please correct the following:</p>
+            <ul class="mt-1 text-sm text-red-700 dark:text-red-300 list-disc list-inside" data-inventory-api-target="errorList">
+              <!-- Error messages will be inserted here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

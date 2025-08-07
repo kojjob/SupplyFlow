@@ -1,1 +1,51 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Robots.txt for SupplyFlow Blog - Optimized for SEO
+# See https://www.robotstxt.org/robotstxt.html for documentation
+
+# Allow all robots to access public content
+User-agent: *
+Allow: /
+Allow: /posts/
+Allow: /categories/
+Allow: /tags/
+
+# Disallow sensitive/admin areas
+Disallow: /dashboard
+Disallow: /settings/
+Disallow: /users/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /inventory/
+Disallow: /orders/
+Disallow: /purchase_orders/
+Disallow: /sales_orders/
+Disallow: /payments/
+Disallow: /notifications/
+
+# Disallow user authentication pages
+Disallow: /users/sign_in
+Disallow: /users/sign_up
+Disallow: /users/password/
+Disallow: /users/confirmation/
+
+# Disallow file types that shouldn't be indexed
+Disallow: *.json$
+Disallow: *.css$
+Disallow: *.js$
+Disallow: *.svg$
+
+# Allow CSS and JS for better rendering (modern best practice)
+User-agent: Googlebot
+Allow: *.css
+Allow: *.js
+
+# Crawl delay to be respectful to server resources
+Crawl-delay: 1
+
+# Sitemap locations
+Sitemap: https://supplyflow.com/sitemap.xml
+Sitemap: https://supplyflow.com/sitemap-posts.xml
+Sitemap: https://supplyflow.com/sitemap-categories.xml
+Sitemap: https://supplyflow.com/sitemap-images.xml
+
+# Host directive (replace with actual domain)
+# Host: https://supplyflow.com

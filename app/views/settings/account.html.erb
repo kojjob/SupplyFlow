@@ -1,0 +1,190 @@
+<% content_for :title, "Account Settings" %>
+
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-4">
+      <h1 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-user-cog mr-2"></i> Account Settings
+      </h1>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300">
+        Manage your account preferences and settings. These settings affect how you interact with the system.
+      </p>
+    </div>
+  </div>
+  
+  <!-- Default Location -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Default Location</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Set your default location for inventory operations. This location will be pre-selected when creating transactions.
+      </p>
+      
+      <%= form_with model: @user, url: update_account_path, method: :patch do |f| %>
+        <div class="mb-4">
+          <%= f.label :default_location_id, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= f.collection_select :default_location_id, 
+                                 Location.where(organization: current_user.organization).order(name: :asc), 
+                                 :id, 
+                                 :name, 
+                                 { include_blank: "No default location" }, 
+                                 { class: "py-3 px-4 w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" } %>
+        </div>
+        
+        <div class="flex justify-end">
+          <%= f.submit "Save Default Location", class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Offline Access -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Offline Access</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Enable offline access to work with the application when you don't have an internet connection. 
+        Data will be synchronized when you're back online.
+      </p>
+      
+      <%= form_with model: @user, url: update_account_path, method: :patch do |f| %>
+        <div class="flex items-center mb-4">
+          <%= f.check_box :offline_access_enabled, class: "h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+          <%= f.label :offline_access_enabled, "Enable offline access", class: "ml-2 block text-sm text-gray-900 dark:text-gray-300" %>
+        </div>
+        
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800 mb-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-info-circle text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-blue-700 dark:text-blue-300">
+                Enabling offline access will store data on your device. This may use additional storage space.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-end">
+          <%= f.submit "Save Offline Settings", class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Connected Devices -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Connected Devices</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Manage devices that are connected to your account. You can remove access from devices you no longer use.
+      </p>
+      
+      <% if @user.device_tokens.present? && @user.device_tokens.any? %>
+        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Device</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Last Active</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              <% @user.device_tokens.each_with_index do |token, index| %>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-mobile-alt"></i>
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900 dark:text-white">Device <%= index + 1 %></div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Token: <%= token[0..10] %>...</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900 dark:text-white">Unknown</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-6">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mb-4">
+            <i class="fas fa-mobile-alt text-xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Connected Devices</h3>
+          <p class="text-gray-500 dark:text-gray-400">You don't have any devices connected to your account yet.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Data Export -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Data Export</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Export your personal data in various formats. This includes your profile information and activity history.
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+          <i class="fas fa-file-csv mr-2"></i> Export as CSV
+        </button>
+        
+        <button class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+          <i class="fas fa-file-excel mr-2"></i> Export as Excel
+        </button>
+        
+        <button class="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+          <i class="fas fa-file-pdf mr-2"></i> Export as PDF
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Account Deletion -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-red-50 dark:bg-red-900/20 border-b border-red-100 dark:border-red-800">
+      <h2 class="text-lg font-medium text-red-800 dark:text-red-300">Danger Zone</h2>
+    </div>
+    
+    <div class="p-6">
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Delete Account</h3>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Once you delete your account, there is no going back. Please be certain.
+      </p>
+      
+      <button class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+        <i class="fas fa-trash-alt mr-2"></i> Delete Account
+      </button>
+    </div>
+  </div>
+</div>

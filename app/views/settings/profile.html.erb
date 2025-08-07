@@ -1,0 +1,248 @@
+<% content_for :title, "Profile Settings" %>
+
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-4">
+      <h1 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-user mr-2"></i> Your Profile
+      </h1>
+    </div>
+
+    <div class="p-6">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <!-- Profile Picture -->
+        <div class="flex-shrink-0">
+          <div class="relative group">
+            <div class="w-32 h-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg">
+              <% if @user.has_avatar? %>
+                <%= image_tag @user.avatar_url, class: "w-full h-full object-cover" %>
+              <% else %>
+                <span class="text-5xl"><%= @user.name.first.upcase %></span>
+              <% end %>
+            </div>
+
+            <div class="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer">
+              <span class="text-white text-sm font-medium">Change</span>
+            </div>
+          </div>
+
+          <div class="mt-2 text-center">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+              <%= @user.role.capitalize %>
+            </span>
+          </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="flex-grow">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white"><%= @user.name %></h2>
+          <p class="text-gray-500 dark:text-gray-400 mb-4"><%= @user.email %></p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Organization</p>
+              <p class="font-medium text-gray-900 dark:text-white"><%= @user.organization.name %></p>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Phone Number</p>
+              <p class="font-medium text-gray-900 dark:text-white"><%= @user.phone_number.present? ? @user.phone_number : "Not provided" %></p>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Member Since</p>
+              <p class="font-medium text-gray-900 dark:text-white"><%= @user.created_at.strftime("%B %d, %Y") %></p>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Last Login</p>
+              <p class="font-medium text-gray-900 dark:text-white"><%= @user.last_login_at.present? ? @user.last_login_at.strftime("%B %d, %Y at %I:%M %p") : "Never" %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Form -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Edit Profile Information</h2>
+    </div>
+
+    <div class="p-6">
+      <%= form_with model: @user, url: update_profile_path, method: :patch, class: "space-y-6", html: { multipart: true } do |f| %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.text_field :name, class: "py-3 px-4 w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div>
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.email_field :email, class: "py-3 px-4 w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div>
+            <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.telephone_field :phone_number, class: "py-3 px-4 w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          </div>
+
+          <div>
+            <%= f.label :avatar, "Profile Picture", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+
+            <div class="flex items-center space-x-2 mb-3">
+              <div class="flex-shrink-0 w-20 h-20 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 overflow-hidden border-2 border-white dark:border-gray-700 shadow-lg">
+                <% if @user.has_avatar? %>
+                  <%= image_tag @user.avatar_url, class: "w-full h-full object-cover", id: "avatar-preview-img" %>
+                <% else %>
+                  <span class="text-4xl" id="avatar-initial"><%= @user.name.first.upcase %></span>
+                <% end %>
+              </div>
+
+              <div class="flex-grow">
+                <div class="flex flex-col space-y-2">
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-2">
+                      <i class="fas fa-upload"></i>
+                    </div>
+                    <%= f.file_field :avatar,
+                                   accept: "image/png,image/jpeg,image/jpg,image/gif",
+                                   class: "w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 dark:file:bg-indigo-900/30 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/40",
+                                   data: { action: "change->avatar-preview#updateFromFile" } %>
+                  </div>
+
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-2">
+                      <i class="fas fa-link"></i>
+                    </div>
+                    <%= f.text_field :avatar_url,
+                                   value: @user.ui_preferences&.dig("avatar_url"),
+                                   placeholder: "https://example.com/your-image.jpg",
+                                   class: "py-3 px-4 w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
+                                   data: { action: "input->avatar-preview#updateFromUrl" } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-500 dark:text-gray-400">Upload an image file or enter a URL to your profile picture (JPG, PNG, or GIF)</p>
+          </div>
+        </div>
+
+        <!-- Sample Avatars -->
+        <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+          <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Sample Avatars</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Click on an avatar to use it as your profile picture</p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4" data-controller="avatar-preview" data-action="click->avatar-preview#selectSampleAvatar">
+            <% [
+              "https://randomuser.me/api/portraits/men/32.jpg",
+              "https://randomuser.me/api/portraits/women/44.jpg",
+              "https://randomuser.me/api/portraits/men/86.jpg",
+              "https://randomuser.me/api/portraits/women/63.jpg",
+              "https://randomuser.me/api/portraits/men/22.jpg",
+              "https://randomuser.me/api/portraits/women/54.jpg",
+              "https://randomuser.me/api/portraits/men/29.jpg",
+              "https://randomuser.me/api/portraits/women/37.jpg"
+            ].each do |avatar_url| %>
+              <div class="avatar-option cursor-pointer" data-url="<%= avatar_url %>">
+                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors duration-200">
+                  <%= image_tag avatar_url, class: "w-full h-full object-cover" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <%= f.submit "Save Changes", class: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-colors duration-200" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Recent Activity</h2>
+    </div>
+
+    <div class="p-6">
+      <% if @recent_activities.any? %>
+        <div class="flow-root">
+          <ul role="list" class="-mb-8">
+            <% @recent_activities.each_with_index do |activity, index| %>
+              <li>
+                <div class="relative pb-8">
+                  <% if index < @recent_activities.size - 1 %>
+                    <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
+                  <% end %>
+                  <div class="relative flex items-start space-x-3">
+                    <div class="relative">
+                      <div class="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                        <% case activity.action %>
+                        <% when "user.logged_in" %>
+                          <i class="fas fa-sign-in-alt"></i>
+                        <% when "user.profile_updated" %>
+                          <i class="fas fa-user-edit"></i>
+                        <% when "user.account_updated" %>
+                          <i class="fas fa-user-cog"></i>
+                        <% when "user.notification_preferences_updated" %>
+                          <i class="fas fa-bell"></i>
+                        <% when "user.appearance_settings_updated" %>
+                          <i class="fas fa-paint-brush"></i>
+                        <% else %>
+                          <i class="fas fa-history"></i>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <div>
+                        <div class="text-sm font-medium text-gray-900 dark:text-white">
+                          <% case activity.action %>
+                          <% when "user.logged_in" %>
+                            Logged in
+                          <% when "user.profile_updated" %>
+                            Updated profile
+                          <% when "user.account_updated" %>
+                            Updated account settings
+                          <% when "user.notification_preferences_updated" %>
+                            Updated notification preferences
+                          <% when "user.appearance_settings_updated" %>
+                            Updated appearance settings
+                          <% else %>
+                            <%= activity.action.humanize %>
+                          <% end %>
+                        </div>
+                        <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+                          <%= time_ago_in_words(activity.created_at) %> ago
+                        </p>
+                      </div>
+                      <% if activity.details.present? && activity.details.any? %>
+                        <div class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                          <% activity.details.each do |key, value| %>
+                            <p><strong><%= key.humanize %>:</strong> <%= value %></p>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% else %>
+        <div class="text-center py-6">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mb-4">
+            <i class="fas fa-history text-xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Recent Activity</h3>
+          <p class="text-gray-500 dark:text-gray-400">Your recent activities will appear here.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

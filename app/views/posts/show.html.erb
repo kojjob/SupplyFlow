@@ -1,0 +1,457 @@
+<% content_for :title, @post.meta_title.presence || @post.title %>
+<% content_for :meta_description, @post.meta_description.presence || @post.excerpt || @post.content.to_plain_text.truncate(160) %>
+
+<%# SEO Meta Tags %>
+<%= content_for :head do %>
+  <%= seo_meta_tags(
+    title: @post.meta_title || @post.title,
+    description: @post.meta_description || @post.excerpt,
+    canonical: @post.canonical_url_with_default,
+    image: @post.og_image.presence || (@post.featured_image.attached? ? url_for(@post.featured_image) : nil),
+    og_type: "article",
+    twitter_card: @post.has_media? ? "player" : "summary_large_image",
+    robots: @post.no_index? ? "noindex, nofollow" : "index, follow",
+    author: @post.user.name,
+    published_time: @post.published_at&.iso8601,
+    modified_time: @post.updated_at.iso8601,
+    article_tags: @post.tags.pluck(:name),
+    keywords: @post.keywords
+  ) %>
+  
+  <%# Structured Data %>
+  <%= structured_data_script(post_structured_data(@post)) %>
+  <%= structured_data_script(organization_structured_data) %>
+  
+  <%# Breadcrumb Structured Data %>
+  <%= breadcrumb_structured_data([
+    { name: "Home", url: root_url },
+    { name: "Blog", url: posts_url },
+    { name: @post.title, url: post_url(@post) }
+  ]) %>
+<% end %>
+
+<div class="relative">
+  <%# Decorative background elements %>
+  <div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 -z-10"></div>
+  <div class="absolute top-0 right-0 w-1/3 h-64 bg-primary/10 rounded-bl-full blur-3xl -z-10"></div>
+  <div class="absolute bottom-0 left-0 w-1/3 h-64 bg-secondary/10 rounded-tr-full blur-3xl -z-10"></div>
+  
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <%# Breadcrumbs %>
+    <nav class="flex mb-8" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <%= link_to root_path, class: "inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-400 dark:hover:text-white" do %>
+            <i class="fas fa-home mr-2"></i> Home
+          <% end %>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 text-xs mx-2"></i>
+            <%= link_to posts_path, class: "ml-1 text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-400 dark:hover:text-white" do %>
+              Blog
+            <% end %>
+          </div>
+        </li>
+        <li aria-current="page">
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 text-xs mx-2"></i>
+            <span class="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 truncate max-w-[150px] md:max-w-xs">
+              <%= @post.title %>
+            </span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+    
+    <%# Admin edit controls %>
+    <% if policy(@post).update? %>
+      <div class="mb-6 flex flex-wrap gap-2">
+        <%= link_to edit_post_path(@post), class: "inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark transition-colors" do %>
+          <i class="fas fa-edit mr-1"></i> Edit
+        <% end %>
+        
+        <%= link_to @post, method: :delete, data: { confirm: "Are you sure you want to delete this post? This action cannot be undone." }, class: "inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors" do %>
+          <i class="fas fa-trash-alt mr-1"></i> Delete
+        <% end %>
+        
+        <% if @post.published? %>
+          <%= link_to archive_post_path(@post), method: :patch, class: "inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 transition-colors" do %>
+            <i class="fas fa-archive mr-1"></i> Archive
+          <% end %>
+        <% elsif @post.draft? %>
+          <%= link_to publish_post_path(@post), method: :patch, class: "inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors" do %>
+            <i class="fas fa-check-circle mr-1"></i> Publish
+          <% end %>
+        <% elsif @post.archived? %>
+          <%= link_to publish_post_path(@post), method: :patch, class: "inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors" do %>
+            <i class="fas fa-undo mr-1"></i> Restore
+          <% end %>
+        <% end %>
+        
+        <% unless @post.published? %>
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">
+            <i class="fas fa-eye-slash mr-1"></i> <%= @post.status.titleize %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <%# Header with featured image %>
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+        <%= @post.title %>
+      </h1>
+      
+      <div class="flex items-center mb-6">
+        <%# Author info %>
+        <div class="flex items-center">
+          <% if @post.user.avatar.attached? %>
+            <%= image_tag @post.user.avatar.variant(resize_to_fill: [40, 40]), class: "h-10 w-10 rounded-full", alt: @post.user.name %>
+          <% else %>
+            <div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
+              <%= @post.user.name.first.upcase %>
+            </div>
+          <% end %>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-gray-900 dark:text-white">
+              <%= @post.user.name %>
+            </p>
+            <div class="flex space-x-1 text-sm text-gray-500 dark:text-gray-400">
+              <time datetime="<%= @post.published_at.iso8601 %>">
+                <%= @post.published_at.strftime('%B %d, %Y') %>
+              </time>
+              <span aria-hidden="true">&middot;</span>
+              <span><%= @post.reading_time || "5 min read" %></span>
+            </div>
+          </div>
+        </div>
+        
+        <%# Social share %>
+        <div class="ml-auto flex space-x-2">
+          <button class="text-gray-400 hover:text-blue-500 transition-colors" aria-label="Share on Facebook">
+            <i class="fab fa-facebook-f text-lg"></i>
+          </button>
+          <button class="text-gray-400 hover:text-blue-400 transition-colors" aria-label="Share on Twitter">
+            <i class="fab fa-twitter text-lg"></i>
+          </button>
+          <button class="text-gray-400 hover:text-blue-600 transition-colors" aria-label="Share on LinkedIn">
+            <i class="fab fa-linkedin-in text-lg"></i>
+          </button>
+          <button class="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Copy link">
+            <i class="fas fa-link text-lg"></i>
+          </button>
+        </div>
+      </div>
+      
+      <%# Featured image or multimedia content %>
+      <% if @post.has_media? %>
+        <div class="mb-8">
+          <%# Media type indicator %>
+          <div class="flex items-center mb-4">
+            <% case @post.media_type %>
+            <% when 'video' %>
+              <i class="fas fa-play-circle text-2xl text-red-500 mr-2"></i>
+              <span class="text-lg font-medium text-gray-700 dark:text-gray-300">Video Content</span>
+            <% when 'audio', 'podcast' %>
+              <i class="fas fa-podcast text-2xl text-purple-500 mr-2"></i>
+              <span class="text-lg font-medium text-gray-700 dark:text-gray-300">
+                <%= @post.media_type.titleize %> Content
+              </span>
+            <% end %>
+            <% if @post.media_duration.present? %>
+              <span class="ml-auto bg-black/80 text-white px-3 py-1 rounded-full text-sm">
+                <%= @post.media_duration_display %>
+              </span>
+            <% end %>
+          </div>
+          
+          <%# Media player %>
+          <div class="rounded-2xl overflow-hidden shadow-lg bg-gray-900">
+            <%= media_player_embed(@post) %>
+          </div>
+          
+          <%# Media transcript toggle %>
+          <% if @post.media_transcript.present? %>
+            <div class="mt-4" data-controller="toggle">
+              <button data-action="click->toggle#toggle" data-toggle-target="button" class="text-primary hover:text-primary-dark font-medium text-sm">
+                <i class="fas fa-file-alt mr-1"></i> Show Transcript
+              </button>
+              <div data-toggle-target="content" class="hidden mt-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <h4 class="font-medium text-gray-900 dark:text-white mb-2">Transcript</h4>
+                <div class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                  <%= @post.media_transcript %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% elsif @post.featured_image.attached? %>
+        <div class="relative rounded-2xl overflow-hidden shadow-lg mb-8">
+          <%= image_tag @post.featured_image.representation(resize_to_limit: [1200, 675]), class: "w-full h-auto", alt: @post.title %>
+          
+          <%# Image attribution if needed %>
+          <div class="absolute bottom-0 right-0 bg-black/50 text-white text-xs px-2 py-1 rounded-tl-md">
+            Photo by SupplyFlow
+          </div>
+        </div>
+      <% end %>
+    </header>
+    
+    <%# Post content %>
+    <div class="prose prose-lg dark:prose-invert prose-primary max-w-none mb-12">
+      <%= @post.content %>
+    </div>
+    
+    <%# Categories and Tags %>
+    <div class="border-t border-b border-gray-200 dark:border-gray-700 py-6 mb-8">
+      <div class="space-y-4">
+        <%# Categories %>
+        <% if @post.categories.any? %>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Categories:</span>
+            <% @post.categories.each do |category| %>
+              <%= link_to category.name, "#", class: "px-3 py-1 rounded-full bg-primary text-white text-sm hover:bg-primary-dark transition-colors" %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%# Tags %>
+        <% if @post.tags.any? %>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Tags:</span>
+            <% @post.tags.each do |tag| %>
+              <%= link_to tag.name, "#", class: "px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-sm hover:bg-primary hover:text-white dark:hover:bg-primary transition-colors" %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%# SEO Keywords (if different from tags) %>
+        <% if @post.keywords.present? && policy(@post).update? %>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">SEO Keywords:</span>
+            <% @post.keywords.split(',').map(&:strip).each do |keyword| %>
+              <span class="px-2 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs">
+                <%= keyword %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%# SEO Score (for admins/authors) %>
+        <% if policy(@post).update? && @post.seo_score.present? %>
+          <div class="flex items-center gap-4 text-sm">
+            <div class="flex items-center">
+              <span class="text-gray-500 dark:text-gray-400">SEO Score:</span>
+              <div class="ml-2 flex items-center">
+                <div class="w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                  <div class="h-2 rounded-full <%= @post.seo_score >= 70 ? 'bg-green-500' : @post.seo_score >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>" 
+                       style="width: <%= @post.seo_score %>%"></div>
+                </div>
+                <span class="ml-2 <%= @post.seo_score >= 70 ? 'text-green-600' : @post.seo_score >= 50 ? 'text-yellow-600' : 'text-red-600' %>">
+                  <%= @post.seo_score %>%
+                </span>
+              </div>
+            </div>
+            <% if @post.readability_score.present? %>
+              <div class="flex items-center">
+                <span class="text-gray-500 dark:text-gray-400">Readability:</span>
+                <span class="ml-2 <%= @post.readability_score >= 60 ? 'text-green-600' : @post.readability_score >= 30 ? 'text-yellow-600' : 'text-red-600' %>">
+                  <%= @post.readability_score %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <%# Author bio %>
+    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 mb-12">
+      <div class="sm:flex items-center">
+        <div class="mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
+          <% if @post.user.avatar.attached? %>
+            <%= image_tag @post.user.avatar.variant(resize_to_fill: [96, 96]), class: "h-24 w-24 rounded-full", alt: @post.user.name %>
+          <% else %>
+            <div class="h-24 w-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl">
+              <%= @post.user.name.first.upcase %>
+            </div>
+          <% end %>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+            About <%= @post.user.name %>
+          </h3>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">
+            <%= @post.user.bio || "Supply chain and inventory management expert with over 10 years of experience helping SMEs optimize their operations. Passionate about leveraging technology to solve business challenges." %>
+          </p>
+          <div class="mt-3 flex space-x-3">
+            <a href="#" class="text-primary hover:text-primary-dark transition-colors">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-primary hover:text-primary-dark transition-colors">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="text-primary hover:text-primary-dark transition-colors">
+              <i class="fas fa-globe"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <%# Reviews section %>
+    <section id="reviews" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+        <i class="fas fa-star text-yellow-400 mr-2"></i> Reviews
+        <span class="ml-2 text-lg font-normal text-gray-600 dark:text-gray-400">
+          (<%= @post.reviews.count %>)
+        </span>
+      </h2>
+      
+      <%# Reviews list %>
+      <div class="space-y-6">
+        <% if @post.reviews.any? %>
+          <% @reviews.each do |review| %>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-100 dark:border-gray-700">
+              <div class="flex justify-between items-start">
+                <div class="flex items-center">
+                  <% if review.user.avatar.attached? %>
+                    <%= image_tag review.user.avatar.variant(resize_to_fill: [40, 40]), class: "h-10 w-10 rounded-full", alt: review.user.name %>
+                  <% else %>
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-br from-gray-500 to-gray-700 flex items-center justify-center text-white">
+                      <%= review.user.name.first.upcase %>
+                    </div>
+                  <% end %>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                      <%= review.user.name %>
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      <%= time_ago_in_words(review.created_at) %> ago
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="flex">
+                  <% review.rating.times do %>
+                    <i class="fas fa-star text-yellow-400"></i>
+                  <% end %>
+                  <% (5 - review.rating).times do %>
+                    <i class="far fa-star text-yellow-400"></i>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="mt-4 text-gray-700 dark:text-gray-300">
+                <%= review.body %>
+              </div>
+              
+              <% if current_user && (current_user.id == review.user_id || current_user.admin?) %>
+                <div class="mt-3 flex space-x-2 justify-end">
+                  <%= link_to edit_post_review_path(@post, review), class: "text-sm text-gray-500 hover:text-primary transition-colors" do %>
+                    <i class="fas fa-edit mr-1"></i> Edit
+                  <% end %>
+                  
+                  <%= link_to post_review_path(@post, review), method: :delete, data: { confirm: "Are you sure you want to delete this review?" }, class: "text-sm text-gray-500 hover:text-red-600 transition-colors" do %>
+                    <i class="fas fa-trash-alt mr-1"></i> Delete
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-8">
+            <div class="mx-auto h-16 w-16 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-4">
+              <i class="fas fa-comment-alt text-2xl text-primary"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">No reviews yet</h3>
+            <p class="mt-1 text-gray-500 dark:text-gray-400">Be the first to share your thoughts on this article.</p>
+          </div>
+        <% end %>
+      </div>
+      
+      <%# Add review form %>
+      <% if user_signed_in? %>
+        <%= turbo_frame_tag "review_form_frame" do %>
+          <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-100 dark:border-gray-700">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Add Your Review</h3>
+
+            <%# Assuming @review is initialized in PostsController#show as @post.reviews.build %>
+            <%= form_with(model: [@post, @review || @post.reviews.build], local: true, class: "space-y-4") do |f| %>
+              <%# Render errors if present %>
+              <% if f.object.errors.any? %>
+                <div id="error_explanation_review" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                  <strong class="font-bold"><%= pluralize(f.object.errors.count, "error") %> prohibited this review from being saved:</strong>
+                  <ul class="mt-2 list-disc list-inside">
+                    <% f.object.errors.each do |error| %>
+                      <li><%= error.full_message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+
+              <div>
+                <div class="flex items-center space-x-1 mb-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">Rating:</label>
+                <div class="flex space-x-1" data-controller="rating">
+                  <% 5.times do |i| %>
+                    <button type="button" data-action="rating#select" data-value="<%= i+1 %>" data-rating-target="star" class="text-gray-300 dark:text-gray-600 hover:text-yellow-400 text-xl focus:outline-none">
+                      <i class="far fa-star"></i>
+                    </button>
+                  <% end %>
+                  <%= f.hidden_field :rating, data: { rating_target: "input" } %>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <%= f.label :body, "Your review", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+              <%= f.text_area :body, rows: 4, class: "block w-full rounded-md border border-gray-300 dark:border-gray-700 shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white sm:text-sm" %>
+            </div>
+            
+              <div class="flex items-center justify-end">
+                <%= f.submit "Submit Review", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %> <%# turbo_frame_tag %>
+      <% else %>
+        <div class="mt-8 bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-center">
+          <p class="text-gray-700 dark:text-gray-300">
+            <%= link_to "Sign in", new_user_session_path, class: "font-medium text-primary hover:text-primary-dark" %> to leave a review.
+          </p>
+        </div>
+      <% end %>
+    </section>
+    
+    <%# Related posts %>
+    <section class="border-t border-gray-200 dark:border-gray-700 pt-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+        <i class="fas fa-bookmark text-primary mr-2"></i> Related Articles
+      </h2>
+      
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <% 3.times do |i| %>
+          <article class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+            <div class="aspect-w-16 aspect-h-9">
+              <div class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                <i class="fas fa-newspaper text-3xl text-gray-300 dark:text-gray-600"></i>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                <a href="#" class="hover:text-primary transition-colors">
+                  Related Post Title <%= i + 1 %>
+                </a>
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                May 15, 2025 &middot; 3 min read
+              </p>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </section>
+  </article>
+</div>

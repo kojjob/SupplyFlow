@@ -1,0 +1,217 @@
+<% content_for :title, "Integrations" %>
+
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-4">
+      <h1 class="text-xl font-semibold text-white flex items-center">
+        <i class="fas fa-plug mr-2"></i> Integrations
+      </h1>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300">
+        Connect SupplyFlow with other services and applications to extend its functionality.
+      </p>
+    </div>
+  </div>
+  
+  <!-- Available Integrations -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Available Integrations</h2>
+    </div>
+    
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Accounting Integration -->
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
+          <div class="p-6">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center">
+                <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 mr-4">
+                  <i class="fas fa-calculator text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white">QuickBooks</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">Connect your accounting software</p>
+                </div>
+              </div>
+              
+              <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                <input type="checkbox" id="toggle_quickbooks" class="absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-green-600 dark:checked:border-green-400 transition-all duration-200" style="top: 0; outline: none; margin: 0; border-color: #d1d5db;">
+                <label for="toggle_quickbooks" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                Sync your inventory, sales, and purchase data with QuickBooks for seamless accounting.
+              </p>
+              
+              <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm transition-colors duration-200">
+                Connect QuickBooks
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- E-commerce Integration -->
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
+          <div class="p-6">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center">
+                <div class="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center text-green-600 dark:text-green-400 mr-4">
+                  <i class="fas fa-shopping-cart text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white">Shopify</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">Connect your online store</p>
+                </div>
+              </div>
+              
+              <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                <input type="checkbox" id="toggle_shopify" class="absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-green-600 dark:checked:border-green-400 transition-all duration-200" style="top: 0; outline: none; margin: 0; border-color: #d1d5db;">
+                <label for="toggle_shopify" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                Automatically sync inventory levels, orders, and product data with your Shopify store.
+              </p>
+              
+              <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-sm transition-colors duration-200">
+                Connect Shopify
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Shipping Integration -->
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
+          <div class="p-6">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center">
+                <div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 mr-4">
+                  <i class="fas fa-truck text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white">ShipStation</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">Connect your shipping provider</p>
+                </div>
+              </div>
+              
+              <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                <input type="checkbox" id="toggle_shipstation" class="absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-green-600 dark:checked:border-green-400 transition-all duration-200" style="top: 0; outline: none; margin: 0; border-color: #d1d5db;">
+                <label for="toggle_shipstation" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                Streamline your shipping process with automatic order syncing and label printing.
+              </p>
+              
+              <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-sm transition-colors duration-200">
+                Connect ShipStation
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Payment Integration -->
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
+          <div class="p-6">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center">
+                <div class="w-12 h-12 rounded-lg bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center text-teal-600 dark:text-teal-400 mr-4">
+                  <i class="fas fa-credit-card text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white">Stripe</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">Connect your payment processor</p>
+                </div>
+              </div>
+              
+              <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                <input type="checkbox" id="toggle_stripe" class="absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-300 border-4 appearance-none cursor-pointer checked:right-0 checked:border-green-600 dark:checked:border-green-400 transition-all duration-200" style="top: 0; outline: none; margin: 0; border-color: #d1d5db;">
+                <label for="toggle_stripe" class="block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></label>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                Process payments directly within SupplyFlow and automatically reconcile transactions.
+              </p>
+              
+              <button class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg shadow-sm transition-colors duration-200">
+                Connect Stripe
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- API Access -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">API Access</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Generate API keys to access the SupplyFlow API programmatically. This allows you to build custom integrations.
+      </p>
+      
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 border border-yellow-100 dark:border-yellow-800 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-400"></i>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700 dark:text-yellow-300">
+              API access is only available on the Pro and Enterprise plans. Upgrade your subscription to access this feature.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <button disabled class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm cursor-not-allowed">
+        Generate API Key
+      </button>
+    </div>
+  </div>
+  
+  <!-- Webhooks -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Webhooks</h2>
+    </div>
+    
+    <div class="p-6">
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Set up webhooks to receive real-time notifications when events occur in your SupplyFlow account.
+      </p>
+      
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 border border-yellow-100 dark:border-yellow-800 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-400"></i>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700 dark:text-yellow-300">
+              Webhooks are only available on the Pro and Enterprise plans. Upgrade your subscription to access this feature.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <button disabled class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm cursor-not-allowed">
+        Create Webhook
+      </button>
+    </div>
+  </div>
+</div>
