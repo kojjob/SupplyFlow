@@ -30,6 +30,10 @@ Rails.application.routes.draw do
   # Blog Posts and Reviews
   resources :posts, param: :slug do # Use slug for posts
     resources :reviews, only: [:create, :edit, :update, :destroy]
+    member do
+      patch :publish
+      patch :archive
+    end
   end
 
   # Inventory Management

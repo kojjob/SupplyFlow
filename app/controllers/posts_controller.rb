@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_post, only: %i[show edit update destroy]
-  after_action :verify_authorized, except: %i[index show] # Public can view index and show
+  before_action :set_post, only: %i[show edit update destroy publish archive]
+  after_action :verify_authorized, except: %i[index] # Public can view index
   after_action :verify_policy_scoped, only: :index
 
   # GET /posts
@@ -62,10 +62,30 @@ class PostsController < ApplicationController
     redirect_to posts_url, notice: "Post was successfully destroyed.", status: :see_other
   end
 
+  # PATCH /posts/1/publish
+  def publish
+    authorize @post
+    if @post.update(status: :published, published_at: Time.current)
+      redirect_to @post, notice: "Post was successfully published."
+    else
+      redirect_to @post, alert: "Failed to publish post."
+    end
+  end
+
+  # PATCH /posts/1/archive
+  def archive
+    authorize @post
+    if @post.update(status: :archived)
+      redirect_to @post, notice: "Post was successfully archived."
+    else
+      redirect_to @post, alert: "Failed to archive post."
+    end
+  end
+
   private
 
   def set_post
-    @post = Post.find_by!(slug: params[:id])
+    @post = Post.find_by!(slug: params[:slug])
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Post not found."
     redirect_to posts_path

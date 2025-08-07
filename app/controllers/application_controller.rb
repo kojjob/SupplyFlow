@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-
+  # allow_browser versions: :modern
 
   # Include Pundit for authorization
   include Pundit::Authorization
@@ -42,8 +41,8 @@ class ApplicationController < ActionController::Base
 
   def public_page?
     devise_controller? ||
-    (controller_name == "pages" && [ "about", "contact", "support", "offline", "swipe_test" ].include?(action_name)) ||
-    (controller_name == "posts" && action_name == "index")
+    (controller_name == "pages" && [ "index", "about", "contact", "support", "offline", "swipe_test" ].include?(action_name)) ||
+    (controller_name == "posts" && ["index", "show"].include?(action_name))
   end
 
   def set_current_attributes
