@@ -27,12 +27,38 @@ Rails.application.routes.draw do
   # Products and Inventory
   resources :products
 
+  # Blog Posts and Reviews
+  resources :posts, param: :slug do # Use slug for posts
+    resources :reviews, only: [:create, :edit, :update, :destroy]
+  end
+
   # Inventory Management
   get "inventory" => "inventory#index", as: :inventory
   get "inventory/transactions" => "inventory#transactions", as: :inventory_transactions
   get "inventory/report" => "inventory#report", as: :inventory_report
   post "inventory/:id/adjust" => "inventory#adjust", as: :adjust_inventory
   post "inventory/:id/transfer" => "inventory#transfer", as: :transfer_inventory
+
+  # Inventory Adjustments
+  resources :inventory_adjustments do
+    member do
+      post :approve
+      post :reject
+    end
+    collection do
+      get :pending
+    end
+  end
+
+  # Batch Inventory routes
+  resources :batch_inventories, only: [] do
+    collection do
+      get 'new_csv'
+      post 'create_csv'
+      get 'new_manual'
+      post 'create_manual'
+    end
+  end
 
   # Suppliers and Customers
   resources :suppliers
@@ -195,6 +221,13 @@ Rails.application.routes.draw do
   # get "setup-guide" => "pages#setup_guide", as: :setup_guide
   get "documentation" => "pages#documentation", as: :documentation
 
+  # SEO Sitemaps
+  get "sitemap.xml" => "sitemaps#index", defaults: { format: :xml }
+  get "sitemap-main.xml" => "sitemaps#main", defaults: { format: :xml }
+  get "sitemap-posts.xml" => "sitemaps#posts", defaults: { format: :xml }
+  get "sitemap-categories.xml" => "sitemaps#categories", defaults: { format: :xml }
+  get "sitemap-images.xml" => "sitemaps#images", defaults: { format: :xml }
+
   # Defines the root path route ("/")
-  root "posts#index"
+  root "pages#index"
 end

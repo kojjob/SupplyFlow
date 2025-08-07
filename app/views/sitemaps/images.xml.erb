@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <% @posts_with_images.find_each do |post| %>
+    <url>
+      <loc><%= post_url(post) %></loc>
+      <lastmod><%= post.updated_at.iso8601 %></lastmod>
+      
+      <% if post.featured_image.attached? %>
+        <image:image>
+          <image:loc><%= url_for(post.featured_image) %></image:loc>
+          <image:caption><%= post.title %></image:caption>
+          <image:title><%= post.meta_title.presence || post.title %></image:title>
+          <% if post.meta_description.present? %>
+            <image:description><%= post.meta_description %></image:description>
+          <% end %>
+        </image:image>
+      <% end %>
+      
+      <%# Include images from rich text content if available %>
+      <% if post.content.body.present? %>
+        <% post.content.body.attachments.each do |attachment| %>
+          <% if attachment.blob.image? %>
+            <image:image>
+              <image:loc><%= url_for(attachment) %></image:loc>
+              <image:caption><%= attachment.name || post.title %></image:caption>
+              <image:title><%= post.title %></image:title>
+            </image:image>
+          <% end %>
+        <% end %>
+      <% end %>
+    </url>
+  <% end %>
+</urlset>

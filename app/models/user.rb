@@ -30,6 +30,8 @@ class User < ApplicationRecord
   has_many :sales_orders
   has_many :payments
   has_many :notifications, foreign_key: "recipient_id", dependent: :destroy, inverse_of: :recipient
+  has_many :posts, foreign_key: "user_id", dependent: :destroy # Posts authored by the user
+  has_many :reviews, foreign_key: "user_id", dependent: :destroy # Reviews written by the user
 
   # Validations
   validates :name, presence: true

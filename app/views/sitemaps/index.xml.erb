@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <%# Main sitemap %>
+  <sitemap>
+    <loc><%= request.protocol + request.host_with_port + "/sitemap-main.xml" %></loc>
+    <lastmod><%= Date.current.iso8601 %></lastmod>
+  </sitemap>
+  
+  <%# Posts sitemap %>
+  <sitemap>
+    <loc><%= request.protocol + request.host_with_port + "/sitemap-posts.xml" %></loc>
+    <lastmod><%= @posts.maximum(:updated_at)&.iso8601 || Date.current.iso8601 %></lastmod>
+  </sitemap>
+  
+  <%# Categories sitemap %>
+  <% if @categories.any? %>
+    <sitemap>
+      <loc><%= request.protocol + request.host_with_port + "/sitemap-categories.xml" %></loc>
+      <lastmod><%= @categories.maximum(:updated_at)&.iso8601 || Date.current.iso8601 %></lastmod>
+    </sitemap>
+  <% end %>
+  
+  <%# Images sitemap %>
+  <sitemap>
+    <loc><%= request.protocol + request.host_with_port + "/sitemap-images.xml" %></loc>
+    <lastmod><%= Date.current.iso8601 %></lastmod>
+  </sitemap>
+</sitemapindex>

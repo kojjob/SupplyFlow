@@ -1,622 +1,292 @@
-<%# Set page title %>
-<% content_for :title, "Home" %>
+<% content_for :title, "Blog | SupplyFlow - Knowledge, Tips & Updates" %>
+<% content_for :meta_description, "Explore SupplyFlow's knowledge base for inventory management tips, supply chain insights, and platform updates." %>
 
-<div class="container mx-auto px-4 py-8">
-  <div class="max-w-7xl mx-auto">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden mb-8">
-      <div class="p-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Welcome to SupplyFlow</h1>
-
-        <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">
-          Your comprehensive inventory management solution for growing businesses.
-        </p>
-
-        <% unless user_signed_in? %>
-          <div class="flex flex-wrap gap-4">
-            <%= link_to new_user_session_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
-              <i class="fas fa-sign-in-alt mr-2"></i> Sign In
-            <% end %>
-            <%= link_to new_user_registration_path, class: "inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
-              <i class="fas fa-user-plus mr-2"></i> Sign Up
-            <% end %>
+<div class="relative">
+  <%# Decorative background elements %>
+  <div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 -z-10"></div>
+  <div class="absolute top-0 right-0 w-1/3 h-64 bg-primary/10 rounded-bl-full blur-3xl -z-10"></div>
+  <div class="absolute bottom-0 left-0 w-1/3 h-64 bg-secondary/10 rounded-tr-full blur-3xl -z-10"></div>
+  
+  <%# Hero section %>
+  <section class="relative overflow-hidden py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl text-center">
+      <h1 class="animate-fade-in text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          SupplyFlow Insights
+        </span>
+      </h1>
+      <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto animate-fade-in animation-delay-150">
+        Expert advice, industry trends, and best practices for optimizing your inventory and supply chain management.
+      </p>
+      
+      <%# Search form %>
+      <div class="mt-8 max-w-2xl mx-auto animate-fade-in animation-delay-300">
+        <form class="relative flex items-center">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="search" name="q" class="block w-full pl-10 pr-20 py-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-primary focus:border-primary dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white" placeholder="Search articles..." required>
+            <button type="submit" class="absolute right-2 bottom-2 top-2 px-4 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-md hover:opacity-90 transition-opacity">
+              Search
+            </button>
           </div>
-        <% else %>
-          <div class="flex flex-wrap gap-4">
-            <%= link_to dashboard_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" do %>
-              <i class="fas fa-tachometer-alt mr-2"></i> Go to Dashboard
-            <% end %>
+        </form>
+      </div>
+      
+      <%# Category pills %>
+      <div class="mt-8 flex flex-wrap justify-center gap-2 animate-fade-in animation-delay-450">
+        <a href="#" class="inline-flex items-center px-4 py-2 rounded-full bg-primary text-white font-medium text-sm hover:bg-primary/90 transition-colors">
+          <i class="fas fa-layer-group mr-2"></i> All Topics
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <i class="fas fa-box mr-2"></i> Inventory Tips
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <i class="fas fa-chart-line mr-2"></i> Analytics
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <i class="fas fa-truck mr-2"></i> Supply Chain
+        </a>
+        <a href="#" class="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <i class="fas fa-bullhorn mr-2"></i> Announcements
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <%# Featured post %>
+  <% if @posts.exists? && @featured_post = @posts.first %>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-10">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all hover:shadow-2xl hover:-translate-y-1 duration-300">
+        <div class="md:flex">
+          <div class="md:w-1/2 lg:w-3/5">
+            <div class="aspect-w-16 aspect-h-9 md:aspect-none md:h-full">
+              <% if @featured_post.featured_image.attached? %>
+                <%= image_tag @featured_post.featured_image.representation(resize_to_limit: [800, 450]), class: "object-cover w-full h-full", alt: @featured_post.title %>
+              <% else %>
+                <div class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                  <i class="fas fa-newspaper text-6xl text-gray-300 dark:text-gray-600"></i>
+                </div>
+              <% end %>
+            </div>
           </div>
+          <div class="md:w-1/2 lg:w-2/5 p-6 md:p-8 flex flex-col">
+            <div class="flex-1">
+              <p class="text-sm font-medium text-primary">
+                <i class="fas fa-star-of-life mr-1"></i> Featured Article
+              </p>
+              <h2 class="mt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <%= link_to @featured_post.title, @featured_post, class: "hover:text-primary transition-colors" %>
+              </h2>
+              <div class="mt-3 text-base text-gray-500 dark:text-gray-400 line-clamp-3">
+                <%= @featured_post.content.to_plain_text.truncate(200) %>
+              </div>
+            </div>
+            <div class="mt-6 flex items-center">
+              <div class="flex-shrink-0">
+                <% if @featured_post.user.avatar.attached? %>
+                  <%= image_tag @featured_post.user.avatar.variant(resize_to_fill: [40, 40]), class: "h-10 w-10 rounded-full", alt: @featured_post.user.name %>
+                <% else %>
+                  <div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white">
+                    <%= @featured_post.user.name.first.upcase %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">
+                  <%= @featured_post.user.name %>
+                </p>
+                <div class="flex space-x-1 text-sm text-gray-500 dark:text-gray-400">
+                  <time datetime="<%= @featured_post.published_at.iso8601 %>">
+                    <%= @featured_post.published_at.strftime('%b %d, %Y') %>
+                  </time>
+                  <span aria-hidden="true">&middot;</span>
+                  <span><%= @featured_post.reading_time || "5 min read" %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <% end %>
+  
+  <%# Main posts grid %>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+      <i class="fas fa-newspaper text-primary mr-2"></i> Latest Articles
+    </h2>
+    
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <% @posts.each do |post| %>
+        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full">
+          <%# Featured image %>
+          <div class="relative aspect-w-16 aspect-h-9 group">
+            <% if post.featured_image.attached? %>
+              <%= image_tag post.featured_image.representation(resize_to_limit: [400, 225]), class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500", alt: post.title %>
+            <% else %>
+              <div class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                <i class="fas fa-newspaper text-4xl text-gray-300 dark:text-gray-600"></i>
+              </div>
+            <% end %>
+            
+            <%# Overlay with category %>
+            <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-start">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-primary text-white">
+                <i class="fas fa-tag mr-1"></i> Category
+              </span>
+              
+              <%# Reading time %>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300">
+                <i class="far fa-clock mr-1"></i> <%= post.reading_time || "5 min" %>
+              </span>
+            </div>
+          </div>
+          
+          <%# Content %>
+          <div class="p-5 flex-1 flex flex-col">
+            <%# Media type indicator %>
+            <% if post.media_type != 'article' %>
+              <div class="flex items-center mb-2">
+                <% case post.media_type %>
+                <% when 'video' %>
+                  <i class="fas fa-play-circle text-red-500 mr-2"></i>
+                  <span class="text-xs font-medium text-red-600 uppercase tracking-wide">Video</span>
+                <% when 'audio' %>
+                  <i class="fas fa-volume-up text-blue-500 mr-2"></i>
+                  <span class="text-xs font-medium text-blue-600 uppercase tracking-wide">Audio</span>
+                <% when 'podcast' %>
+                  <i class="fas fa-podcast text-purple-500 mr-2"></i>
+                  <span class="text-xs font-medium text-purple-600 uppercase tracking-wide">Podcast</span>
+                <% when 'infographic' %>
+                  <i class="fas fa-chart-bar text-green-500 mr-2"></i>
+                  <span class="text-xs font-medium text-green-600 uppercase tracking-wide">Infographic</span>
+                <% when 'gallery' %>
+                  <i class="fas fa-images text-indigo-500 mr-2"></i>
+                  <span class="text-xs font-medium text-indigo-600 uppercase tracking-wide">Gallery</span>
+                <% end %>
+                <% if post.media_duration.present? %>
+                  <span class="ml-auto text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">
+                    <%= post.media_duration_display %>
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
+            
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+              <%= link_to post.title, post, class: "hover:text-primary transition-colors" %>
+            </h3>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">
+              <%= post.excerpt.presence || post.content.to_plain_text.truncate(120) %>
+            </p>
+            
+            <%# Categories (if any) %>
+            <% if post.categories.any? %>
+              <div class="flex flex-wrap gap-1 mb-3">
+                <% post.categories.limit(2).each do |category| %>
+                  <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-primary/10 text-primary">
+                    <%= category.name %>
+                  </span>
+                <% end %>
+                <% if post.categories.count > 2 %>
+                  <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                    +<%= post.categories.count - 2 %> more
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
+            
+            <%# Author and date - at the bottom of the card %>
+            <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
+              <div class="flex items-center">
+                <% if post.user.avatar.attached? %>
+                  <%= image_tag post.user.avatar.variant(resize_to_fill: [32, 32]), class: "h-8 w-8 rounded-full", alt: post.user.name %>
+                <% else %>
+                  <div class="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-sm">
+                    <%= post.user.name.first.upcase %>
+                  </div>
+                <% end %>
+                <div class="ml-2">
+                  <p class="text-xs font-medium text-gray-900 dark:text-white">
+                    <%= post.user.name %>
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <%= post.published_at.strftime('%b %d, %Y') %>
+                  </p>
+                </div>
+              </div>
+              
+              <%# Rating stars %>
+              <div class="flex items-center">
+                <% avg_rating = post.reviews.average(:rating)&.round(1) || 0 %>
+                <div class="flex items-center">
+                  <% 5.times do |i| %>
+                    <% if avg_rating >= i + 1 %>
+                      <i class="fas fa-star text-yellow-400"></i>
+                    <% elsif avg_rating > i && avg_rating < i + 1 %>
+                      <i class="fas fa-star-half-alt text-yellow-400"></i>
+                    <% else %>
+                      <i class="far fa-star text-yellow-400"></i>
+                    <% end %>
+                  <% end %>
+                </div>
+                <span class="ml-1 text-xs text-gray-500 dark:text-gray-400">
+                  (<%= post.reviews.count %>)
+                </span>
+              </div>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+    
+    <%# Pagination %>
+    <% if @pagy && @pagy.pages > 1 %>
+      <div class="mt-12">
+        <%= render 'shared/pagination', pagy: @pagy %>
+      </div>
+    <% end %>
+    
+    <%# Create new post button for admins/authors %>
+    <% if policy(Post).new? %>
+      <div class="mt-8 text-center">
+        <%= link_to new_post_path, class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all" do %>
+          <i class="fas fa-plus-circle mr-2"></i> Create New Post
         <% end %>
       </div>
+    <% end %>
+  </section>
+  
+  <%# Newsletter section %>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl shadow-xl overflow-hidden">
+      <div class="px-6 py-12 md:py-16 md:px-12 lg:px-16 text-center sm:text-left md:flex md:items-center md:justify-between">
+        <div class="md:max-w-2xl">
+          <h2 class="text-3xl font-extrabold tracking-tight text-white">
+            <span class="block">Stay updated with SupplyFlow</span>
+            <span class="block text-white/90">Get our latest articles & tips</span>
+          </h2>
+          <p class="mt-3 max-w-md mx-auto md:mx-0 text-lg text-blue-100">
+            Join our newsletter to receive monthly updates on inventory management best practices, industry trends, and exclusive SupplyFlow tips.
+          </p>
+        </div>
+        <div class="mt-8 md:mt-0">
+          <form class="sm:flex">
+            <label for="email-address" class="sr-only">Email address</label>
+            <input id="email-address" name="email" type="email" autocomplete="email" required class="w-full px-5 py-3 placeholder-gray-500 focus:ring-white focus:border-white sm:max-w-xs border-white rounded-md" placeholder="Enter your email">
+            <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+              <button type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white">
+                <i class="fas fa-paper-plane mr-2"></i> Subscribe
+              </button>
+            </div>
+          </form>
+          <p class="mt-3 text-sm text-blue-100">
+            We care about your data. Read our <a href="#" class="font-medium text-white underline">Privacy Policy</a>.
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 </div>
-
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-[#0055A4] to-[#004080] text-white py-20 md:py-28 relative overflow-hidden">
-  <!-- Decorative Elements -->
-  <div class="absolute inset-0 opacity-10 bg-pattern"></div>
-  <div class="absolute top-0 right-0 w-96 h-96 bg-[#00A86B] rounded-full opacity-10 blur-xl"></div>
-
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="flex flex-col md:flex-row items-center">
-      <div class="md:w-1/2 mb-10 md:mb-0">
-        <div class="animate-fade-in-up">
-          <span class="badge inline-block mb-4 bg-[#FFD700] text-[#0055A4] px-4 py-2 rounded-full font-bold shadow-lg">Made for Ghanaian SMEs</span>
-        </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in-up animate-delay-200">
-          <span>Simplified Inventory</span>
-          <span class="block mt-2 text-[#FFD700]">For Your Business</span>
-        </h1>
-        <p class="text-xl mb-8 text-white/90 animate-fade-in-up animate-delay-300">Affordable inventory management designed specifically for small and medium businesses in Ghana. Works online and offline.</p>
-        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in-up animate-delay-400">
-          <a href="#" class="bg-[#00A86B] hover:bg-[#00965F] text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center shadow-lg">
-            <i class="fas fa-rocket mr-2"></i>Start Free Trial
-          </a>
-          <a href="#" class="bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center">
-            <i class="fas fa-play-circle mr-2"></i>See How It Works
-          </a>
-        </div>
-      </div>
-      <div class="md:w-1/2 animate-fade-in-up animate-delay-500">
-        <div class="relative">
-          <div class="p-2 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg">
-            <%= image_tag "supplyflow-user.png", alt:"Ghanaian business using SupplyFlow", class:"rounded-xl z-10 relative"%>
-          </div>
-
-          <!-- Floating elements -->
-          <div class="absolute top-1/4 right-0 transform translate-x-1/2 animate-float">
-            <div class="w-16 h-16 rounded-full bg-[#00A86B] text-white flex items-center justify-center shadow-lg">
-              <i class="fas fa-mobile-alt text-xl"></i>
-            </div>
-          </div>
-          <div class="absolute bottom-1/4 left-0 transform -translate-x-1/2 animate-float" style="animation-delay: 1s;">
-            <div class="w-16 h-16 rounded-full bg-[#FFD700] text-[#0055A4] flex items-center justify-center shadow-lg">
-              <i class="fas fa-store text-xl"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Wave decoration at bottom -->
-  <div class="absolute bottom-0 left-0 w-full overflow-hidden">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-16 md:h-24">
-      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#f7fafc" opacity="0.1"></path>
-    </svg>
-  </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-20 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16">
-      <span class="text-[#00A86B] font-semibold text-sm uppercase tracking-wider">Designed for Ghana</span>
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-4">Features That Matter to Your Business</h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Simple yet powerful tools to help you manage inventory, track sales, and grow your business.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Feature 1: Inventory Management -->
-      <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-        <div class="w-16 h-16 rounded-full bg-[#0055A4]/10 flex items-center justify-center mb-6">
-          <i class="fas fa-boxes text-[#0055A4] text-2xl"></i>
-        </div>
-        <h3 class="text-xl font-bold text-gray-800 mb-3">Simple Inventory Tracking</h3>
-        <p class="text-gray-600">Easily manage your stock levels, receive low inventory alerts, and track product movement.</p>
-        <ul class="mt-4 space-y-2">
-          <li class="flex items-start">
-            <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-            <span class="text-gray-600">Works offline during internet outages</span>
-          </li>
-          <li class="flex items-start">
-            <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-            <span class="text-gray-600">Barcode scanning with your phone</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Feature 2: Sales & Payments -->
-      <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-        <div class="w-16 h-16 rounded-full bg-[#00A86B]/10 flex items-center justify-center mb-6">
-          <i class="fas fa-hand-holding-usd text-[#00A86B] text-2xl"></i>
-        </div>
-        <h3 class="text-xl font-bold text-gray-800 mb-3">Local Payment Integration</h3>
-        <p class="text-gray-600">Accept and track payments through popular Ghanaian payment platforms.</p>
-        <ul class="mt-4 space-y-2">
-          <li class="flex items-start">
-            <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-            <span class="text-gray-600">MTN Mobile Money integration</span>
-          </li>
-          <li class="flex items-start">
-            <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-            <span class="text-gray-600">Hubtel payment processing</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Feature 3: Reports -->
-      <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-        <div class="w-16 h-16 rounded-full bg-[#FFD700]/10 flex items-center justify-center mb-6">
-          <i class="fas fa-chart-pie text-[#FFD700] text-2xl"></i>
-        </div>
-        <h3 class="text-xl font-bold text-gray-800 mb-3">Simple Business Insights</h3>
-        <p class="text-gray-600">Easy-to-understand reports that help you make better business decisions.</p>
-        <ul class="mt-4 space-y-2">
-          <li class="flex items-start">
-            <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-            <span class="text-gray-600">Visual sales and inventory dashboards</span>
-          </li>
-          <li class="flex items-start">
-            <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-            <span class="text-gray-600">Export reports for bank loans or investors</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Mobile App Section -->
-<section class="py-20 bg-gradient-to-r from-[#0055A4]/5 to-[#00A86B]/5">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="order-2 md:order-1">
-        <span class="text-[#0055A4] font-semibold text-sm uppercase tracking-wider">Mobile First</span>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-6">Manage Your Business From Anywhere</h2>
-        <p class="text-xl text-gray-600 mb-8">SupplyFlow works seamlessly on your smartphone, even when internet connection is unstable.</p>
-
-        <div class="space-y-6">
-          <div class="flex items-start">
-            <div class="bg-[#0055A4]/10 p-3 rounded-full mr-4 flex-shrink-0">
-              <i class="fas fa-wifi-slash text-[#0055A4]"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-800">Works Offline</h3>
-              <p class="text-gray-600 mt-1">Continue managing inventory and processing sales even without internet connection.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start">
-            <div class="bg-[#00A86B]/10 p-3 rounded-full mr-4 flex-shrink-0">
-              <i class="fas fa-qrcode text-[#00A86B]"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-800">Barcode Scanning</h3>
-              <p class="text-gray-600 mt-1">Use your phone's camera to quickly scan products and update inventory.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start">
-            <div class="bg-[#FFD700]/10 p-3 rounded-full mr-4 flex-shrink-0">
-              <i class="fas fa-mobile-alt text-[#FFD700]"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-800">Low Data Usage</h3>
-              <p class="text-gray-600 mt-1">Designed to use minimal data when syncing, saving you money on mobile data costs.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-10 flex space-x-4">
-          <a href="#" class="flex items-center bg-black text-white px-5 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
-            <i class="fab fa-google-play text-2xl mr-3"></i>
-            <div>
-              <div class="text-xs">Get it on</div>
-              <div class="text-sm font-bold">Google Play</div>
-            </div>
-          </a>
-          <a href="#" class="flex items-center bg-black text-white px-5 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
-            <i class="fab fa-apple text-2xl mr-3"></i>
-            <div>
-              <div class="text-xs">Download on the</div>
-              <div class="text-sm font-bold">App Store</div>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="order-1 md:order-2 relative">
-        <div class="relative z-10 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-          <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="SupplyFlow Mobile App" class="rounded-xl shadow-2xl">
-          <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-[#00A86B] rounded-full -z-10 opacity-20 blur-lg"></div>
-        </div>
-
-        <div class="absolute top-1/4 -left-8 transform -translate-y-1/2 rotate-6 z-20 animate-float">
-          <div class="bg-white p-3 rounded-xl shadow-lg">
-            <div class="flex items-center space-x-2">
-              <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
-                <i class="fas fa-check text-sm"></i>
-              </div>
-              <div class="text-sm font-medium text-gray-800">Stock updated!</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="absolute bottom-1/4 -right-8 transform translate-y-1/2 -rotate-3 z-20 animate-float" style="animation-delay: 2s;">
-          <div class="bg-white p-3 rounded-xl shadow-lg">
-            <div class="flex items-center space-x-2">
-              <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                <i class="fas fa-sync-alt text-sm"></i>
-              </div>
-              <div class="text-sm font-medium text-gray-800">Syncing data...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Benefits Section -->
-<section class="py-20 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16">
-      <span class="text-[#0055A4] font-semibold text-sm uppercase tracking-wider">Why Choose Us</span>
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-4">Built for Ghanaian Businesses</h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">SupplyFlow is designed specifically for the unique challenges faced by small and medium businesses in Ghana.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div class="order-2 md:order-1">
-        <div class="mb-8">
-          <div class="flex items-start mb-4">
-            <div class="bg-[#0055A4]/10 p-3 rounded-full mr-4 flex-shrink-0">
-              <i class="fas fa-coins text-[#0055A4]"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-800">Affordable Pricing</h3>
-              <p class="text-gray-600 mt-2">Pricing plans that work for small businesses, starting from just 50 GHS per month with no hidden fees.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-8">
-          <div class="flex items-start mb-4">
-            <div class="bg-[#00A86B]/10 p-3 rounded-full mr-4 flex-shrink-0">
-              <i class="fas fa-wifi-slash text-[#00A86B]"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-800">Works Offline</h3>
-              <p class="text-gray-600 mt-2">Continue working during internet outages. Data syncs automatically when connection returns.</p>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="flex items-start mb-4">
-            <div class="bg-[#FFD700]/10 p-3 rounded-full mr-4 flex-shrink-0">
-              <i class="fas fa-user-friends text-[#FFD700]"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-800">Local Support</h3>
-              <p class="text-gray-600 mt-2">Get help in English or local languages from our Accra-based support team via WhatsApp or phone.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="order-1 md:order-2">
-        <div class="relative">
-          <%= image_tag "supplyflow_users.png", alt:"Ghanaian business owner using SupplyFlow", class:"rounded-lg shadow-xl" %>
-          <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-[#0055A4] rounded-lg -z-10 opacity-10"></div>
-          <div class="absolute -top-6 -left-6 w-32 h-32 bg-[#FFD700] rounded-full opacity-10"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="py-20 bg-gradient-to-r from-[#0055A4] to-[#004080] text-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16">
-      <span class="text-[#FFD700] font-semibold text-sm uppercase tracking-wider">Success Stories</span>
-      <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Trusted by Businesses Across Ghana</h2>
-      <p class="text-xl text-white/80 max-w-3xl mx-auto">Hear from small business owners who have transformed their operations with SupplyFlow.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Testimonial 1 -->
-      <div class="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20">
-        <div class="flex items-center mb-4">
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700]">★</div>
-        </div>
-        <p class="italic mb-6">"SupplyFlow has helped me keep track of my inventory even when there's no internet. My business has grown 30% since I started using it."</p>
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-[#00A86B] rounded-full flex items-center justify-center mr-4 text-white">
-            <span class="font-bold text-lg">KM</span>
-          </div>
-          <div>
-            <h4 class="font-bold">Kofi Mensah</h4>
-            <p class="text-white/70 text-sm">Electronics Shop, Kumasi</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Testimonial 2 -->
-      <div class="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20">
-        <div class="flex items-center mb-4">
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700]">★</div>
-        </div>
-        <p class="italic mb-6">"The mobile money integration saves me hours every day. I can now focus on serving customers instead of paperwork."</p>
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-[#00A86B] rounded-full flex items-center justify-center mr-4 text-white">
-            <span class="font-bold text-lg">AD</span>
-          </div>
-          <div>
-            <h4 class="font-bold">Ama Darko</h4>
-            <p class="text-white/70 text-sm">Fashion Boutique, Accra</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Testimonial 3 -->
-      <div class="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20">
-        <div class="flex items-center mb-4">
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700] mr-1">★</div>
-          <div class="text-[#FFD700]">★</div>
-        </div>
-        <p class="italic mb-6">"The reports helped me secure a loan to expand my business. The support team is always available on WhatsApp when I need help."</p>
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-[#00A86B] rounded-full flex items-center justify-center mr-4 text-white">
-            <span class="font-bold text-lg">EO</span>
-          </div>
-          <div>
-            <h4 class="font-bold">Emmanuel Osei</h4>
-            <p class="text-white/70 text-sm">Grocery Store, Takoradi</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Pricing Section -->
-<section class="py-20 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16">
-      <span class="text-[#00A86B] font-semibold text-sm uppercase tracking-wider">Affordable Plans</span>
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-4">Simple, Transparent Pricing</h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Choose the plan that works for your business size and budget.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-      <!-- Basic Plan -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-2 bg-[#0055A4]"></div>
-        <div class="p-8">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Basic</h3>
-          <p class="text-[#00A86B] text-sm mb-6">For new businesses</p>
-
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-800">50</span>
-            <span class="text-gray-600 ml-1">GHS/month</span>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Up to 500 products</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Basic inventory tracking</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Mobile app access</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Email support</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Offline mode</span>
-            </li>
-          </ul>
-
-          <a href="#" class="block w-full py-3 px-6 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors duration-300">
-            Start Free Trial
-          </a>
-        </div>
-      </div>
-
-      <!-- Standard Plan - Highlighted -->
-      <div class="bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl relative">
-        <div class="absolute top-0 right-0 mt-4 mr-4 bg-[#FFD700] text-[#0055A4] text-xs font-bold px-3 py-1 rounded-full">
-          POPULAR
-        </div>
-        <div class="h-2 bg-[#00A86B]"></div>
-        <div class="p-8">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Standard</h3>
-          <p class="text-[#00A86B] text-sm mb-6">For growing businesses</p>
-
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-800">100</span>
-            <span class="text-gray-600 ml-1">GHS/month</span>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Unlimited products</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Advanced inventory tracking</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Sales analytics</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">MTN Mobile Money integration</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">WhatsApp support</span>
-            </li>
-          </ul>
-
-          <a href="#" class="block w-full py-3 px-6 text-center bg-[#00A86B] hover:bg-[#009A60] text-white font-medium rounded-lg transition-colors duration-300 shadow-lg">
-            Start Free Trial
-          </a>
-        </div>
-      </div>
-
-      <!-- Premium Plan -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-2 bg-[#FFD700]"></div>
-        <div class="p-8">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Premium</h3>
-          <p class="text-[#00A86B] text-sm mb-6">For established businesses</p>
-
-          <div class="mb-6">
-            <span class="text-4xl font-bold text-gray-800">200</span>
-            <span class="text-gray-600 ml-1">GHS/month</span>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Everything in Standard</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Multiple locations</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Advanced reporting</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">All payment integrations</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#00A86B] mt-1 mr-2"></i>
-              <span class="text-gray-600">Priority phone support</span>
-            </li>
-          </ul>
-
-          <a href="#" class="block w-full py-3 px-6 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors duration-300">
-            Start Free Trial
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="text-center mt-12">
-      <p class="text-gray-600">All plans include a 14-day free trial. No credit card required.</p>
-      <p class="text-gray-600 mt-2">Need a custom plan for your business? <a href="#" class="text-[#0055A4] font-medium hover:underline">Contact us</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-20 bg-[#00A86B] text-white relative overflow-hidden">
-  <!-- Decorative elements -->
-  <div class="absolute inset-0 opacity-10 bg-pattern"></div>
-  <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full opacity-10 blur-xl"></div>
-  <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#FFD700] rounded-full opacity-10 blur-xl"></div>
-
-  <div class="container mx-auto px-4 text-center relative z-10">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Business?</h2>
-    <p class="text-xl mb-8 max-w-3xl mx-auto">Join hundreds of Ghanaian businesses that use SupplyFlow to manage their inventory and increase profits.</p>
-
-    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-      <a href="#" class="bg-white text-[#00A86B] hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block transition-all duration-300 shadow-lg">
-        Start Free 14-Day Trial
-      </a>
-      <a href="#" class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-bold py-3 px-8 rounded-lg inline-block transition-all duration-300">
-        Schedule a Demo
-      </a>
-    </div>
-
-    <div class="mt-8 text-white/80 text-sm">
-      No credit card required. Cancel anytime.
-    </div>
-  </div>
-</section>
-
-<!-- Integration Partners Section -->
-<section class="py-16 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <span class="text-[#0055A4] font-semibold text-sm uppercase tracking-wider">Trusted Partners</span>
-      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mt-2 mb-4">Integrated with Local Payment Platforms</h2>
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto">SupplyFlow works seamlessly with Ghana's most popular payment services.</p>
-    </div>
-
-    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-      <!-- MTN Mobile Money -->
-      <div class="text-center">
-        <div class="w-32 h-32 bg-white rounded-xl shadow-md flex items-center justify-center p-4 mx-auto mb-4 hover:shadow-lg transition-shadow duration-300">
-          <div class="w-full h-full bg-yellow-400 rounded-lg flex items-center justify-center">
-            <span class="font-bold text-2xl text-black">MTN MoMo</span>
-          </div>
-        </div>
-        <p class="font-medium text-gray-800">MTN Mobile Money</p>
-      </div>
-
-      <!-- Hubtel -->
-      <div class="text-center">
-        <div class="w-32 h-32 bg-white rounded-xl shadow-md flex items-center justify-center p-4 mx-auto mb-4 hover:shadow-lg transition-shadow duration-300">
-          <div class="w-full h-full bg-blue-600 rounded-lg flex items-center justify-center">
-            <span class="font-bold text-2xl text-white">Hubtel</span>
-          </div>
-        </div>
-        <p class="font-medium text-gray-800">Hubtel</p>
-      </div>
-
-      <!-- Vodafone Cash -->
-      <div class="text-center">
-        <div class="w-32 h-32 bg-white rounded-xl shadow-md flex items-center justify-center p-4 mx-auto mb-4 hover:shadow-lg transition-shadow duration-300">
-          <div class="w-full h-full bg-red-600 rounded-lg flex items-center justify-center">
-            <span class="font-bold text-xl text-white">Vodafone Cash</span>
-          </div>
-        </div>
-        <p class="font-medium text-gray-800">Vodafone Cash</p>
-      </div>
-
-      <!-- AirtelTigo Money -->
-      <div class="text-center">
-        <div class="w-32 h-32 bg-white rounded-xl shadow-md flex items-center justify-center p-4 mx-auto mb-4 hover:shadow-lg transition-shadow duration-300">
-          <div class="w-full h-full bg-gradient-to-r from-red-500 to-blue-500 rounded-lg flex items-center justify-center">
-            <span class="font-bold text-lg text-white">AirtelTigo Money</span>
-          </div>
-        </div>
-        <p class="font-medium text-gray-800">AirtelTigo Money</p>
-      </div>
-
-      <!-- ExpressPay -->
-      <div class="text-center">
-        <div class="w-32 h-32 bg-white rounded-xl shadow-md flex items-center justify-center p-4 mx-auto mb-4 hover:shadow-lg transition-shadow duration-300">
-          <div class="w-full h-full bg-green-600 rounded-lg flex items-center justify-center">
-            <span class="font-bold text-xl text-white">ExpressPay</span>
-          </div>
-        </div>
-        <p class="font-medium text-gray-800">ExpressPay</p>
-      </div>
-    </div>
-
-    <div class="text-center mt-12">
-      <p class="text-gray-600">Need integration with another payment platform? <a href="#" class="text-[#0055A4] font-medium hover:underline">Let us know</a></p>
-    </div>
-  </div>
-</section>

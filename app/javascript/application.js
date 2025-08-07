@@ -41,3 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }, 200); // Short delay to ensure Stimulus is ready
 });
 import "channels"
+
+import "trix"
+import "@rails/actiontext"
